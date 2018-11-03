@@ -1,0 +1,1 @@
+- reimy , spustí se tlaèítkem F1, na ethernetu je pro nì samostatnı blok

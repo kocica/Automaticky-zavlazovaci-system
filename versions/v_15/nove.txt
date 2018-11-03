@@ -1,0 +1,8 @@
++ nastavení souèasného bìhu výstupù opraveno
+
++ NAsT HYSTEREZE
+
++ uprava *ULOZENO*
+
++ blikání podsvícení pøi poruše
+

@@ -1,0 +1,6 @@
+- odstranìní hesla pøi startu a vypnutí podsvícení LCD,
+	a pøidání k funkcím mìnícím parametry
+
+- nyní lze vyskoèit pomocí ESC pøi zadávání hesla
+
+- upraven pøepoèet pøi ètení vstupù

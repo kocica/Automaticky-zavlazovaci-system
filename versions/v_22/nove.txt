@@ -1,0 +1,7 @@
+- ovládání pomocí dálkového ovladaèe
+
+- heslo
+
+- zmìna hesla
+
+- upravení ethernetu a pøivítání

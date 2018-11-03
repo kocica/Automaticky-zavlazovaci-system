@@ -1,0 +1,7 @@
+- funkce litry/minutu
+
+- nastavení prùtoku
+
+- zobrazení naèerpané vody aktuálnì
+
+- zobrazení naèerpané vody celkovì

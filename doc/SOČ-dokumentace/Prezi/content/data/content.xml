@@ -1,0 +1,1743 @@
+<zuiprezi>
+  <version>8</version>
+  <zui-table>
+    <settings>
+      
+      <autoplay>
+        
+        <delay>4000</delay>
+        
+      </autoplay>
+      
+      <bounds x="-37196.551585983645" y="-24457.49501972824" width="74393.10317196729" height="48914.99003945648"/>
+      <aspectratio>off</aspectratio>
+      <languages>
+        <language>es</language>
+      </languages>
+      <spellcheck active="false"/>
+      <mode type="normal"/>
+    </settings>
+    <object id="82_4096537" type="button" x="1.337180281323903e-13" y="0" r="0" s="62.232811755033694" class="invisible">
+      <type>invisible</type>
+      <size>
+        <w>1197.3304066975911</w>
+        <h>787.8947450759006</h>
+      </size>
+      <meta>
+        <notModifiedByUser>from-template</notModifiedByUser>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <frametype value="OVERVIEW"/>
+      </layout>
+    </object>
+    <object id="7_190534863" type="button" x="34251.810274838244" y="11372.282481176704" r="0" s="4.735022112211069" class="circle">
+      <type>circle</type>
+      <size>
+        <w>832</w>
+        <h>832</h>
+      </size>
+    </object>
+    <object id="145_32911991" type="text" x="35315.915208275146" y="11191.091937760326" r="0" s="104.6123136455043" class="body">
+      <height>32.664</height>
+      <width>0</width>
+      <p>
+        <text><![CDATA[]]></text>
+      </p>
+      <meta>
+        <notModifiedByUser>from-template</notModifiedByUser>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+    </object>
+    <object id="18_13415665" type="button" x="-15105.115559665874" y="20759.259252525862" r="0" s="8.365155458133096" class="bracket">
+      <type>bracket</type>
+      <size>
+        <w>1063.564875491481</w>
+        <h>600</h>
+      </size>
+      <meta>
+        <notModifiedByUser>from-template</notModifiedByUser>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <frametype value="SECTION"/>
+      </layout>
+    </object>
+    <object id="73_190534863" type="button" x="-12600.947788128817" y="21045.111581706173" r="0" s="6.3277620930714615" class="roundrect">
+      <type>roundrect</type>
+      <size>
+        <w>435.0231308052297</w>
+        <h>576.1789031982421</h>
+      </size>
+    </object>
+    <object id="1_190534863" type="image" x="-12600.847419775018" y="21045.0535004936" r="0" s="4.542582989439631">
+      <source w="598" h="799">4344032774<mask x="0" y="0" w="598" h="795"/>
+      <url>4344032774.png</url></source>
+      <sourceUrl>CEL%C3%9D%20SYST%C3%89M_MAKETA.png</sourceUrl>
+    <resource><id>4344032774</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/d/4/d/a75b1ee095b7727795f673e8c57778447a939.png</url></resource></object>
+    <object id="19_13415665" type="text" x="-15105.394136791883" y="18813.722824697692" r="0" s="13.167703429963234" class="strong strong-background">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>27.768</height>
+      <width>409.346143553921</width>
+      <p align="center">
+        <text color="0"><![CDATA[Výsledek práce]]></text>
+      </p>
+      <meta>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="title" parent-id="18_13415665"/>
+      </layout>
+    </object>
+    <object id="60_13415665" type="button" x="-23013.144301757507" y="-5503.667443340706" r="0" s="8.365266717124557" class="bracket">
+      <type>bracket</type>
+      <size>
+        <w>1052.7272727272723</w>
+        <h>600</h>
+      </size>
+      <meta>
+        <notModifiedByUser>from-template</notModifiedByUser>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <frametype value="SECTION"/>
+      </layout>
+    </object>
+    <object id="61_13415665" type="text" x="-23001.26034834017" y="-7208.008315938419" r="1.6164716213865632e-14" s="13.167537427483904" class="strong strong-background">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>27.768</height>
+      <width>409.346143553921</width>
+      <p align="center">
+        <text color="0"><![CDATA[Řízení systému]]></text>
+      </p>
+      <meta>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="title" parent-id="60_13415665"/>
+      </layout>
+    </object>
+    <object id="0" type="image" x="-3.2195186773413978e-12" y="6093.2030586878545" r="0" s="24.949546506358253">
+      <source w="535" h="718">4343947064<url>4343947064.png</url></source>
+      <sourceUrl>cely%20system.png</sourceUrl>
+    <resource><id>4343947064</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/5/5/a/6f9413b6ecef5da87d15bcd4a724c0efa9ff6.png</url></resource></object>
+    <object id="63_13415665" type="button" x="-25575.712362940147" y="-4348.505032068236" r="-2.4574638172326633e-15" s="2.706671409795419" class="circle">
+      <type>circle</type>
+      <size>
+        <w>800</w>
+        <h>800.0000000000035</h>
+      </size>
+      <meta>
+        <notModifiedByUser>from-template</notModifiedByUser>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="child" parent-id="60_13415665"/>
+      </layout>
+    </object>
+    <object id="67_13415665" type="button" x="-23121.775581693404" y="-4348.708834219423" r="-2.4574638172326633e-15" s="2.706671409795419" class="circle">
+      <type>circle</type>
+      <size>
+        <w>800</w>
+        <h>800</h>
+      </size>
+      <meta>
+        <notModifiedByUser>from-template</notModifiedByUser>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="child" parent-id="60_13415665"/>
+      </layout>
+    </object>
+    <object id="72_13415665" type="button" x="-20672.30319888857" y="-4348.597203339832" r="-2.4574638172326633e-15" s="2.706671409795419" class="circle">
+      <type>circle</type>
+      <size>
+        <w>800</w>
+        <h>800</h>
+      </size>
+      <meta>
+        <notModifiedByUser>from-template</notModifiedByUser>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="child" parent-id="60_13415665"/>
+      </layout>
+    </object>
+    <object id="75_13415665" type="button" x="27690.3" y="3012.75" r="0" s="9.974085809384318" class="bracket">
+      <type>bracket</type>
+      <size>
+        <w>888.0735259867737</w>
+        <h>562.9378238341969</h>
+      </size>
+      <meta>
+        <notModifiedByUser>from-template</notModifiedByUser>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <frametype value="SECTION"/>
+      </layout>
+    </object>
+    <object id="76_13415665" type="text" x="27758.55141768202" y="977.0919334223902" r="4.3074162654558906e-15" s="14.72953778290039" class="strong strong-background">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>27.768</height>
+      <width>409.346143553921</width>
+      <p align="center">
+        <text color="0"><![CDATA[Softwarové vybavení řídící jednotky]]></text>
+      </p>
+      <meta>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="title" parent-id="75_13415665"/>
+      </layout>
+    </object>
+    <object id="77_13415665" type="text" x="28029.732617741145" y="2094.145596206805" r="0" s="9.470819164895898" class="body">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>138.84</height>
+      <width>695.7374458605951</width>
+      <p>
+        <text><![CDATA[Struktura programu je vytvořena hlavně v závislosti na tom, aby celý systém pracoval v reálném čase a prováděl veškeré potřebné operace nezávisle na stavu systému a ovládacích rozhraní. ]]></text>
+      </p>
+      <p>
+        <text><![CDATA[]]></text>
+      </p>
+      <p>
+        <text><![CDATA[]]></text>
+      </p>
+      <layout>
+        <layout-element role="body" parent-id="75_13415665"/>
+      </layout>
+    </object>
+    <object id="78_13415665" type="button" x="25367.508597198303" y="4099.129888229472" r="0" s="4.680117247523779" class="circle">
+      <type>circle</type>
+      <size>
+        <w>600.0000000000007</w>
+        <h>600</h>
+      </size>
+      <meta>
+        <notModifiedByUser>from-template</notModifiedByUser>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="child" parent-id="75_13415665"/>
+      </layout>
+    </object>
+    <object id="30_190534863" type="button" x="15825.45" y="3009.95" r="0" s="9.357283152696017" class="bracket">
+      <type>bracket</type>
+      <size>
+        <w>950.8031907348428</w>
+        <h>600</h>
+      </size>
+    </object>
+    <object id="100_13415665" type="button" x="-2.8072891884259885" y="-15846.975877789106" r="0" s="8.515349886922207" class="bracket">
+      <type>bracket</type>
+      <size>
+        <w>1052.7272727272727</w>
+        <h>600</h>
+      </size>
+      <meta>
+        <notModifiedByUser>from-template</notModifiedByUser>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <frametype value="SECTION"/>
+      </layout>
+    </object>
+    <object id="3" type="image" x="-2519.000529483083" y="-16580.138187668814" r="0" s="5.519092833183779">
+      <source w="438" h="292">4343950016<url>4343950016.png</url></source>
+      <sourceUrl>ridici%20jednotka%20zavlazovace.png</sourceUrl>
+    <resource><id>4343950016</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/d/e/b/1e02cdd0160b22f2ccb58dcd0a2de732fad03.png</url></resource></object>
+    <object id="4" type="image" x="1534.6775823457338" y="-16576.69924892975" r="0" s="5.519092833183779">
+      <source w="886" h="292">4343950031<url>4343950031.png</url></source>
+      <sourceUrl>zavlazovac%20na%20zahrade.png</sourceUrl>
+    <resource><id>4343950031</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/f/a/d/dd5fcba59cbc5d4e5d66c15ca6bbfa71aa69e.png</url></resource></object>
+    <object id="102_13415665" type="text" x="-9.686313313130064" y="-17903.759504171154" r="0" s="13.40377923810072" class="strong strong-background">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>27.768</height>
+      <width>409.346143553921</width>
+      <p align="center">
+        <text color="0"><![CDATA[Automatické zavlažovací systémy]]></text>
+      </p>
+      <meta>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="title" parent-id="100_13415665"/>
+      </layout>
+    </object>
+    <object id="104_13415665" type="button" x="-2518.9391163935297" y="-14461.127534673" r="0" s="3.661133510324496" class="circle">
+      <type>circle</type>
+      <size>
+        <w>600.0000000000031</w>
+        <h>600</h>
+      </size>
+      <meta>
+        <notModifiedByUser>from-template</notModifiedByUser>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="child" parent-id="100_13415665"/>
+      </layout>
+    </object>
+    <object id="108_13415665" type="button" x="-47.12102007314424" y="-14461.590797888472" r="0" s="2.7458501327433837" class="circle">
+      <type>circle</type>
+      <size>
+        <w>800</w>
+        <h>800</h>
+      </size>
+      <meta>
+        <notModifiedByUser>from-template</notModifiedByUser>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="child" parent-id="100_13415665"/>
+      </layout>
+    </object>
+    <object id="122_13415665" type="text" x="-25580.578257042504" y="-4848.552377276381" r="-2.229424117388598e-15" s="5.321278580356187" class="strong strong-background">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>55.536</height>
+      <width>267.61643841339264</width>
+      <p align="center">
+        <text color="0"><![CDATA[Pomocí infračerveného dálkového ovladače]]></text>
+      </p>
+      <meta>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="title" parent-id="63_13415665"/>
+      </layout>
+    </object>
+    <object id="124_13415665" type="text" x="-23131.24620613511" y="-4842.017786487806" r="1.5926059807395086e-30" s="5.321278580356187" class="strong strong-background">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>55.536</height>
+      <width>220.4993900181616</width>
+      <p align="center">
+        <text color="0"><![CDATA[Pomocí klávesnice ]]></text>
+      </p>
+      <p align="center">
+        <text color="0"><![CDATA[5 × 4]]></text>
+      </p>
+      <meta>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="title" parent-id="67_13415665"/>
+      </layout>
+    </object>
+    <object id="126_13415665" type="text" x="-20685.35473511025" y="-4845.379662551674" r="-6.6882723521658e-15" s="5.321278580356189" class="strong strong-background">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>55.536</height>
+      <width>220.4993900181616</width>
+      <p align="center">
+        <text color="0"><![CDATA[Přes ethernetové rozhraní]]></text>
+      </p>
+      <meta>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="title" parent-id="72_13415665"/>
+      </layout>
+    </object>
+    <object id="74" type="button" x="21803.485846105807" y="-5492.506887184488" r="0" s="6.674495281222008" class="circle">
+      <type>circle</type>
+      <size>
+        <w>800</w>
+        <h>800</h>
+      </size>
+    </object>
+    <object id="128_13415665" type="text" x="25381.370731817628" y="3380.285468247602" r="2.346825579045557e-15" s="7.005279795586446" class="strong strong-background">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>27.768</height>
+      <width>220.4993900181616</width>
+      <p align="center">
+        <text color="0"><![CDATA[Tvorba softwaru]]></text>
+      </p>
+      <meta>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="title" parent-id="78_13415665"/>
+      </layout>
+    </object>
+    <object id="129_13415665" type="text" x="25367.43312007192" y="4255.444260150061" r="0" s="4.464927832829578" class="body">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>277.68</height>
+      <width>504.25025966169625</width>
+      <p align="center">
+        <text><![CDATA[Program byl vytvořen 16.5.2015 ve vývojovém prostředí Arduino 1.6.6, celkem čítá téměř 5000 řádků.]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[V současné době systém používá 15. verzi 2.5]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[Každá verze obsahuje textový dokument, ve kterém je stručně sepsáno, co nového obsahuje tato verze.]]></text>
+      </p>
+      <p>
+        <text><![CDATA[]]></text>
+      </p>
+      <p>
+        <text><![CDATA[]]></text>
+      </p>
+      <layout>
+        <layout-element role="body" parent-id="78_13415665"/>
+      </layout>
+    </object>
+    <object id="150_13415665" type="text" x="-2504.6103138411554" y="-14993.91697398989" r="0" s="5.547944788932964" class="strong strong-background">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>27.768</height>
+      <width>220.4993900181616</width>
+      <p align="center">
+        <text color="0"><![CDATA[Jejich účel]]></text>
+      </p>
+      <meta>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="title" parent-id="104_13415665"/>
+      </layout>
+    </object>
+    <object id="151_13415665" type="text" x="-2519" y="-14419.8" r="0" s="4.22628370507347" class="body">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>166.608</height>
+      <width>390.9237784827681</width>
+      <p align="center">
+        <text><![CDATA[Ušetření velkého množství času a práce, které by muselo být investováno pro pěknou zahradu. ]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[Jsou estetičtější něž zahradní hadice a kvalita závlahy je mnohem vyšší.]]></text>
+      </p>
+      <layout>
+        <layout-element role="body" parent-id="104_13415665"/>
+      </layout>
+    </object>
+    <object id="152_13415665" type="text" x="-47.26499248442028" y="-14939.745415263773" r="0" s="5.547944788932964" class="strong strong-background">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>55.536</height>
+      <width>220.4993900181616</width>
+      <p align="center">
+        <text color="0"><![CDATA[Využití v dnešní době]]></text>
+      </p>
+      <meta>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="title" parent-id="108_13415665"/>
+      </layout>
+    </object>
+    <object id="153_13415665" type="text" x="-47.26655765185626" y="-14352.949981066977" r="0" s="4.22628370507347" class="body">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>138.84</height>
+      <width>390.9237784827681</width>
+      <p align="center">
+        <text><![CDATA[Stávají se již samozřejmou součástí nejen soukromých okrasných zahrad, ale také komerčních prostranství, jako jsou hřiště, parky apod.]]></text>
+      </p>
+      <layout>
+        <layout-element role="body" parent-id="108_13415665"/>
+      </layout>
+    </object>
+    <object id="5" type="button" x="-3.054942642716917e-12" y="-6687.743101975753" r="0" s="6.653256225744562" class="circle">
+      <type>circle</type>
+      <size>
+        <w>797.8683490902185</w>
+        <h>797.8683490902185</h>
+      </size>
+    </object>
+    <object id="6" type="text" x="-0.675158298051314" y="-8431.841089032356" r="0" s="9.527174149824912" class="strong strong-background">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>27.768</height>
+      <width>220.4993900181616</width>
+      <p align="center">
+        <text color="0"><![CDATA[Cíl práce]]></text>
+      </p>
+      <meta>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="title" parent-id="108_13415665"/>
+      </layout>
+    </object>
+    <object id="10" type="text" x="-0.19087046511645056" y="-6553.646136631994" r="0" s="6.881834104591538" class="body">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>416.5200000000001</height>
+      <width>571.0167536635613</width>
+      <p align="center">
+        <text><![CDATA[- Vytvořit program pro elektronickou řídicí]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[   jednotku Arduino Mega 2560.]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[ - Zrealizovat možnost dálkového přístupu alias]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[   ethernetové rozhraní.]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[- Navrhnout a zrealizovat fyzické řešení plošného]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[   spoje, simulaci běhu zavlažování, měření vlhkosti]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[   zavlažovaného prostředí, výšky hladiny vody v nádrži]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[   a poruchy systému.]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[ ]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[-Na začátku tvorby systému jsem si stanovil 7 cílů,]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[   které vyplynuly z požadavků na rychlou, pohodlnou]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[   a jednoduchou manipulaci se systémem.]]></text>
+      </p>
+      <p>
+        <text><![CDATA[]]></text>
+      </p>
+    </object>
+    <object id="12" type="text" x="-25329.17404201987" y="-12056.880614910946" r="0" s="38.19744528814353" class="strong strong-background">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>27.768</height>
+      <width>484.307407911042</width>
+      <p align="center">
+        <text color="0"><![CDATA[Vytvořil Kočica Filip]]></text>
+      </p>
+      <meta>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+    </object>
+    <object id="13" type="text" x="24978.484358199927" y="-11948.043252979116" r="0" s="44.62240965200369" class="strong strong-background">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>27.768</height>
+      <width>413.4574079110419</width>
+      <p align="center">
+        <text color="0"><![CDATA[Konzultant PaedDr. Mahdal Antonín]]></text>
+      </p>
+      <meta>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+    </object>
+    <object id="15" type="image" x="-25581.65335986657" y="-4057.8027813211934" r="-2.457463817232662e-15" s="2.7540534904457337">
+      <source w="232" h="349">4343960018<url>4343960018.png</url></source>
+      <sourceUrl>ovladac.png</sourceUrl>
+    <resource><id>4343960018</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/6/3/4/4e51dbc0f9f97be30806650a8cea8dea62685.png</url></resource></object>
+    <object id="16" type="image" x="-23126.68618388928" y="-4057.604583834209" r="-2.457463817232662e-15" s="2.878414263197434">
+      <source w="262" h="352">4343960453<url>4343960453.png</url></source>
+      <sourceUrl>klavesnice.png</sourceUrl>
+    <resource><id>4343960453</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/0/6/2/dbcf8e10f692a94f9533149c8de1da10d1b6d.png</url></resource></object>
+    <object id="17" type="image" x="-20672.05" y="-4110.55" r="-2.4574638172326633e-15" s="0.977599923905318">
+      <source w="1892" h="921">4343960930<url>4343960930.png</url></source>
+      <sourceUrl>po-ne.png</sourceUrl>
+    <resource><id>4343960930</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/a/7/7/060b7293e32c6270884d0ca7d2a5c242beb23.png</url></resource></object>
+    <object id="14" type="text" x="-23023" y="-6161.65" r="0" s="11.220556130073092" class="body">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>83.304</height>
+      <width>552</width>
+      <p align="center">
+        <text><![CDATA[Systém se dá řídit lokálně - přímo z fyzického umístění jednotky, nebo vzdáleně.]]></text>
+      </p>
+      <p>
+        <text><![CDATA[]]></text>
+      </p>
+    </object>
+    <object id="31" type="text" x="-27541.77326224143" y="1640.7835589076171" r="1.6164716213865632e-14" s="9.649785405252867" class="strong strong-background">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>27.768</height>
+      <width>409.346143553921</width>
+      <p align="center">
+        <text color="0"><![CDATA[Rozložení dat na displeji]]></text>
+      </p>
+      <meta>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="title" parent-id="60_13415665"/>
+      </layout>
+    </object>
+    <object id="36" type="text" x="-27756.18148144749" y="2735.639308142031" r="0" s="9.649785405252867" class="body">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>111.072</height>
+      <width>633.0112992364186</width>
+      <p align="center">
+        <text><![CDATA[Při rozmisťování dat na display byl kladen důraz na co nejvyšší čitelnost a srozumitelnost i pro technicky nezasvěcené osoby.]]></text>
+      </p>
+      <p>
+        <text><![CDATA[]]></text>
+      </p>
+    </object>
+    <object id="39" type="button" x="-27692.493906584765" y="3391.2332716605833" r="0" s="8.365176185525957" class="bracket">
+      <type>bracket</type>
+      <size>
+        <w>845.7515059306752</w>
+        <h>600</h>
+      </size>
+    </object>
+    <object id="41" type="image" x="-27732.15" y="4325.9" r="0" s="9.931819799270675">
+      <source w="480" h="193">4343970035<url>4343970035.png</url></source>
+      <sourceUrl>menu.png</sourceUrl>
+    <resource><id>4343970035</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/d/d/d/39130682e43aa31d3de80b84599ef00430cc1.png</url></resource></object>
+    <object id="42" type="button" x="-18832.14307569309" y="3391.457583345714" r="0" s="8.365174977841924" class="bracket">
+      <type>bracket</type>
+      <size>
+        <w>800</w>
+        <h>600</h>
+      </size>
+    </object>
+    <object id="43" type="text" x="-18819.072076843306" y="1731.3017567910993" r="1.6164716213865654e-14" s="10.659096827627742" class="strong strong-background">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>27.768</height>
+      <width>409.346143553921</width>
+      <p align="center">
+        <text color="0"><![CDATA[Některé základní funkce systému]]></text>
+      </p>
+      <meta>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="title" parent-id="60_13415665"/>
+      </layout>
+    </object>
+    <object id="79" type="text" x="21774.32913321742" y="-6355.961473637059" r="4.307416265455899e-15" s="11.725708984861766" class="strong strong-background">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>27.768</height>
+      <width>262.59064305287353</width>
+      <p align="center">
+        <text color="0"><![CDATA[Technický koutek]]></text>
+      </p>
+      <meta>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="title" parent-id="75_13415665"/>
+      </layout>
+    </object>
+    <object id="80" type="text" x="21851.196058818925" y="-5330.160200023859" r="0" s="7.414623619702955" class="body">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>111.072</height>
+      <width>700.2261423249925</width>
+      <p align="center">
+        <text><![CDATA[V této kapitole je popsána tvorbu softwaru, ]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[jak jsou řešeny nejdůležitější procesy a počáteční výběr ]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[datových struktur, ale například také realizace PLC.]]></text>
+      </p>
+      <p>
+        <text><![CDATA[]]></text>
+      </p>
+    </object>
+    <object id="4_190534863" type="button" x="29952.00514172592" y="11501.161851627616" r="0" s="4.924421655272094" class="circle">
+      <type>circle</type>
+      <size>
+        <w>800</w>
+        <h>800</h>
+      </size>
+    </object>
+    <object id="5_190534863" type="button" x="25460.35922739945" y="11370.891083472796" r="0" s="14.754991302502926" class="circle">
+      <type>circle</type>
+      <size>
+        <w>267</w>
+        <h>267</h>
+      </size>
+    </object>
+    <object id="6_190534863" type="button" x="21049.79067296078" y="11368.370684766604" r="0" s="4.9244828897236275" class="circle">
+      <type>circle</type>
+      <size>
+        <w>800</w>
+        <h>800</h>
+      </size>
+    </object>
+    <object id="13_190534863" type="button" x="29264.199763782868" y="4099.134015550332" r="0" s="6.25390871764726" class="roundrect">
+      <type>roundrect</type>
+      <size>
+        <w>721.0981924323225</w>
+        <h>284.53891818330465</h>
+      </size>
+    </object>
+    <object id="15_190534863" type="text" x="21033.13879948191" y="10241.200370254628" r="2.346825579045562e-15" s="7.398314195051116" class="strong strong-background">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>27.768</height>
+      <width>268.4573506144654</width>
+      <p align="center">
+        <text color="0"><![CDATA[Třída Zapouzdření dat]]></text>
+      </p>
+      <meta>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="title" parent-id="78_13415665"/>
+      </layout>
+    </object>
+    <object id="16_190534863" type="text" x="25462.368026279622" y="10325.616863479068" r="2.346825579045557e-15" s="8.099236769602191" class="strong strong-background">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>27.768</height>
+      <width>220.4993900181616</width>
+      <p align="center">
+        <text color="0"><![CDATA[Funkce void loop()]]></text>
+      </p>
+      <meta>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="title" parent-id="78_13415665"/>
+      </layout>
+    </object>
+    <object id="17_190534863" type="text" x="29982.135862403946" y="10438.491669594625" r="2.3468255790455607e-15" s="8.099105705498694" class="strong strong-background">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>55.536</height>
+      <width>220.4993900181616</width>
+      <p align="center">
+        <text color="0"><![CDATA[Zápis do paměti EEPROM]]></text>
+      </p>
+      <meta>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="title" parent-id="78_13415665"/>
+      </layout>
+    </object>
+    <object id="18_190534863" type="text" x="34163.08268325478" y="10373.26536489811" r="2.346825579045557e-15" s="7.7876633959674" class="strong strong-background">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>27.768</height>
+      <width>259.72711848979804</width>
+      <p align="center">
+        <text color="0"><![CDATA[Zpracování dat ze sítě]]></text>
+      </p>
+      <meta>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="title" parent-id="78_13415665"/>
+      </layout>
+    </object>
+    <object id="20_190534863" type="image" x="21049.569355827945" y="11465.05402687081" r="0" s="1.6495908489294628">
+      <source w="1648" h="882">4344017906<url>4344017906.png</url></source>
+      <sourceUrl>trida_VS.png</sourceUrl>
+    <resource><id>4344017906</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/c/4/e/05e6d2ebf6d9995b44de361194196a6aa8d31.png</url></resource></object>
+    <object id="23_190534863" type="image" x="25460.413731031414" y="11370.95832973491" r="0" s="1.9193856316707705">
+      <source w="1551" h="697">4344020021<url>4344020021.png</url></source>
+      <sourceUrl>loop_VS.png</sourceUrl>
+    <resource><id>4344020021</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/e/2/9/cd3b6726e40d8bf2a49946f5e32f43c5e1c07.png</url></resource></object>
+    <object id="25_190534863" type="image" x="29951.74611793883" y="11599.10420463672" r="0" s="1.6333176087149583">
+      <source w="1636" h="891">4344021596<url>4344021596.png</url></source>
+      <sourceUrl>zapis_eeprom_VS.png</sourceUrl>
+    <resource><id>4344021596</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/f/d/e/35db546949fa8c034936f97c5443807c3f1ca.png</url></resource></object>
+    <object id="27_190534863" type="image" x="34249.42111435792" y="11574.52676332434" r="0" s="1.8168366083976224">
+      <source w="1439" h="801">4344022733<url>4344022733.png</url></source>
+      <sourceUrl>ethernet_VS.png</sourceUrl>
+    <resource><id>4344022733</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/e/2/a/0811def8cd19b6bc1cf64212783283e11ef4e.png</url></resource></object>
+    <object id="19_190534863" type="button" x="17681.449999999997" y="2838.9999999999995" r="0" s="4.664063461661764" class="invisible">
+      <type>invisible</type>
+      <size>
+        <w>800</w>
+        <h>325.8008153105408</h>
+      </size>
+    </object>
+    <object id="3_190534863" type="image" x="17681.483137818388" y="2839.223883648264" r="0" s="2.054686248636394">
+      <source w="1800" h="721">4416431489<url>4416431489.jpg</url></source>
+      <sourceUrl>12516979_10201158969613868_364692254_o.jpg</sourceUrl>
+    <resource><id>4416431489</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/1/2/9/7f6c19bbc9dd88a8fcb1e38676f2203224354.jpg</url></resource></object>
+    <object id="0_190534863" type="text" x="15824.27116850223" y="1035.45" r="4.307416265455895e-15" s="14.559546622611345" class="strong strong-background">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>27.768</height>
+      <width>529.1461435539211</width>
+      <p align="center">
+        <text color="0"><![CDATA[Fyzická realizace PLC]]></text>
+      </p>
+      <meta>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="title" parent-id="75_13415665"/>
+      </layout>
+    </object>
+    <object id="2_190534863" type="image" x="-16499.173823641384" y="21842.72370137808" r="0" s="2.026995686891846">
+      <source w="1892" h="921">4344032858<url>4344032858.png</url></source>
+      <sourceUrl>po-ne.png</sourceUrl>
+    <resource><id>4344032858</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/b/e/7/df6b077a3e76f9996bf4c040eaef375499bdb.png</url></resource></object>
+    <object id="20_13415665" type="text" x="-16195.445319827406" y="20034.428245655592" r="0" s="8.46658869003593" class="body">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>138.84</height>
+      <width>420.712098658432</width>
+      <p align="center">
+        <text><![CDATA[Plně funkční automatizovaný zavlažovací systém, který je schopen konkurovat obdobným komerčním řešením nabízeným na trhu.]]></text>
+      </p>
+      <p>
+        <text><![CDATA[]]></text>
+      </p>
+      <layout>
+        <layout-element role="body" parent-id="18_13415665"/>
+      </layout>
+    </object>
+    <object id="12_190534863" type="button" x="-3697.258741724391" y="20756.451963337437" r="0" s="8.36519261802178" class="bracket">
+      <type>bracket</type>
+      <size>
+        <w>979.3179991988466</w>
+        <h>600</h>
+      </size>
+    </object>
+    <object id="11_190534863" type="image" x="-6105.9421684539475" y="21322.51925882754" r="0" s="4.794639926352978">
+      <source w="500" h="500">4361806595<url>4361806595.jpg</url></source>
+      <sourceUrl>Hunter%20%C5%99%C3%ADd%C3%ADc%C3%AD%20syst%C3%A9m.jpg</sourceUrl>
+    <resource><id>4361806595</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/6/5/b/d45dcbacd9241b498b91f24a2130eccdba02e.jpg</url></resource></object>
+    <object id="32_190534863" type="button" x="-2445.193290658915" y="21322.30481972905" r="0" s="7.942278050787405" class="invisible">
+      <type>invisible</type>
+      <size>
+        <w>620.0456599186814</w>
+        <h>309.4018780651468</h>
+      </size>
+    </object>
+    <object id="51_190534863" type="image" x="-2445.2011105753204" y="21322.455316684925" r="0" s="3.4895487091360855">
+      <source w="1393" h="687">4361831399<url>4361831399.png</url></source>
+      <sourceUrl>porovnani%20s%20realnym%20zavlazovacem.png</sourceUrl>
+    <resource><id>4361831399</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/8/7/b/dc34d79a214de8414a6accef316e821d3a6ac.png</url></resource></object>
+    <object id="21_190534863" type="text" x="-3683.63751661312" y="19277.766495965225" r="0" s="14.132230245275966" class="strong strong-background">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>83.304</height>
+      <width>409.346143553921</width>
+      <p align="center">
+        <text color="0"><![CDATA[Porovnání s reálným komerčním zavlažovacím systémem Hunter od firmy Eco-Logic]]></text>
+      </p>
+      <meta>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="title" parent-id="18_13415665"/>
+      </layout>
+    </object>
+    <object id="34_190534863" type="button" x="5871.317425321932" y="20756.451963337448" r="0" s="6.674518066800072" class="circle">
+      <type>circle</type>
+      <size>
+        <w>800</w>
+        <h>800</h>
+      </size>
+    </object>
+    <object id="35_190534863" type="text" x="5879.399999999998" y="19018.45" r="0" s="9.422261185557836" class="strong strong-background">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>27.768</height>
+      <width>378.5670753185654</width>
+      <p align="center">
+        <text color="0"><![CDATA[Stručný výčet všech funkcí systému]]></text>
+      </p>
+      <meta>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="title" parent-id="18_13415665"/>
+      </layout>
+    </object>
+    <object id="36_190534863" type="text" x="5879.634045063741" y="21016.86313561274" r="0" s="8.493785141045965" class="body">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>416.5200000000001</height>
+      <width>534.3694108121961</width>
+      <p align="center">
+        <text><![CDATA[1. Zadání a změna hesla]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[2. Manuální blokace systému]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[3. Snímání a hlášení poruchy systému]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[4. Nastavení vlhkosti, hladiny, hystereze, limitu]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[    displaye, obvodu reálného času, dní Po-Ne,]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[    doby trvání sepnutí 1. a 2. okruhu, současného]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[    běhu a  periody spouštění výstupů]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[5. Manuální spouštění výstupů]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[6. Výběr režimu (Normal; Sucho; Vlhko)]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[7. Kalibrace výšky hladiny i vlhkosti prostředí]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[8. Měření průtoku vody]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[9. Reset konfigurace do továrního nastavení]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[10. Měření hladiny vody v nádrži a vlhkosti]]></text>
+      </p>
+      <p align="center">
+        <text><![CDATA[     zavlažovaného prostředí]]></text>
+      </p>
+      <p>
+        <text><![CDATA[]]></text>
+      </p>
+    </object>
+    <object id="37_190534863" type="button" x="15239.360489835692" y="20766.2689261434" r="0" s="8.51531914732894" class="bracket">
+      <type>bracket</type>
+      <size>
+        <w>1030.071864626697</w>
+        <h>600</h>
+      </size>
+    </object>
+    <object id="38_190534863" type="text" x="15238.834337510012" y="18698.036124753104" r="0" s="11.208363487860604" class="strong strong-background">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>27.768</height>
+      <width>431.6170753185654</width>
+      <p align="center">
+        <text color="0"><![CDATA[Závěr]]></text>
+      </p>
+      <meta>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="title" parent-id="18_13415665"/>
+      </layout>
+    </object>
+    <object id="40_190534863" type="button" x="13516.838311662816" y="21842.050932959348" r="0" s="3.1952630406774563" class="circle">
+      <type>circle</type>
+      <size>
+        <w>800</w>
+        <h>800</h>
+      </size>
+    </object>
+    <object id="41_190534863" type="button" x="17136.057762563705" y="21841.848885707233" r="0" s="3.1952901963520746" class="circle">
+      <type>circle</type>
+      <size>
+        <w>800</w>
+        <h>800</h>
+      </size>
+    </object>
+    <object id="43_190534863" type="text" x="15334.861816050214" y="19819.06269542496" r="0" s="6.8978327056922435" class="body">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>222.144</height>
+      <width>1167.692720935089</width>
+      <p>
+        <text><![CDATA[- Vytvořený model splňuje všechny požadavky stanovené na začátku práce. Je plně funkční a zcela vystihuje]]></text>
+      </p>
+      <p>
+        <text><![CDATA[   veškeré možné situace v zahradách. ]]></text>
+      </p>
+      <p>
+        <text><![CDATA[- Důraz byl kladený především na názornost celého modelu a zároveň na využití automatizace jako nedílné]]></text>
+      </p>
+      <p>
+        <text><![CDATA[   součásti všech moderních systémů využívaných v dnešní době.]]></text>
+      </p>
+      <p>
+        <text><![CDATA[- Celý systém je po krátké instruktáži srozumitelný i pro technicky nezasvěcené osoby.]]></text>
+      </p>
+      <p>
+        <text><![CDATA[- Řídící systém se po drobné úpravě dá připojit k již nainstalovanému vodnímu zavlažování a bude funkční.]]></text>
+      </p>
+      <p>
+        <text><![CDATA[- Práce pro mě byla výzvou, s jejím výsledkem jsem spokojen a touto tématikou se nadále zabývám.]]></text>
+      </p>
+      <p>
+        <text><![CDATA[]]></text>
+      </p>
+    </object>
+    <object id="44_190534863" type="text" x="13524.808837175631" y="21204.248205658263" r="0" s="4.367789919807763" class="strong strong-background">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>27.768</height>
+      <width>352.3627640578369</width>
+      <p align="center">
+        <text color="0"><![CDATA[Použitá literatura a zdroje]]></text>
+      </p>
+      <meta>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="title" parent-id="18_13415665"/>
+      </layout>
+    </object>
+    <object id="45_190534863" type="text" x="17139.382405695826" y="21779.78505116293" r="0" s="5.438514576429835" class="strong strong-background">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>55.536</height>
+      <width>352.3627640578369</width>
+      <p align="center">
+        <text color="0"><![CDATA[Děkuji za pozornost !]]></text>
+      </p>
+      <p align="center">
+        <text color="0"><![CDATA[Kočica Filip]]></text>
+      </p>
+      <meta>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+      <layout>
+        <layout-element role="title" parent-id="18_13415665"/>
+      </layout>
+    </object>
+    <object id="46_190534863" type="text" x="13566.428087831891" y="21902.800184934076" r="0" s="3.2077337004132325" class="body">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>305.448</height>
+      <width>552</width>
+      <p>
+        <text><![CDATA[1. PRATA, Stephen. Mistrovství v C++. ]]></text>
+      </p>
+      <p>
+        <text><![CDATA[4. aktualizované vyd. Brno: COMPUTER PRESS, 2013. ISBN 978-80-251-3828-1.]]></text>
+      </p>
+      <p>
+        <text><![CDATA[]]></text>
+      </p>
+      <p>
+        <text><![CDATA[2. Zavlažovací Systémy. In: azzahrada.cz – Zavlažovací systémy a závlahy [online]. 2010. vyd. [cit. 2010-12-14]. Dostupné z: <azzahrada.cz>]]></text>
+      </p>
+      <p>
+        <text><![CDATA[]]></text>
+      </p>
+      <p>
+        <text><![CDATA[3. ENDRYCH, Václav. Elektronický systém zavlažování. Brno, 2011. VUT.]]></text>
+      </p>
+      <p>
+        <text><![CDATA[]]></text>
+      </p>
+    </object>
+    <object id="47_190534863" type="image" x="29264.148185661023" y="4099.134015550332" r="0" s="5.323590967919078">
+      <source w="830" h="318">4344067448<url>4344067448.png</url></source>
+      <sourceUrl>adad.png</sourceUrl>
+    <resource><id>4344067448</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/9/5/c/4f0c1b34246f90b8bc24f354b0567ba30b1fa.png</url></resource></object>
+    <object id="55_190534863" type="image" x="-30353.974143776584" y="-15658.663491861971" r="0" s="8.88478319407841">
+      <source w="252" h="251">606502301<url>606502301.swf</url></source>
+      <sourceUrl>facebook_g.swf</sourceUrl>
+      <extra>
+        <fixed_avm1_pos>1</fixed_avm1_pos>
+      </extra>
+    <resource><id>606502301</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/9/d/8/2eccf7866055acf091c68494bc06ed4b2a3d9.swf</url></resource></object>
+    <object id="56_190534863" type="image" x="-27272.31147109135" y="-15658.690318836983" r="0" s="20.22748826951186">
+      <source w="110" h="110">750605125<url>750605125.swf</url></source>
+      <sourceUrl>prezi_g.swf</sourceUrl>
+    <resource><id>750605125</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/6/1/3/56ceb39adca132700cc32e7c567686e561409.swf</url></resource></object>
+    <object id="57_190534863" type="image" x="-20852.78346462636" y="-15659.815368369756" r="0" s="10.985618629131432">
+      <source w="203" h="203">606516507<url>606516507.swf</url></source>
+      <sourceUrl>linkedin_g.swf</sourceUrl>
+      <extra>
+        <fixed_avm1_pos>1</fixed_avm1_pos>
+      </extra>
+    <resource><id>606516507</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/7/7/3/6b43478fca72f15e92df49bb60dac1c5a1dc8.swf</url></resource></object>
+    <object id="58_190534863" type="image" x="-24110.65731191606" y="-15660.25454820461" r="0" s="8.285323811753125">
+      <source w="268" h="218">606549487<url>606549487.swf</url></source>
+      <sourceUrl>twitter_g.swf</sourceUrl>
+      <extra>
+        <fixed_avm1_pos>1</fixed_avm1_pos>
+      </extra>
+    <resource><id>606549487</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/0/9/c/ce54a8374036ae1e9676affc284b3ac5c3b5d.swf</url></resource></object>
+    <object id="52_190534863" type="button" x="2395.858941088374" y="-14461.51358735257" r="0" s="2.7458731245560095" class="circle">
+      <type>circle</type>
+      <size>
+        <w>800</w>
+        <h>800</h>
+      </size>
+    </object>
+    <object id="54_190534863" type="text" x="2395.6532595917806" y="-14478.297480530004" r="0" s="5.547944788932964" class="body">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>138.84</height>
+      <width>279.696</width>
+      <p align="center">
+        <text><![CDATA[Automatický znamená, že ke svému chodu nepotřebuje lidský zásah, pouze počáteční nastavení.]]></text>
+      </p>
+    </object>
+    <object id="65_190534863" type="shape" x="-9287.317559887975" y="20734.34210444177" r="0" s="29.45352591134753" class="line3">
+      <geom type="arrow">
+        <sp>-30 0</sp>
+        <ep>30 0</ep>
+        <t>8</t>
+      </geom>
+    </object>
+    <object id="66_190534863" type="shape" x="1828.959057392191" y="20691.562164064017" r="0" s="29.45352591134753" class="line3">
+      <geom type="arrow">
+        <sp>-30 0</sp>
+        <ep>30 0</ep>
+        <t>8</t>
+      </geom>
+    </object>
+    <object id="67_190534863" type="shape" x="9696.777713461976" y="20691.51264963519" r="0" s="29.45352591134753" class="line3">
+      <geom type="arrow">
+        <sp>-30 0</sp>
+        <ep>30 0</ep>
+        <t>8</t>
+      </geom>
+    </object>
+    <object id="14_190534863" type="shape" x="-33.78142514225807" y="-11629.689182400763" r="90" s="29.45352591134753" class="line3">
+      <geom type="arrow">
+        <sp>-30 0</sp>
+        <ep>30 0</ep>
+        <t>8</t>
+      </geom>
+    </object>
+    <object id="8_190534863" type="shape" x="-14174.757748037264" y="-5557.150974510147" r="180" s="29.45352591134753" class="line3">
+      <geom type="arrow">
+        <sp>-141.681191683902 0</sp>
+        <ep>141.681191683902 0</ep>
+        <t>8</t>
+      </geom>
+    </object>
+    <object id="31_190534863" type="shape" x="-25141.55642535359" y="-761.9652632795239" r="114.08266946775613" s="29.453525911347533" class="line3">
+      <geom type="arrow">
+        <sp>-49.97198308513406 0</sp>
+        <ep>49.97198308513406 0</ep>
+        <t>8</t>
+      </geom>
+    </object>
+    <object id="39_190534863" type="shape" x="-21015.933741175868" y="-768.9386125133949" r="70.16252855479422" s="29.453525911347537" class="line3">
+      <geom type="arrow">
+        <sp>-46.95738449854513 0</sp>
+        <ep>46.957384498545125 0</ep>
+        <t>8</t>
+      </geom>
+    </object>
+    <object id="48_190534863" type="shape" x="19790.381159556477" y="-1547.4636895485835" r="115.40153130832311" s="29.453525911347537" class="line3">
+      <geom type="arrow">
+        <sp>-51.573044062746746 0</sp>
+        <ep>51.573044062746746 0</ep>
+        <t>8</t>
+      </geom>
+    </object>
+    <object id="49_190534863" type="shape" x="23980.86162882427" y="-1519.3552894326692" r="65.25168590885146" s="29.45352591134754" class="line3">
+      <geom type="arrow">
+        <sp>-49.73958110054271 0</sp>
+        <ep>49.73958110054271 0</ep>
+        <t>8</t>
+      </geom>
+    </object>
+    <object id="63_190534863" type="shape" x="14263.5685453301" y="-5418.075385790802" r="179.99999999999994" s="29.45352591134753" class="line3">
+      <geom type="arrow">
+        <sp>143.86207821724966 0</sp>
+        <ep>-143.86207821724966 0</ep>
+        <t>8</t>
+      </geom>
+    </object>
+    <object id="68_190534863" type="shape" x="26584.84075360421" y="7559.823620440146" r="105.00000000000004" s="29.45352591134753" class="line3">
+      <geom type="arrow">
+        <sp>-50.973338492497255 0</sp>
+        <ep>50.973338492497255 0</ep>
+        <t>8</t>
+      </geom>
+    </object>
+    <object id="69_190534863" type="shape" x="31756.353362742368" y="7607.981821554647" r="58.08951314088554" s="29.453525911347548" class="line3">
+      <geom type="arrow">
+        <sp>-64.44997314258418 0</sp>
+        <ep>64.44997314258418 0</ep>
+        <t>8</t>
+      </geom>
+    </object>
+    <object id="71_190534863" type="shape" x="23769.579025613668" y="7627.127453096784" r="122.47137155083244" s="29.45352591134752" class="line3">
+      <geom type="arrow">
+        <sp>-66.36350969642805 0</sp>
+        <ep>66.36350969642805 0</ep>
+        <t>8</t>
+      </geom>
+    </object>
+    <object id="72_190534863" type="shape" x="28812.06772784887" y="7524.7955356867005" r="75.00000000000006" s="29.453525911347544" class="line3">
+      <geom type="arrow">
+        <sp>-49.542233640557946 0</sp>
+        <ep>49.54223364055795 0</ep>
+        <t>8</t>
+      </geom>
+    </object>
+    <object id="74_190534863" type="image" x="-18832.005495536938" y="3596.7307654108167" r="0" s="4.189615787210431">
+      <source w="1394" h="568">4348333781<url>4348333781.png</url></source>
+      <sourceUrl>n%C4%9Bkter%C3%A9%20fce%20na%20LCD.png</sourceUrl>
+    <resource><id>4348333781</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/1/7/6/62212bede834b39cab951ade65aa5b7d7157c.png</url></resource></object>
+    <object id="75_190534863" type="text" x="-20776.850255555157" y="2594.5892780530494" r="0" s="6.25889532270142" class="body">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>27.768</height>
+      <width>-296.64</width>
+      <p>
+        <text><![CDATA[Nastavení zavlažovacích dní]]></text>
+      </p>
+    </object>
+    <object id="76_190534863" type="text" x="-18864.265609838647" y="2594.625290180794" r="0" s="6.25889532270142" class="body">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>27.768</height>
+      <width>-165.384</width>
+      <p>
+        <text><![CDATA[Měření průtoku]]></text>
+      </p>
+    </object>
+    <object id="77_190534863" type="text" x="-16887.287272877453" y="2594.6361216099426" r="0" s="6.25889532270142" class="body">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>27.768</height>
+      <width>-227.712</width>
+      <p>
+        <text><![CDATA[Nastavení parametrů]]></text>
+      </p>
+    </object>
+    <object id="78_190534863" type="text" x="-20776.9442408543" y="3812.437598991578" r="0" s="6.25889532270142" class="body">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>27.768</height>
+      <width>-140.54399999999998</width>
+      <p>
+        <text><![CDATA[Výběr režimu]]></text>
+      </p>
+    </object>
+    <object id="79_190534863" type="text" x="-18864.160079191948" y="3800.518693180484" r="0" s="6.25889532270142" class="body">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>27.768</height>
+      <width>-270.144</width>
+      <p>
+        <text><![CDATA[Kalibrace měřenýh veličin]]></text>
+      </p>
+    </object>
+    <object id="80_190534863" type="text" x="-16887.447035164267" y="3800.5511338081537" r="0" s="6.25889532270142" class="body">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>27.768</height>
+      <width>-276.768</width>
+      <p>
+        <text><![CDATA[Manuální sepnutí výstupů]]></text>
+      </p>
+    </object>
+    <object id="81_190534863" type="image" x="34749.15851266276" y="10905.319866501855" r="0" s="2.5045563746582853">
+      <source w="606" h="42">4343983034<url>4343983034.png</url></source>
+      <sourceUrl>Bez%20n%C3%A1zvu.png</sourceUrl>
+    <resource><id>4343983034</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/9/e/f/e3b5be976d58598234b39f828366608609a09.png</url></resource></object>
+    <object id="0_58886309" type="image" x="24980.453294332845" y="-15850.854470375049" r="0" s="44.705755394593815">
+      <source w="299" h="67">1629505033<url>1629505033.jpg</url></source>
+      <sourceUrl>1661800_836883849662061_146915509_n.jpg</sourceUrl>
+    <resource><id>1629505033</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/c/1/2/237722af614069a1b17e84f8f309e62003cb9.jpg</url></resource></object>
+    <object id="1_58886309" type="text" x="-3.836209190928506" y="-21668.067611232756" r="0" s="122.44389208509808" class="strong strong-background">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>27.768</height>
+      <width>484.307407911042</width>
+      <p align="center">
+        <text color="0"><![CDATA[Automatický zavlažovací systém]]></text>
+      </p>
+      <meta>
+        <parentTemplate>strategy-recommendaton-quick-b</parentTemplate>
+      </meta>
+    </object>
+    <object id="10_190534863" type="button" x="13668.45" y="3382.2" r="0" s="4.399219440871983" class="invisible">
+      <type>invisible</type>
+      <size>
+        <w>800</w>
+        <h>600</h>
+      </size>
+    </object>
+    <object id="22_190534863" type="image" x="13798.250000000004" y="3393.343796777519" r="0" s="3.1417522406959217">
+      <source w="1095" h="827">4416437195<url>4416437195.png</url></source>
+      <sourceUrl>schema.png</sourceUrl>
+    <resource><id>4416437195</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/e/1/2/adde788378d478c96b5c84924f50a67e71510.png</url></resource></object>
+    <object id="26_190534863" type="text" x="13797.940231477212" y="1838.909651694718" r="0" s="9.68" class="body">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>27.768</height>
+      <width>-180.93599999999998</width>
+      <p>
+        <text><![CDATA[Schéma zapojení]]></text>
+      </p>
+    </object>
+    <object id="28_190534863" type="text" x="17681.134000000002" y="1848.84712" r="0" s="9.68" class="body">
+      <style fontFamily="custom-play" font-family="Play"/>
+      <style fontFamily="custom-play" font-family="Play"/>
+      <height>27.768</height>
+      <width>-120.168</width>
+      <p>
+        <text><![CDATA[Plošný spoj]]></text>
+      </p>
+    </object>
+    <object id="60_190534863" type="button" x="16382.7" y="4320.65" r="0" s="1.4073603780216926" class="invisible">
+      <type>invisible</type>
+      <size>
+        <w>776.8805515289306</w>
+        <h>588.4209472656249</h>
+      </size>
+    </object>
+    <object id="42_190534863" type="image" x="16381.451874226812" y="4322.137726977737" r="0" s="1.097774964653201">
+      <source w="960" h="720">4421068520<url>4421068520.jpg</url></source>
+      <sourceUrl>13082115_594511884050098_1782885949_n.jpg</sourceUrl>
+    <resource><id>4421068520</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/a/a/e/33787ba47b17ce73a7bb0b37294f4571f7948.jpg</url></resource></object>
+    <object id="59_190534863" type="button" x="17654.3" y="4322.2" r="0" s="1.5566288810520104" class="invisible">
+      <type>invisible</type>
+      <size>
+        <w>704.9944180130958</w>
+        <h>532.6959554052446</h>
+      </size>
+    </object>
+    <object id="50_190534863" type="image" x="17654.25" y="4322.2" r="0" s="1.106645014347797">
+      <source w="960" h="720">4421068523<url>4421068523.jpg</url></source>
+      <sourceUrl>13059853_594511874050099_1544015580_n.jpg</sourceUrl>
+    <resource><id>4421068523</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/e/1/c/7ceacce7ee3fb718e29576511c4abfa7512f3.jpg</url></resource></object>
+    <object id="53_190534863" type="button" x="18964.1" y="4320.65" r="0" s="1.6618234601679167" class="invisible">
+      <type>invisible</type>
+      <size>
+        <w>657.1203185759928</w>
+        <h>498.7859557638003</h>
+      </size>
+    </object>
+    <object id="33_190534863" type="image" x="18964.471063908528" y="4320.525768611767" r="0" s="1.0959190833142105">
+      <source w="960" h="720">4421068508<url>4421068508.jpg</url></source>
+      <sourceUrl>13045643_594511890716764_1977175010_n.jpg</sourceUrl>
+    <resource><id>4421068508</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/f/a/5/e1ee3c32d2be7c701b6168da7e4aafb5b0d95.jpg</url></resource></object>
+  </zui-table>
+  <background>
+    <layer depth="85.60771366164244" fadescale="0.025698618803152745">
+      <object id="background4363198676" type="image" x="-1296.0628410614077" y="2470.393700432389" r="0" s="75.88250463260194">
+        <source w="4266" h="2049">4363198676<url>4363198676.png</url></source>
+        <sourceUrl>triangle-background-17-2.png</sourceUrl>
+      <resource><id>4363198676</id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/0/b/7/2e61001a0d3e32d19f4bc22eba661b4aaff75.png</url></resource></object>
+    </layer>
+  </background>
+  <path>
+    <s>
+      <eagle o="82_4096537"/>
+    </s>
+    <s>
+      <eagle o="100_13415665"/>
+    </s>
+    <s>
+      <eagle o="104_13415665"/>
+    </s>
+    <s>
+      <eagle o="108_13415665"/>
+    </s>
+    <s>
+      <eagle o="52_190534863"/>
+    </s>
+    <s>
+      <eagle o="5"/>
+    </s>
+    <s>
+      <eagle o="60_13415665"/>
+    </s>
+    <s>
+      <eagle o="63_13415665"/>
+    </s>
+    <s>
+      <eagle o="67_13415665"/>
+    </s>
+    <s>
+      <eagle o="72_13415665"/>
+    </s>
+    <s>
+      <eagle o="39"/>
+    </s>
+    <s>
+      <eagle o="42"/>
+    </s>
+    <s>
+      <eagle o="74"/>
+    </s>
+    <s>
+      <eagle o="75_13415665"/>
+    </s>
+    <s>
+      <eagle o="78_13415665"/>
+    </s>
+    <s>
+      <eagle o="13_190534863"/>
+    </s>
+    <s>
+      <eagle o="6_190534863"/>
+    </s>
+    <s>
+      <eagle o="20_190534863"/>
+    </s>
+    <s>
+      <eagle o="5_190534863"/>
+    </s>
+    <s>
+      <eagle o="23_190534863"/>
+    </s>
+    <s>
+      <eagle o="4_190534863"/>
+    </s>
+    <s>
+      <eagle o="25_190534863"/>
+    </s>
+    <s>
+      <eagle o="7_190534863"/>
+    </s>
+    <s>
+      <eagle o="27_190534863"/>
+    </s>
+    <s>
+      <eagle o="30_190534863"/>
+    </s>
+    <s>
+      <eagle o="10_190534863"/>
+    </s>
+    <s>
+      <eagle o="19_190534863"/>
+    </s>
+    <s>
+      <eagle o="60_190534863"/>
+    </s>
+    <s>
+      <eagle o="59_190534863"/>
+    </s>
+    <s>
+      <eagle o="53_190534863"/>
+    </s>
+    <s>
+      <eagle o="18_13415665"/>
+    </s>
+    <s>
+      <eagle o="73_190534863"/>
+    </s>
+    <s>
+      <eagle o="12_190534863"/>
+    </s>
+    <s>
+      <eagle o="32_190534863"/>
+    </s>
+    <s>
+      <eagle o="34_190534863"/>
+    </s>
+    <s>
+      <eagle o="37_190534863"/>
+    </s>
+    <s>
+      <eagle o="40_190534863"/>
+    </s>
+    <s>
+      <eagle o="41_190534863"/>
+    </s>
+    <s>
+      <eagle o="82_4096537"/>
+    </s>
+  </path>
+  <style type="text/css"><![CDATA[
+@font-face
+{
+	src: url('Alegreya-Regular.keg');
+	fontFamily: body;
+	font-class: body;
+	font-style: normal;
+	font-weight: normal;
+	font-family: Alegreya;
+}
+
+@font-face
+{
+	src: url('Play-Regular.keg');
+	fontFamily: custom-play;
+	font-class: custom-play;
+	font-style: normal;
+	font-weight: normal;
+	font-family: Play;
+}
+
+@font-face
+{
+	src: url('Alegreya-Bold.keg');
+	fontFamily: head;
+	font-class: head;
+	font-style: normal;
+	font-weight: bold;
+	font-family: Alegreya;
+}
+
+@font-face
+{
+	src: url('Alegreya-BoldItalic.keg');
+	fontFamily: strong;
+	font-class: strong;
+	font-style: italic;
+	font-weight: bold;
+	font-family: Alegreya;
+}
+
+@font-face
+{
+	src: url('Alegreya-Italic.keg');
+	font-style: italic;
+	font-weight: normal;
+	font-family: Alegreya;
+}
+
+@font-face
+{
+	src: url('Play-Bold.keg');
+	font-style: normal;
+	font-weight: bold;
+	font-family: Play;
+}
+
+.line1
+{
+	color: #30394f;
+	gradEndColor: #30394f;
+	gradStartColor: #30394f;
+}
+
+.line2
+{
+	color: #0e6569;
+	gradEndColor: #0e6569;
+	gradStartColor: #0e6569;
+}
+
+.line3
+{
+	color: #fff;
+	gradEndColor: #fff;
+	gradStartColor: #fff;
+}
+
+.line4
+{
+	color: #9ad8eb;
+	gradEndColor: #9ad8eb;
+	gradStartColor: #9ad8eb;
+}
+
+.line5
+{
+	color: #fff;
+	gradEndColor: #fff;
+	gradStartColor: #fff;
+}
+
+.poly1
+{
+	gradEndColor: #30394f;
+	gradStartColor: #30394f;
+}
+
+.poly2
+{
+	gradEndColor: #0e6569;
+	gradStartColor: #0e6569;
+}
+
+.poly3
+{
+	gradEndColor: #ff434c;
+	gradStartColor: #ff434c;
+}
+
+.poly4
+{
+	gradEndColor: #9ad8eb;
+	gradStartColor: #9ad8eb;
+}
+
+.poly5
+{
+	gradEndColor: #fff;
+	gradStartColor: #fff;
+}
+
+Background
+{
+	gradEnd: #87cbeb;
+	gradStart: #87cbeb;
+}
+
+Grid
+{
+	color: #6496ae;
+}
+
+ZArrow
+{
+	color: #fff;
+}
+
+ZCircle
+{
+	borderAlpha: 0;
+	borderThickness: 0;
+	gradEndAlpha: 1;
+	gradStartAlpha: 1;
+	lockTintAlpha: 0;
+	radius: 0;
+	thickness: 100;
+}
+
+ZCurveLine
+{
+	color: #fff;
+}
+
+ZFrame.bracket
+{
+	color: #000;
+}
+
+ZFrame.circle
+{
+	color: #fff;
+}
+
+ZFrame.roundrect
+{
+	color: #000;
+}
+
+ZLabel
+{
+	lockTintAlpha: 0.15;
+	padding: 1.2;
+}
+
+ZLabel.body
+{
+	color: #fff;
+	fontFamily: body;
+}
+
+ZLabel.body-background
+{
+	background-alpha: 0.7;
+	background-color: #fff;
+	background-padding: 5;
+}
+
+ZLabel.head
+{
+	color: #fff;
+	fontFamily: head;
+}
+
+ZLabel.head-background
+{
+	background-alpha: 0.8;
+	background-color: #ff434c;
+	background-padding: 5;
+}
+
+ZLabel.strong
+{
+	color: #fff;
+	fontFamily: strong;
+}
+
+ZLabel.strong-background
+{
+	background-alpha: .7;
+	background-color: #fff;
+	background-padding: 5;
+}
+
+ZLine
+{
+	color: #fff;
+}
+
+ZLoadedImage
+{
+	lockTintColor: #958900;
+}
+
+ZMarker
+{
+	color: #87cbeb;
+}
+
+ZPath
+{
+	alpha: 0.8;
+	color: #5aa7cb;
+	textColor: #fff;
+	thickness: 5;
+}
+
+ZPath Ball.base
+{
+	alpha: 0.8;
+	fillColor: #5aa7cb;
+	radius: 15;
+}
+
+ZPath Ball.mid
+{
+	alpha: 0.8;
+	fillColor: #5aa7cb;
+	radius: 7;
+}
+
+ZPoly
+{
+	borderAlpha: 0;
+	borderThickness: 0;
+	gradEndAlpha: 1;
+	gradStartAlpha: 1;
+	lockTintAlpha: 0;
+	radius: 0;
+	thickness: 100;
+}
+
+ZVideo
+{
+	lockTintColor: #958900;
+	padding: 1.2;
+}
+
+ZYoutube
+{
+	lockTintColor: #958900;
+}
+
+]]></style>
+  <hash>-1f6c5bd1</hash>
+<sync><oid>sduvvlal4isa</oid><title>automaticky-zavlazovaci-system-v21</title><hash>-1f6c5bd1</hash></sync><config>EdTSFAe3wlLPy2jdbz2zN2kwoXoycZJIXnEs239cEQzorj/oz9T+8VOHO6WEliRDQ695G+x6/CbQoVM98q56x1v5NkkOW6F7rHWOQnDxbSRAPfl5XLycUVJPiSs3PnIhIXJr0RXqFbi5T76Z1eZpYbd40HDv/8GqB/tN003FYZe843NL+/aC7l7KtW8k906imGC47i+wv6WEciKUAOwd31r18I3t1WurIA6jmfHlRW6ns8JpNKuXmzIkSEGbFMBuqjoxMnrFWRoiJT71FjhdwvZmUO2+cHDRjRXH6AtAt+HvCp+LTrgB48yReXobYers6Rx0lfPlen26cXXbB5TEtw==</config></zuiprezi>

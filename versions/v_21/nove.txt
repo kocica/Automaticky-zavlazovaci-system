@@ -1,0 +1,15 @@
+- KALIBRACE vlhkosti i hladiny
+
+- umožnìní kalibrace pøes sí
+
+- pøi každém uložení na síti informativní výpis na displej
+
+- ultrazvukový senzor mìøení hladiny
+
+- fce nactiPort (pøi Ucc >= 25% vrací 0, jinak fce vrací 1)
+  fce pocetZnaku (vrací poèet znakù øetìzce pøedávaného jako reference na tøídu string)
+  fce blokaceSystemu (pøi zmáèknutí F1 vstup do nekoneèné smyèky + ètení)
+
+- upravení základního popisu (uvítání pøi spuštìní systému)
+
+- perioda spínání výstupù (možnost nastavení i zajištìní funkènosti)

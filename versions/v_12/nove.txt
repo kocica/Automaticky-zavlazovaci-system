@@ -1,0 +1,1 @@
++ upraven loop (procedury)

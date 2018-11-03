@@ -1,0 +1,14 @@
+- vytvoøení dynamíckého objektu pomocí operátoru new
+
+- nepøímá adresace objektù
+
+- pøidání hlášení poruchy do èlenských fcí tøídy
+
+- režimy na lcd 16x1
+
+- vytvoøení pøivítaní pøi zapnutí
+
+- odladìní chyb se zobrazováním na display fce zobrazNaDisplayi
+
+- odladìní chyb u relé
+

@@ -1,0 +1,4620 @@
+/*
+  KoËica Filip, ME 3
+  16.5.2015
+
+  Program pro ¯ÌzenÌ zavlaûovacÌho systÈmu.
+
+  Podrobn˝ popis funkce programu:
+  Na zaË·tku programu se vypÌöÌ na 5 sekund z·kladnÌ informace o systÈmu. Na displayi (20*4) se lze pohybovat kurzorem ve tvaru öipky
+  pomocÌ tlaËÌtek nahoru, dolu, doleva a doprava na membr·novÈ kl·vesnici. V˝bÏr a uloûenÌ dat se provedete tlaËÌtkem Enter a v˝stup
+  z funkce tlaËÌtkem Escape, nastavuje se pomocÌ ËÌsel 0-9. TlaËÌtka ÇF2ë, Ç#ë a Ç*ë se nevyuûÌvajÌ v û·dn˝ch Ë·stech programu.
+  P¯i zm·ËknutÌ ÇF1ë kdekoli v programu se systÈm zablokuje. Pokud je u kterÈhokoli vstupu/v˝stupu pln˝ Ëtverec, znamen· to,
+  ûe je sepnut˝ (log. 1), pokud je u nÏj pr·zdn˝ Ëtverec, znamen· to, ûe je vypnut˝ (log. 0). Po kaûdÈm nastavenÌ je nutno
+  uloûit data do EEPROM / ORC stisknutÌm tlaËÌtka Enter!
+
+  Na prvnÌm ¯·dku LCD se nach·zÌ dny PondÏlÌ aû NedÏle, kde m˘ûete ve funkci Ñdenì nastavit kter˝ den, v jakou hodinu, minutu
+  a na jak dlouho budou sepnuty okruhy (v˝stupy) 1, 2 a buÔ zapnout, nebo vypnout funkci souËasn˝ bÏh v˝stup˘. TakÈ se tam zobrazuj
+  e aktu·lnÌ Ëas pro usnadnÏnÌ nastavov·nÌ. P¯i zm·ËknutÌ ÇF1ë kdekoli v programu se systÈm zablokuje!
+
+  Na druhÈm ¯·dku nastavujeme vlhkost (0-100%), hladinu (0-100%), hysterezi (0-10%), limit displaye (0-60 Minut) a reûim
+  (Normal ñ Vlhko ñ Sucho). NastavenÌ vlhkosti a hladiny bude porovn·v·no s hodnotami ze vstup˘ (p¯i porovn·v·nÌ je nutno vzÌt v potaz
+  i hysterezi) a na z·kladÏ toho se bude program d·le chovat, pokud NV>MV (nastaven· vlhkost bude vÏtöÌ neû vlhkost namÏ¯en· na elektrod·ch)
+  a z·roveÚ NH<MH (nastaven· hladina bude menöÌ neû hladina snÌman· ultrazvukov˝m senzorem), bude moûno v˝stupy sepnout, v opaËnÈm p¯ÌpadÏ
+  pokud NV<MV nebo NH>MH v˝stupy nebude moûno sepnout a pokud uû sepnuty byly, neprodlenÏ se rozepnou. NastavenÌ hystereze je oöet¯enÌ proti
+  n·hlÈmu vypÌn·nÌ a spÌnanÌ relÈ. Limit displaye znamen·, po jakÈ dobÏ se vypne podsvÌcenÌ displaye, opÏtovnÈ zapnutÌ podsvÌcenÌ displaye
+  je moûno provÈst pomocÌ libovolnÈho tlaËÌtka. V˝bÏr reûimu usnadÚuje pr·ci se systÈmem, aby se nemusel p¯enastavovat cel˝ p¯i n·hlÈ zmÏnÏ
+  poËasÌ, ale staËilo jen p¯epnout reûim (Normal ñ Vlhko ñ Sucho).
+
+  Na t¯etÌm ¯·dku je zobrazena MV (mÏ¯en· vlhkost), MH (mÏ¯en· hladina) a P (porucha). VstupnÌ hodnoty se Ëtou pouze minutu p¯ed sepnutÌm v˝stup˘,
+  p¯i stlaËenÌ tlaËÌtka a p¯i bÏhu v˝stup˘, kv˘li minim·lnÌmu opot¯ebenÌ elektrod a snÌmaËe. Pokud se na analogovÈm vstupu (A10) objevÌ vÌce
+  neû 25% Ucc, vr·tÌ funkce ÑprectiPortì hodnotu 0 a sepne se hl·öenÌ poruchy, to se projevÌ pÌsk·nÌm piezo bzuË·ku, blik·nÌm podsvÌcenÌ displaye
+  a nemoûnostÌ manipulace se systÈmem. P¯i poruöe nelze sepnout û·dn˝ z v˝stup˘. Poruchu lze Ñpozastavitì tÌm, ûe stlaËÌte jakÈkoli tlaËÌtko
+  na kl·vesnici, vypne se piezo bzuË·k, blik·nÌ podsvÌcenÌ displaye a bude moûn˝ p¯Ìstup ke vöem funkcÌm programu, nebude ovöem moûno v û·dnÈm
+  p¯ÌpadÏ sepnout v˝stupy a na displayi se bude po¯·d zobrazovat sepnut· porucha. P¯i v˝bÏru na t¯etÌm ¯·dku se spustÌ funkce pro kalibraci
+  vlhkosti a hladiny. DolnÌ mez je konstantnÌ a kalibruje se pouze hornÌ mez a pak se hodnota p¯epoËÌt·v· podle tohoto rozsahu pomocÌ
+  funkce map (vstup, 0, kalibrace, 0, 100); na rozsah 0 ñ 100%, kter˝ potom vidÌme na displayi.
+
+  Na ËtvrtÈm ¯·dku jsou zobrazeny v˝stupy a aktu·lnÌ den + Ëas. V˝stupy lze simulovat v˝bÏrem v menu sepnutÌm poûadovanÈho v˝stupu
+  a vr·cenÌm se do hlavnÌ nabÌdky (Ale pozor! Tato simulace nenÌ limitov·na podmÌnkami nastaven˝ch a mÏ¯en˝ch parametr˘ a v˝stupy se
+  sami nikdy nevypnou (pouze p¯i aktivnÌ poruöe, nebo blokaci systÈmu)!). TaktÈû nastavenÌ obvodu relnÈho Ëasu lze nastavit v˝bÏrem v menu.
+  Nastavov·nÌ probÌh· stejnÏ jako u nastavov·nÌ dn˘ Po-Ne Po.
+*/
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// Directiva include pro zahrnutÌ knihoven do programu
+#include <EEPROM.h>                                      //knihovna pro z·pis a ËtenÌ z/do EEPROM
+#include <Wire.h>                                        //knihvna pro pr·ci s ËtenÌm/z·pisem z/do ORC
+#include "Wire.h"                                        //knihvna pro pr·ci s ËtenÌm/z·pisem z/do ORC
+#include <Keypad.h>                                      //knihovna pro komunikaci s membr·novou kl·vesnicÌ 5x4
+#include <LiquidCrystal_I2C.h>                           //pr·ce s displayem p¯es i2c   
+#include <SPI.h>                                         //sÈriovÈ perifernÌ rozhranÌ, pouûÌv· se pro komunikaci
+#include <Ethernet.h>                                    //ethernetovÈ rozhranÌ
+#include "IRremote.h"                                    //obsahuje t¯Ìdy IRrecv a decode_results, kterÈ se pouûÌvajÌ pro pr·ci s infraËerven˝m d·lkov˝m ovladaËem
+
+#define ORC_I2C_ADRESA 0x68                              //definice preprocesorov˝ch maker
+#define NULL 0
+
+// Piny pouûitÈ pro p¯ipojenÌ LCD displaye (20x4, p¯es i2c)
+LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);
+
+typedef unsigned bez_znamenka;                           //bez_znamenka je nyni datovym typem, zastupujici unsigned, neboli beznamÈnkov˝
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// Znaky
+byte ctverec1[8] = {     //pln˝ Ëtverec
+
+  B00000,
+  B11111,
+  B11111,
+  B11111,
+  B11111,
+  B11111,
+  B11111,
+  B00000,
+};
+
+byte ctverec2[8] = {     //pr·zdn˝ Ëtverec
+
+  B00000,
+  B11111,
+  B10001,
+  B10001,
+  B10001,
+  B10001,
+  B11111,
+  B00000,
+};
+
+byte kurzor [8] = {      //kurzor
+
+  B00000,
+  B00100,
+  B11110,
+  B11111,
+  B11110,
+  B00100,
+  B00000,
+  B00000
+};
+
+byte objekt [8] = {    // ve funkci nastavcas problikava s nastavovanym cislem
+
+  B00000,
+  B00000,
+  B00000,
+  B00000,
+  B00000,
+  B11111,
+  B11111,
+  B11111
+};
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+const byte radky = 5; // 5 ¯·dk˘
+const byte sloupce = 4; // 4 sloupce
+
+//vÌce rozmÏrnÈ pole
+char klavesnice[radky][sloupce] = {
+  {
+    'A', 'B', '#', '*'
+  }
+  ,
+  {
+    '1', '2', '3', '^'
+  }
+  ,
+  {
+    '4', '5', '6', 'v'
+  }
+  ,
+  {
+    '7', '8', '9', 'C'
+  }
+  ,
+  {
+    '<', '0', '>', 'E'
+  }
+};
+
+byte pinyRadku[radky] = {
+  46, A0, A1, A2, A3
+}; //ËÌsla pin˘ s ¯adkem 1 2 3 4 5
+byte pinySloupcu[sloupce] = {
+  A7, A6, A5, A4
+}; //ËÌsla pinu se sloupcem 1 2 3 4
+
+
+//inicializuje objekt kl·vesnice s n·zvem stisknutiTlacitka
+Keypad stisknutiTlacitka = Keypad(makeKeymap(klavesnice), pinyRadku, pinySloupcu, radky, sloupce);
+char posledniZmackle;
+bool pusteniTlacitka;
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+enum { nahoru = 0xFF629D, dolu = 0xFFA857, doleva = 0xFF22DD, doprava = 0xFFC23D, ok = 0xFF02FD, jedna = 0xFF6897, dva = 0xFF9867, tri = 0xFFB04F, ctyri = 0xFF30CF, pet = 0xFF18E7, sest = 0xFF7A85, sedm = 0xFF10EF, osm = 0xFF38C7, devet = 0xFF5AA5, hvezda = 0xFF42BD, nula = 0xFF4AB5, krizek = 0xFF52AD };
+
+int receiver = A9;                 // pin 1 na IR p¯ijÌmaËi na Arduino digital pin A9
+
+IRrecv irrecv(receiver);           // vytvo¯Ì instanci 'irrecv'
+
+decode_results results;            // vytvo¯Ì instanci 'decode_results'
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };  // mac adresa ethernet shieldu - NEMÃNIT
+
+IPAddress ip(192, 168, 10, 145);                      // sem zapsat volnou IP adresu ve vnit¯nÌ sÌti a zmÏnit ji v celÈm programu
+
+EthernetServer server(80);
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// Zadeklarov·nÌ prototyp˘ fcÌ a definice parametr˘.
+byte DECnaBCD(byte hodnota);                                                                                                 //fce pro p¯evod decim·lnÌ hodnoty do kodu BCD pro obvod re·lnÈho Ëasu -
+byte BCDnaDEC(byte hodnota);                                                                                                 //- a z BCD na decim·lnÌ hodnotu
+void cteniORC(byte *sekundy, byte *minuty, byte *hodiny, byte *denVTydnu, byte *denVMesici);                                 //procedura s parametry pro ËtenÌ z obvodu re·lnÈho Ëasu
+void zapisORC(byte sekundy, byte minuty, byte hodiny, byte denVTydnu, byte denVMesici);                                      //procedura s parametry pro uloûenÌ do obvodu re·lnÈho Ëasu
+void pocitaniLitru(int pozice1, int pozice2, int pozice3, int pozice4, int pozice5);
+void zpozdeni(int doba);                                                                                                     //procedura m· za ˙kol zpozdit program na takovou dobu, jak˝ se jÌ d· parametr v ms(milisekund·ch)
+void problikavani();                                                                                                         //procedura zajiöùujÌcÌ problik·v·nÌ dvojteËky a öipky
+void zkontrolujEEPROM();                                                                                                     //procedura, kter· p¯epÌöe vöechna mÌsta v EEPROM,kde je 255 na 0.
+void privitani(int doba_trvani);                                                                                             //na zaË·tku programu vypÌöe info o prg a IP adr
+void nastaveniNaEthernetu();                                                                                                 //p¯i uloûenÌ na ethernetu se zobrazÌ na displayi
+void blokaceSystemu();                                                                                                       //p¯i zm·ËknutÌ F1 se systÈm zablokuje dokud se znovu nezm·Ëkne F1
+bool nactiPort(byte port);                                                                                                   //z portu 'port' p¯ed·vanÈho jako parametr naËte hodnotu, pokud je > 25% z 5V, vr·tÌ 0, jinak vr·tÌ 1.
+int pocetZnaku(String &retezec);                                                                                             //zjisti pocet znaku z retezce tridy String, zadanÈho jako parametr a vr·tÌ poËet.
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// Glob·lnÌ promÏnnÈ
+
+short x, y, i;                                                                  // x,y = kurzor, i = se pouûÌv· ve vöech cyklech for
+
+byte sekundy, minuty, hodiny, denVTydnu, denVMesici;                            // glob·lnÌ promÏnnÈ pro obvod re·lnÈho Ëasu
+
+bool nastavvystupy1 = false, nastavvystupy2 = false, vypisMozny = true, spustVystupy = true, soucasnyBeh = false, pozastavPoruchu = false, porucha = false, refresh[2] {false, false};
+
+bez_znamenka long cekej, cekej01, cekej02, litry = NULL, litryAktualni = NULL;                                             //ËasovaËe + poËÌt·nÌ litr˘ (pr˘tok)
+
+int identifik = NULL, kteryVystup = 2, nedele2 = NULL, oba_vystupy = NULL, druhy_vystup = NULL, soucasnyBehVystupy = NULL, AN1, AN2, Binarnivstup1, zhasnuti = NULL, Menu = NULL, rezim = NULL, rezimEEPROM = NULL, minuty_osetreniVystupu = NULL;
+// binarni vstup na desce (BV1) , analogovÈ vstupy 1,2 a bin·rnÌ vstup 1, kam se ukl·dajÌ p¯epoËÌtanÈ hodnoty ze vstup˘
+double cas_vystupu = NULL, cas2 = NULL;
+
+int nastav_vystup[] = {0, 0, 0, 0, 0, 0, 0}, rele[] = { 47, 49, 48, 53 };       // static array (pole se statickou vazbou)
+
+
+class Zapouzdreni_dat
+{
+  private:
+
+    int limitdisplaye,
+        nastvlhkosti,
+        nasthladiny,
+        nasthystereze,
+        kalibraceVlhkost,
+        kalibraceHladina,
+        periodaSpousteni;
+
+    //struktura pole
+    typedef struct {
+      int hodiny1;
+      int hodiny2;
+      int hodinycelk;
+      int minuty1;                      // PRIVATE: (ZAPOUZDÿEN… PROMÃNN…)
+      int minuty2;                      // LZE S NIMI OPEROVAT POUZE POMOCÕ »LENSK›CH FCÕ / METOD
+      int minutycelk;
+      int min1;
+      int min10;
+      int min1celk;
+      int min2;
+      int min20;
+      int min2celk;
+    }
+    nastaveniDny;
+
+    //strukturovÈ pole
+    nastaveniDny dny[6];
+
+    int nastavORC[10] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+
+  public:                                          // METODY / »LENSK… FCE TÿÕDY
+    Zapouzdreni_dat();                                                                                                           //KONSTRUKTOR TÿÕDY
+    int nastaveniParametru(int limitdisplaye, int nasthladiny, int nastvlhkosti, int nasthystereze);                             //fce pro nastavenÌ hladiny,vlhkosti,limitu displaye
+    int cas(int limitdisplaye);                                                                                                  //fce pro nastavenÌ Po-Ne (hodiny,minuty,min1,min2)
+    int nastavcas(int limitdisplaye);                                                                                            //fce pro nastavenÌ obvodu re·lnÈho Ëasu
+    int nastavvystupy(int limitdisplaye);                                                                                        //fce pro nastavenÌ v˝stupu (LOW/HIGH)
+    int vyberRezim();                                                                                                            //fce pro vyber rezimu 1 - 2 - 3
+    int hlaseniPoruchy(bool nastavvystupy1, bool nastavvystupy2, int Binarnivstup1, int i);                                      //fce pro hl·öenÌ poruchy (bin·rnÌ vstup == NULL)
+    int zadaniHesla(int adresaPameti, int zadejNeboZmen);                                                                        //slouûÌ pro zad·nÌ hesla p¯i startu a p¯i zhasnutÌ podsvÌcenÌ displaye
+
+    bool vypnoutVystupy();                                                                                                       //pokud bude nedostatek hladiny nebo p¯ebytek vlhkosti, skoËÌ do hlavnÌho menu a vypne v˝stupy
+
+    void litryZaMinutu(int pozice1, int pozice2);
+    void nactiVstupy(int analogvstup1, int analogvstup2, int cteniVstupu1, int cteniVstupu2);                                    //procedura na naËtenÌ hodnot ze vstup˘
+    void kalibrace();                                                                                                            //nakalibruje dolnÌ a hornÌ mez p¯i p¯epoËtu analogov˝ch vstup˘
+    void limit();                                                                                                                //procedura hlÌdajÌcÌ vypnutÌ podsvÌcenÌ displaye
+    void prectiEEPROM();                                                                                                         //procedura, kter· naËte data z EEPROM do promÏnn˝ch
+    void zapisEEPROM();                                                                                                          //procedura, kter· zapÌöe data do EEPROM
+    void prace_s_vystupy();                                                                                                      //procedura, kter· zajiöùuje spr·vn˝ bÏh v˝stup˘ (kdy se sepnou,na jak dlouho,kdy se rozepnou)
+    void zobrazNaDisplayi();                                                                                                     //procedura m· za ˙lohu vykreslit celÈ menu, se vöemi hodnotami
+    void stlaceniTlacitkaLoop();                                                                                                 //procedura, kter· zajiöùuje spr·vnou fci tlaËÌtek
+    void ethernet();                                                                                                             //tato procedura zajiötuje celou sitovou komunikaci
+    ~Zapouzdreni_dat();                                                                                                          //DESTRUKTOR TÿÕDY
+};
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void setup()
+{
+  Serial.begin(9600);                           // metoda begin pro objekt Serial,definuje 9600 baud˘
+  Wire.begin();                                 // metoda begin pro objekt Wire (z·pis a ËtenÌ z OR»)
+  lcd.begin(20, 4);                             // metoda begin pro objekt lcd, o velikosti 20x4
+  Ethernet.begin(mac, ip);                      // metoda begin pro objekt Ethernet, inicializuje sÌù
+  server.begin();                               // metoda begin pro objekt server, SPI
+  lcd.backlight();                              // podsvÌcenÌ displaye
+  irrecv.enableIRIn();                          // start p¯ijÌmaËe
+
+  /*
+    for (int i = NULL; i < 1000; i++)           // p¯i maz·nÌ pamÏti se musÌ znovu nastavit obvod re·lnÈho Ëasu
+    EEPROM.write(i, 0);                         // Vycisti EEPROM - 1kB
+  */
+
+  //zapisORC(0,0,0,0,0);                        // form·t (vte¯iny,minuty,hodiny,denVTydnu,denVMesici) - nastavenÌ Obvodu Re·lnÈho »asu, p¯i deklaraci smazat pozn·mku (//) mimochodem Ëas lze nastavit na displayi vpravo dole
+
+  //EEPROM.write(9, 12);                          // slouûÌ pro uloûenÌ prvnÌch dvou cifer z hesla, kterÈ bude vyûadov·no p¯i startu a vypnutÌ podsvÌcenÌ displaye, prvnÌ ËÌslo 9 nemÏnit, to je adresa v pamÏti, mÏnit druhÈ ËÌslo!
+  //EEPROM.write(10, 34);                         // slouûÌ pro uloûenÌ druh˝ch dvou cifer z hesla, kterÈ bude vyûadov·no p¯i startu a vypnutÌ podsvÌcenÌ displaye, prvnÌ ËÌslo 10 nemÏnit, to je adresa v pamÏti, mÏnit druhÈ ËÌslo!
+
+  pinMode(A10, OUTPUT);
+  digitalWrite(A10, HIGH);
+  pinMode(A8, OUTPUT);
+  digitalWrite(A8, HIGH);
+  pinMode(A11, INPUT);
+  pinMode(A15, OUTPUT);
+  digitalWrite(A15, HIGH);
+
+  for (i = NULL; i < 4; i++) {
+    pinMode(rele[i], OUTPUT);
+    if (i == 3) digitalWrite(rele[i], LOW);     // nastavÌ rel·tka jako v˝stupy a 4. relÈ definuje jako LOW
+  }
+
+
+  lcd.createChar(1, ctverec1);
+  lcd.createChar(2, ctverec2);
+  lcd.createChar(3, kurzor);                    // vytvo¯enÌ objekt˘ znak˘
+  lcd.createChar(4, objekt);
+
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void loop()
+{
+
+  Zapouzdreni_dat * den = new Zapouzdreni_dat;                                    // VYTVOÿENÕ DYNAMICK… INSTANCE TÿÕDY NEBOLI OBJEKTU POMOCÕ OPER¡TORU NEW, KVŸLI NEPÿÕMEN… ADRESACI.
+
+  privitani(5000);                                                                // vypÌöe info o PRG a IP adr, pak pocka 3s bez moûnosti p¯eskoËenÌ
+
+  //den->zadaniHesla(9, 1);                                                       // zavol· proceduru, ve kterÈ uûivatel musÌ zadat spr·vnÈ heslo, jinak jej nevpustÌ do systÈmu
+
+  den->nactiVstupy(A14, A12, A15, A13);                                           // funkce kter· naËte hodnoty z analog. a binar. vstup˘ a uloûÌ je do glob·lnÌch promÏnn˝ch
+
+  zkontrolujEEPROM();                                                             // procedura zapÌöe nulu na mÌsto,kde je v EEPROM 255
+
+  for (;;) {                                                                      // nekoneËn· smyËka (stejnÏ jako void loop(), aby se nevytv·¯ely po¯·d statickÈ promÏnnÈ a objekt den
+
+    // -> = nep¯Ìm· adresace
+
+    den->prectiEEPROM();                                                          // naËte data z EEPROM
+
+    den->prace_s_vystupy();                                                       // kontroluje (zapÌn·/vypÌn·) v˝stupy
+
+    den->zobrazNaDisplayi();                                                      // ZobrazÌ na Displayi
+
+    problikavani();                                                               // zajiötuje blikani kurzoru a dvojteËky
+
+    pocitaniLitru(11, 12, 13, 14, 15);                                            // podle nastavenÈho pr˘toku Ëerpadla p¯ipoËÌt·v· kaûdou vte¯inu poËet naËerpanÈ vody v kubÌcÌch a ukl·d· do EEPROM
+
+    den->limit();                                                                 // vypnutÌ podsvÌcenÌ displaye po uplynutÌ nastavenÈho Ëasu bez stlaËenÌ tlaËÌtka
+
+    Binarnivstup1 = nactiPort(A11);                                               // fce vr·tÌ 1 pokud je na portu mÈnÏ neû 25% z 5V a 0 pokud je vÌce nebo rovno 25%.
+
+    if ((!Binarnivstup1) && (!pozastavPoruchu))                                   // zavol· fci hl·öenÌ poruchy, kdyû (bin·rnÌ vstup 1 == NULL) a z·roveÚ pozastav poruchu je neaktivni
+      den->hlaseniPoruchy(nastavvystupy1, nastavvystupy2, Binarnivstup1, i);
+
+    den->stlaceniTlacitkaLoop();                                                  // SnÌm· stlaËenÌ tlaËÌtka a pro p¯ÌsnuölÈ tlaËÌtko vykon· p¯ÌsluönÈ operace
+
+    den->ethernet();                                                              // zajiöùuje sÌùovou komunikaci
+  }
+  delete[] den;                                                                   // uvolnÏnÌ pamÏti
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// FUNKCE
+int Zapouzdreni_dat::nastaveniParametru(int limitdisplaye, int nasthladiny, int nastvlhkosti, int nasthystereze)
+{
+
+  irrecv.resume();
+
+  refresh[2] = true;
+
+  cas2 = millis() / 1000;
+  lcd.backlight();
+
+  int a = NULL;
+  porucha = pozastavPoruchu;
+
+  for (;;) {
+
+    if (porucha) pozastavPoruchu = true;
+    Binarnivstup1 = nactiPort(A11);
+    if ((!Binarnivstup1) && (!pozastavPoruchu)) break;
+
+    ethernet();
+    if (vypnoutVystupy()) break;
+    pocitaniLitru(11, 12, 13, 14, 15);
+
+    if (refresh[2]) {
+      nasthladiny = EEPROM.read(0 + rezimEEPROM);
+      nastvlhkosti = EEPROM.read(1 + rezimEEPROM);
+      nasthystereze = EEPROM.read(5 + rezimEEPROM);
+      limitdisplaye = EEPROM.read(2 + rezimEEPROM);
+      refresh[2] = false;
+    }
+
+    if ((millis() / 1000) > (cas2 + (60 * limitdisplaye))) {
+      lcd.noBacklight();
+      //zadaniHesla(9, 1);                                                            // zavol· proceduru, ve kterÈ uûivatel musÌ zadat spr·vnÈ heslo, jinak jej nevpustÌ do systÈmu
+    }
+
+    lcd.setCursor(0, a);
+    lcd.write(byte(3));
+
+    lcd.setCursor(1, 0);
+    lcd.write("NAST. VLHKOSTI=");
+
+    if ((nastvlhkosti >= 10) && (nastvlhkosti < 100)) {
+      lcd.setCursor(16, 0);
+      lcd.print(" ");
+      lcd.setCursor(17, 0);
+      lcd.print(nastvlhkosti);
+    }
+    else if (nastvlhkosti < 10) {
+      lcd.setCursor(16, 0);
+      lcd.write("  ");
+      lcd.setCursor(18, 0);
+      lcd.print(nastvlhkosti);
+    }
+    else if (nastvlhkosti == 100) {
+      lcd.setCursor(16, 0);
+      lcd.print(nastvlhkosti);
+    }
+
+    lcd.setCursor(1, 1);
+    lcd.write("NAST. HLADINY =");
+
+    if ((nasthladiny >= 10) && (nasthladiny < 100)) {
+      lcd.setCursor(16, 1);
+      lcd.print(" ");
+      lcd.setCursor(17, 1);
+      lcd.print(nasthladiny);
+    }
+    else if (nasthladiny < 10) {
+      lcd.setCursor(16, 1);
+      lcd.write("  ");
+      lcd.setCursor(18, 1);
+      lcd.print(nasthladiny);
+    }
+    else if (nasthladiny == 100) {
+      lcd.setCursor(16, 1);
+      lcd.print(nasthladiny);
+    }
+
+    lcd.setCursor(1, 3);
+    lcd.write("LIMIT DISPLAYE=");
+
+    if ((limitdisplaye >= 10) && (limitdisplaye < 100)) {
+      lcd.setCursor(16, 3);
+      lcd.print(" ");
+      lcd.setCursor(17, 3);
+      lcd.print(limitdisplaye);
+      lcd.print("m");
+    }
+    else if (limitdisplaye < 10) {
+      lcd.setCursor(17, 3);
+      lcd.write(" ");
+      lcd.setCursor(18, 3);
+      lcd.print(limitdisplaye);
+      lcd.print("m");
+    }
+
+    lcd.setCursor(1, 2);
+    lcd.write("NAST. HYSTEREZ=");
+
+    if ((nasthystereze >= 10) && (nasthystereze < 100)) {
+      lcd.setCursor(16, 2);
+      lcd.print(" ");
+      lcd.setCursor(17, 2);
+      lcd.print(nasthystereze);
+    }
+    else if (nasthystereze < 10) {
+      lcd.setCursor(17, 2);
+      lcd.write(" ");
+      lcd.setCursor(18, 2);
+      lcd.print(nasthystereze);
+    }
+    else if (nasthystereze == 100) {
+      lcd.setCursor(16, 2);
+      lcd.print(nasthystereze);
+    }
+
+    for (int procenta = NULL; procenta < 3; procenta++) {
+      lcd.setCursor(19, procenta);
+      lcd.print("%");
+    }
+
+    char tlacitko = stisknutiTlacitka.getKey();
+    KeyState stav = stisknutiTlacitka.getState();
+    if ((stav == PRESSED && tlacitko != NO_KEY) || (irrecv.decode(&results))) {
+
+      if (stav == PRESSED && tlacitko != NO_KEY) results.value = 0xFFFFFFF;
+
+      lcd.backlight();
+      cas2 = millis() / 1000;
+
+      posledniZmackle = tlacitko;
+      pusteniTlacitka = false;
+
+      if ((tlacitko == 'A') || (results.value == krizek)) {
+        blokaceSystemu();      // zablokuje systÈm dokud se nezm·Ëkne F1
+      }
+
+      if ((posledniZmackle == 'C') || (results.value == hvezda))    //konec (ESC)
+      {
+        lcd.clear();
+        lcd.backlight();
+        cas2 = millis() / 1000;
+        if (porucha) pozastavPoruchu = true;
+        break;
+      }
+
+      if ((posledniZmackle == 'E') || (results.value == ok))
+      {
+        lcd.clear();
+
+        if (porucha) pozastavPoruchu = true;
+        EEPROM.write(0 + rezimEEPROM, nasthladiny);
+        EEPROM.write(1 + rezimEEPROM, nastvlhkosti);
+        EEPROM.write(2 + rezimEEPROM, limitdisplaye);                        // z·pis promÏnn˝ch do eeprom!
+        EEPROM.write(5 + rezimEEPROM, nasthystereze);
+
+        nastaveniNaEthernetu(2000, 0);
+
+        lcd.clear();
+
+        lcd.backlight();
+        cas2 = millis() / 1000;
+      }
+
+      if ((posledniZmackle == '^') || (results.value == nahoru))
+      {
+        lcd.backlight();
+        cas2 = millis() / 1000;
+        if (a == NULL) {
+          a = 3;
+          zpozdeni(5);
+          lcd.setCursor(0, 0);
+          lcd.write(" ");
+          irrecv.resume();
+          continue;
+        }
+        if (a == 1) {
+          a = NULL;
+          zpozdeni(5);
+          lcd.setCursor(0, 1);
+          lcd.write(" ");
+          irrecv.resume();
+          continue;
+        }
+        if (a == 2) {
+          a = 1;
+          lcd.setCursor(0, 2);
+          lcd.print(" ");
+          irrecv.resume();
+          continue;
+        }
+        if (a == 3) {
+          a = 2;
+          lcd.setCursor(0, 3);
+          lcd.print(" ");
+          irrecv.resume();
+          continue;
+        }
+      }
+
+      if ((posledniZmackle == 'v') || (results.value == dolu))
+      {
+        lcd.backlight();
+        cas2 = millis() / 1000;
+        if (a == NULL) {
+          a = 1;
+          zpozdeni(5);
+          lcd.setCursor(0, 0);
+          lcd.write(" ");
+          irrecv.resume();
+          continue;
+        }
+        if (a == 1) {
+          a = 2;
+          zpozdeni(5);
+          lcd.setCursor(0, 1);
+          lcd.write(" ");
+          irrecv.resume();
+          continue;
+        }
+        if (a == 2) {
+          a = 3;
+          zpozdeni(5);
+          lcd.setCursor(0, 2);
+          lcd.write(" ");
+          irrecv.resume();
+          continue;
+        }
+        if (a == 3) {
+          a = NULL;
+          lcd.setCursor(0, 3);
+          lcd.print(" ");
+          irrecv.resume();
+          continue;
+        }
+      }
+
+      if ((posledniZmackle == '>') || (results.value == doprava))
+      {
+
+        if (a == NULL) {
+          if (nastvlhkosti <= 100) {
+            nastvlhkosti = nastvlhkosti + 1;
+            if (nastvlhkosti == 101) nastvlhkosti = 0;
+          }
+        }
+        if (a == 1) {
+          if (nasthladiny <= 100) {
+            nasthladiny = nasthladiny + 1;
+            if (nasthladiny == 101) nasthladiny = 0;
+          }
+        }
+        if (a == 2) {
+          if (nasthystereze <= 10) {
+            nasthystereze = nasthystereze + 1;
+            if (nasthystereze == 11) nasthystereze = 0;
+          }
+        }
+        if (a == 3) {
+          if (limitdisplaye == 0) limitdisplaye = 1;
+          else if (limitdisplaye == 1) limitdisplaye = 2;
+          else if (limitdisplaye == 2) limitdisplaye = 3;
+          else if (limitdisplaye == 3) limitdisplaye = 5;
+          else if (limitdisplaye == 5) limitdisplaye = 10;
+          else if (limitdisplaye == 10) limitdisplaye = 15;
+          else if ((limitdisplaye >= 15) && (limitdisplaye <= 45)) limitdisplaye += 15;
+          else if (limitdisplaye == 60) limitdisplaye = 1;
+        }
+      }
+
+      if ((posledniZmackle == '<') || (results.value == doleva))
+      {
+
+        if (a == NULL) {
+          if (nastvlhkosti >= 0) {
+            nastvlhkosti = nastvlhkosti - 1;
+            if (nastvlhkosti == -1) nastvlhkosti = 100;
+          }
+        }
+        if (a == 1) {
+          if (nasthladiny >= 0) {
+            nasthladiny = nasthladiny - 1;
+            if (nasthladiny == -1) nasthladiny = 100;
+          }
+        }
+        if (a == 2) {
+          if (nasthystereze >= 0) {
+            nasthystereze = nasthystereze - 1;
+            if (nasthystereze == -1) nasthystereze = 10;
+          }
+        }
+        if (a == 3) {
+          if (limitdisplaye == 2) limitdisplaye = 1;
+          else if (limitdisplaye == 3) limitdisplaye = 2;
+          else if (limitdisplaye == 5) limitdisplaye = 3;
+          else if (limitdisplaye == 10) limitdisplaye = 5;
+          else if (limitdisplaye == 15) limitdisplaye = 10;
+          else if ((limitdisplaye >= 30) && (limitdisplaye <= 60)) limitdisplaye -= 15;
+          else if (limitdisplaye == 1) limitdisplaye = 60;
+        }
+      }
+      irrecv.resume();
+    }
+
+    else if (stav == RELEASED && !pusteniTlacitka) {
+      pusteniTlacitka = true;
+    }
+
+    else if (stav == HOLD) {
+
+      lcd.backlight();
+      cas2 = millis() / 1000;
+
+      if (posledniZmackle == '>')
+      {
+
+        if (a == NULL) {
+          if (nastvlhkosti <= 100) {
+            nastvlhkosti = nastvlhkosti + 1;
+            if (nastvlhkosti == 101) nastvlhkosti = 0;
+          }
+        }
+        if (a == 1) {
+          if (nasthladiny <= 100) {
+            nasthladiny = nasthladiny + 1;
+            if (nasthladiny == 101) nasthladiny = 0;
+          }
+        }
+        if (a == 2) {
+          if (nasthystereze <= 10) {
+            nasthystereze = nasthystereze + 1;
+            if (nasthystereze == 11) nasthystereze = 0;
+          }
+        }
+        if (a == 3) {
+          if (limitdisplaye == 0) limitdisplaye = 1;
+          else if (limitdisplaye == 1) limitdisplaye = 2;
+          else if (limitdisplaye == 2) limitdisplaye = 3;
+          else if (limitdisplaye == 3) limitdisplaye = 5;
+          else if (limitdisplaye == 5) limitdisplaye = 10;
+          else if (limitdisplaye == 10) limitdisplaye = 15;
+          else if ((limitdisplaye >= 15) && (limitdisplaye <= 45)) limitdisplaye += 15;
+          else if (limitdisplaye == 60) limitdisplaye = 1;
+        }
+      }
+
+      if (posledniZmackle == '<')
+      {
+
+        if (a == NULL) {
+          if (nastvlhkosti >= 0) {
+            nastvlhkosti = nastvlhkosti - 1;
+            if (nastvlhkosti == -1) nastvlhkosti = 100;
+          }
+        }
+        if (a == 1) {
+          if (nasthladiny >= 0) {
+            nasthladiny = nasthladiny - 1;
+            if (nasthladiny == -1) nasthladiny = 100;
+          }
+        }
+        if (a == 2) {
+          if (nasthystereze >= 0) {
+            nasthystereze = nasthystereze - 1;
+            if (nasthystereze == -1) nasthystereze = 10;
+          }
+        }
+        if (a == 3) {
+          if (limitdisplaye == 2) limitdisplaye = 1;
+          else if (limitdisplaye == 3) limitdisplaye = 2;
+          else if (limitdisplaye == 5) limitdisplaye = 3;
+          else if (limitdisplaye == 10) limitdisplaye = 5;
+          else if (limitdisplaye == 15) limitdisplaye = 10;
+          else if ((limitdisplaye >= 30) && (limitdisplaye <= 60)) limitdisplaye -= 15;
+          else if (limitdisplaye == 1) limitdisplaye = 60;
+        }
+      }
+    }
+  }
+
+  lcd.clear();
+  return 0;
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// PromÏnn· "i" se nastavÌ podle dne.
+
+int Zapouzdreni_dat::cas(int limitdisplaye)
+{ //funkce cas
+
+  irrecv.resume();
+  lcd.backlight();
+  int promenna = 1, periodaSpousteni1, periodaSpousteni2;
+  periodaSpousteni1 = periodaSpousteni / 10;
+  periodaSpousteni2 = periodaSpousteni % 10;
+
+  lcd.setCursor(6, 2);
+  lcd.print(dny[i].min1);
+  lcd.print(dny[i].min10);
+  lcd.setCursor(12, 2);
+  lcd.print(dny[i].min2);
+  if (i == 6) lcd.print(nedele2);
+  else lcd.print(dny[i].min20);
+  lcd.setCursor(18, 2);
+  lcd.print(periodaSpousteni1);
+  lcd.print(periodaSpousteni2);
+
+  for (;;) {
+
+    ethernet();
+    if (vypnoutVystupy()) break;
+
+    if (refresh[1]) {
+      prectiEEPROM();
+      refresh[1] = false;
+      lcd.setCursor(0, 0);
+      lcd.print(dny[i].hodiny1);
+      lcd.setCursor(0, 1);
+      lcd.print(dny[i].hodiny2);
+      lcd.setCursor(0, 3);
+      lcd.print(dny[i].minuty1);
+      lcd.setCursor(0, 4);
+      lcd.print(dny[i].minuty2);
+      lcd.setCursor(6, 2);
+      lcd.print(dny[i].min1);
+      lcd.setCursor(7, 2);
+      lcd.print(dny[i].min10);
+      lcd.setCursor(12, 2);
+      lcd.print(dny[i].min2);
+      lcd.setCursor(13, 2);
+      if (i == 6) lcd.print(nedele2);
+      else lcd.print(dny[i].min20);
+      lcd.setCursor(18, 2);
+      lcd.print(periodaSpousteni1);
+      lcd.setCursor(19, 2);
+      lcd.print(periodaSpousteni2);
+    }
+
+    Binarnivstup1 = nactiPort(A11);
+    if ((!Binarnivstup1) && (!pozastavPoruchu)) break;
+
+    // Nacteni hodin a minut
+    cteniORC(&sekundy, &minuty, &hodiny, &denVTydnu, &denVMesici);
+
+    if ((millis() / 1000) > (cas2 + (60 * limitdisplaye))) {
+      lcd.noBacklight();
+      //zadaniHesla(9, 1);                                                            // zavol· proceduru, ve kterÈ uûivatel musÌ zadat spr·vnÈ heslo, jinak jej nevpustÌ do systÈmu
+    }
+
+    else lcd.backlight();
+
+    lcd.setCursor(0, 1);
+    if (hodiny < 10) {
+      lcd.print("0");
+    }
+    lcd.print(hodiny, DEC);          //vypsani casu
+
+    lcd.print(":");
+    if (minuty < 10) {
+      lcd.print("0");
+    }
+    lcd.print(minuty, DEC);
+
+    lcd.setCursor(5, 1);
+    switch (denVTydnu) {
+      case 1:
+        lcd.print(" Pondeli");
+        break;
+      case 2:
+        lcd.print(" Utery");
+        break;
+      case 3:
+        lcd.print(" Streda");
+        break;
+      case 4:
+        lcd.print(" Ctvrtek");
+        break;
+      case 5:
+        lcd.print(" Patek");
+        break;
+      case 6:
+        lcd.print(" Sobota");
+        break;
+      case 7:
+        lcd.print(" Nedele");
+        break;
+    }
+
+    lcd.setCursor(2, 0);
+    lcd.print(":");
+
+    lcd.setCursor(1, 3);
+    lcd.print("Soucasny beh - ");
+    if (soucasnyBeh) lcd.print("Zap");
+    else lcd.print("Vyp");
+
+    if (promenna == 1) {
+      lcd.setCursor(1, 0);
+      lcd.print(dny[i].hodiny2);
+      lcd.setCursor(3, 0);
+      lcd.print(dny[i].minuty1);
+      lcd.setCursor(4, 0);
+      lcd.print(dny[i].minuty2);
+      lcd.setCursor(13, 2);
+      if (i == 6) lcd.print(nedele2);
+      else lcd.print(dny[i].min20);
+    }
+    else if (promenna == 2) {
+      lcd.setCursor(0, 0);
+      lcd.print(dny[i].hodiny1);
+      lcd.setCursor(3, 0);
+      lcd.print(dny[i].minuty1);
+      lcd.setCursor(4, 0);
+      lcd.print(dny[i].minuty2);
+    }
+    else if (promenna == 3) {
+      lcd.setCursor(0, 0);
+      lcd.print(dny[i].hodiny1);
+      lcd.setCursor(1, 0);
+      lcd.print(dny[i].hodiny2);
+      lcd.setCursor(4, 0);
+      lcd.print(dny[i].minuty2);
+    }
+    else if (promenna == 4) {
+      lcd.setCursor(0, 0);
+      lcd.print(dny[i].hodiny1);
+      lcd.setCursor(1, 0);
+      lcd.print(dny[i].hodiny2);
+      lcd.setCursor(3, 0);
+      lcd.print(dny[i].minuty1);
+      lcd.setCursor(6, 2);
+      lcd.print(dny[i].min1);
+    }
+    else if (promenna == 5) {
+      lcd.setCursor(4, 0);
+      lcd.print(dny[i].minuty2);
+      lcd.setCursor(3, 0);
+      lcd.print(dny[i].minuty1);
+      lcd.setCursor(7, 2);
+      lcd.print(dny[i].min10);
+    }
+    else if (promenna == 6) {
+      lcd.setCursor(12, 2);
+      lcd.print(dny[i].min2);
+      lcd.setCursor(6, 2);
+      lcd.print(dny[i].min1);
+    }
+    else if (promenna == 7) {
+      lcd.setCursor(13, 2);
+      if (i == 6) lcd.print(nedele2);
+      else lcd.print(dny[i].min20);
+      lcd.setCursor(7, 2);
+      lcd.print(dny[i].min10);
+    }
+    else if (promenna == 8) {
+      lcd.setCursor(12, 2);
+      lcd.print(dny[i].min2);
+      lcd.setCursor(1, 0);
+      lcd.print(dny[i].hodiny2);
+    }
+    else if (promenna == 9) {
+      lcd.setCursor(13, 2);
+      if (i == 6) lcd.print(nedele2);
+      else lcd.print(dny[i].min20);
+      lcd.setCursor(19, 2);
+      lcd.print(periodaSpousteni2);
+    }
+    else if (promenna == 10) {
+      lcd.setCursor(18, 2);
+      lcd.print(periodaSpousteni1);
+    }
+    else if (promenna == 11) {
+      lcd.setCursor(19, 2);
+      lcd.print(periodaSpousteni2);
+    }
+
+    if ((promenna == 6) || (promenna == 1)) {
+      lcd.setCursor(11, 2);
+      lcd.write(" ");
+    }
+    if ((promenna == 7) || (promenna == 4)) {
+      lcd.setCursor(5, 2);
+      lcd.write(" ");
+    }
+
+    if ((promenna == 1) || (promenna == 2)) {
+      lcd.setCursor(6, 0);
+      lcd.write("Nast. Hodiny  ");
+      lcd.setCursor(0, 3);
+      lcd.write(" ");
+    }
+
+    if ((promenna == 3) || (promenna == 4)) {
+      lcd.setCursor(6, 0);
+      lcd.write("Nast. Minuty  ");
+    }
+
+    if ((promenna == 5) || (promenna == 6)) {
+      lcd.setCursor(6, 0);
+      lcd.write("Nast. 1.Okruh ");
+      lcd.setCursor(5, 2);
+      lcd.write(byte(3));
+    }
+
+    if ((promenna == 7) || (promenna == 8)) {
+      lcd.setCursor(6, 0);
+      lcd.write("Nast. 2.Okruh ");
+      lcd.setCursor(11, 2);
+      lcd.write(byte(3));
+      lcd.setCursor(17, 2);
+      lcd.write(" ");
+      lcd.setCursor(18, 2);
+      lcd.print(periodaSpousteni1);
+    }
+
+    if ((promenna == 9) || (promenna == 10)) {
+      lcd.setCursor(6, 0);
+      lcd.write("Perioda Vystup");
+      lcd.setCursor(17, 2);
+      lcd.write(byte(3));
+      lcd.setCursor(11, 2);
+      lcd.print(" ");
+      lcd.setCursor(13, 2);
+      if (i == 6) lcd.print(nedele2);
+      else lcd.print(dny[i].min20);
+      lcd.setCursor(0, 3);
+      lcd.write(" ");
+    }
+
+    if (promenna == 11) {
+      lcd.setCursor(6, 0);
+      lcd.write("               ");
+      lcd.setCursor(0, 3);
+      lcd.write(byte(3));
+      lcd.setCursor(0, 0);
+      lcd.print(dny[i].hodiny1);
+      lcd.setCursor(17, 2);
+      lcd.write(" ");
+    }
+
+    if ((millis() > cekej + 500) && (millis() < cekej + 1000)) {
+      switch (promenna) {
+        case 1:
+          lcd.setCursor(0, 0);
+          lcd.write(byte(4));
+          break;
+        case 2:
+          lcd.setCursor(1, 0);
+          lcd.write(byte(4));
+          break;
+        case 3:
+          lcd.setCursor(3, 0);
+          lcd.write(byte(4));
+          break;
+        case 4:
+          lcd.setCursor(4, 0);
+          lcd.write(byte(4));
+          break;
+        case 5:
+          lcd.setCursor(6, 2);
+          lcd.write(byte(4));
+          break;
+        case 6:
+          lcd.setCursor(7, 2);
+          lcd.write(byte(4));
+          break;
+        case 7:
+          lcd.setCursor(12, 2);
+          lcd.write(byte(4));
+          break;
+        case 8:
+          lcd.setCursor(13, 2);
+          lcd.write(byte(4));
+          break;
+        case 9:
+          lcd.setCursor(18, 2);
+          lcd.write(byte(4));
+          break;
+        case 10:
+          lcd.setCursor(19, 2);
+          lcd.write(byte(4));
+          break;
+      }
+    }
+
+
+    if ((millis() > cekej + 1) && (millis() < cekej + 500)) {
+      switch (promenna) {
+        case 1:
+          lcd.setCursor(0, 0);
+          lcd.print(dny[i].hodiny1);
+          break;
+        case 2:
+          lcd.setCursor(1, 0);
+          lcd.print(dny[i].hodiny2);
+          break;
+        case 3:
+          lcd.setCursor(3, 0);
+          lcd.print(dny[i].minuty1);
+          break;
+        case 4:
+          lcd.setCursor(4, 0);
+          lcd.print(dny[i].minuty2);
+          break;
+        case 5:
+          lcd.setCursor(6, 2);
+          lcd.print(dny[i].min1);
+          break;
+        case 6:
+          lcd.setCursor(7, 2);
+          lcd.print(dny[i].min10);
+          break;
+        case 7:
+          lcd.setCursor(12, 2);
+          lcd.print(dny[i].min2);
+          break;
+        case 8:
+          lcd.setCursor(13, 2);
+          if (i == 6) lcd.print(nedele2);
+          else lcd.print(dny[i].min20);
+          break;
+        case 9:
+          lcd.setCursor(18, 2);
+          lcd.print(periodaSpousteni1);
+          break;
+        case 10:
+          lcd.setCursor(19, 2);
+          lcd.print(periodaSpousteni2);
+          break;
+      }
+    }
+
+    if (millis() > cekej + 1000) cekej = millis();
+
+
+    char tlacitko = stisknutiTlacitka.getKey();
+
+    if ((tlacitko) || (irrecv.decode(&results)))  {
+
+      if (tlacitko) results.value = 0xFFFFFFF;
+
+      cas2 = millis() / 1000;
+      lcd.backlight();
+
+      if ((tlacitko == 'A') || (results.value == krizek)) {
+        blokaceSystemu();      // zablokuje systÈm dokud se nezm·Ëkne F1
+      }
+
+      int zmackleCislo = 11;
+      switch (results.value)
+      {
+        case nula:
+          zmackleCislo = NULL;
+          break;
+        case jedna:
+          zmackleCislo = 1;
+          break;
+        case dva:
+          zmackleCislo = 2;
+          break;
+        case tri:
+          zmackleCislo = 3;
+          break;
+        case ctyri:
+          zmackleCislo = 4;
+          break;
+        case pet:
+          zmackleCislo = 5;
+          break;
+        case sest:
+          zmackleCislo = 6;
+          break;
+        case sedm:
+          zmackleCislo = 7;
+          break;
+        case osm:
+          zmackleCislo = 8;
+          break;
+        case devet:
+          zmackleCislo = 9;
+          break;
+      }
+
+      for (int ch = 0; ch <= 9; ch++) {
+        if (((int(tlacitko) - 48) == ch) || (zmackleCislo == ch)) {
+          switch (promenna) {
+            case 1:
+              if ((dny[i].hodiny2 < 4) && (ch < 3)) dny[i].hodiny1 = ch;
+              else if (ch < 2) dny[i].hodiny1 = ch;
+              break;
+            case 2:
+              if (dny[i].hodiny1 < 2) dny[i].hodiny2 = ch;
+              else if ((dny[i].hodiny1 == 2) && (ch < 4)) dny[i].hodiny2 = ch;
+              break;
+            case 3:
+              if (ch < 6) dny[i].minuty1 = ch;
+              break;
+            case 4:
+              dny[i].minuty2 = ch;
+              break;
+            case 5:
+              dny[i].min1 = ch;
+              break;
+            case 6:
+              dny[i].min10 = ch;
+              break;
+            case 7:
+              dny[i].min2 = ch;
+              break;
+            case 8:
+              if (i == 6) nedele2 = ch;
+              else dny[i].min20 = ch;
+              break;
+            case 9:
+              periodaSpousteni1 = ch;
+              break;
+            case 10:
+              periodaSpousteni2 = ch;
+              break;
+          }
+          if (promenna < 11) promenna++;
+        }
+      }
+
+      if ((tlacitko == '>') || (results.value == doprava))
+      {
+        if (promenna < 12) {
+          promenna++;
+          zpozdeni(10);
+          if (promenna == 5) {
+            lcd.setCursor(4, 0);
+            lcd.print(dny[i].minuty2);
+          }
+          if (promenna == 12) {
+            promenna = 1;
+          }
+        }
+      }
+
+      if ((tlacitko == '<') || (results.value == doleva))
+      {
+        if (promenna >= 1) {
+          promenna--;
+          zpozdeni(10);
+          if (promenna == NULL) {
+            promenna = 11;
+          }
+        }
+      }
+
+      if ((tlacitko == '^') || (results.value == nahoru))
+      {
+        irrecv.resume();
+        if (promenna == 11) {
+          if (soucasnyBeh == false) {
+            soucasnyBeh = true;
+            zpozdeni(10);
+            continue;
+          }
+          if (soucasnyBeh == true) {
+            soucasnyBeh = false;
+            zpozdeni(10);
+            continue;
+          }
+          break;
+        }
+      }
+
+      if ((tlacitko == 'v') || (results.value == dolu))
+      {
+        irrecv.resume();
+        if (promenna == 11) {
+          if (soucasnyBeh == false) {
+            soucasnyBeh = true;
+            zpozdeni(10);
+            continue;
+          }
+          if (soucasnyBeh == true) {
+            soucasnyBeh = false;
+            zpozdeni(10);
+            continue;
+          }
+          break;
+        }
+      }
+
+      if ((tlacitko == 'C') || (results.value == hvezda))
+        break;
+
+      if ((tlacitko == 'E') || (results.value == ok))
+      {
+        spustVystupy = true;
+
+        dny[i].hodinycelk = (dny[i].hodiny1 * 10) + dny[i].hodiny2;
+
+        dny[i].minutycelk = (dny[i].minuty1 * 10) + dny[i].minuty2;
+
+        dny[i].min1celk = ((dny[i].min1 * 10) + dny[i].min10);
+
+        if (i == 6) dny[i].min2celk = ((dny[i].min2 * 10) + nedele2);
+        else dny[i].min2celk = ((dny[i].min2 * 10) + dny[i].min20);
+
+        periodaSpousteni = (10 * periodaSpousteni1) + periodaSpousteni2;
+
+        zapisEEPROM();
+
+        lcd.clear();
+        nastaveniNaEthernetu(2000, 0);
+        lcd.clear();
+
+        promenna = 1;
+        lcd.setCursor(6, 2);
+        lcd.print(dny[i].min1);
+        lcd.print(dny[i].min10);
+        lcd.setCursor(12, 2);
+        lcd.print(dny[i].min2);
+        if (i == 6) lcd.print(nedele2);
+        else lcd.print(dny[i].min20);
+        lcd.setCursor(18, 2);
+        lcd.print(periodaSpousteni1);
+        lcd.print(periodaSpousteni2);
+        cas2 = millis() / 1000;
+        continue;
+      }
+      irrecv.resume();
+    }
+  }
+  lcd.write("                                                                                ");
+  return 0;
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+int Zapouzdreni_dat::nastavcas(int limitdisplaye)
+{
+
+  irrecv.resume();
+  int promenna = 1;
+
+  // Nacteni hodin a minut
+  cteniORC(&sekundy, &minuty, &hodiny, &denVTydnu, &denVMesici);
+
+  nastavORC[7] = denVTydnu;
+  nastavORC[2] = minuty / 10;
+  nastavORC[8] = hodiny / 10;
+  nastavORC[4] = minuty % 10;
+  nastavORC[3] = hodiny % 10;
+
+  lcd.backlight();
+  cekej = millis();
+  zpozdeni(100);
+
+  for (;;) {
+
+    ethernet();
+    if (vypnoutVystupy()) break;
+    pocitaniLitru(11, 12, 13, 14, 15);
+
+    Binarnivstup1 = nactiPort(A11);
+    if ((!Binarnivstup1) && (!pozastavPoruchu)) break;
+
+    if ((millis() / 1000) > (cas2 + (60 * limitdisplaye))) {
+      lcd.noBacklight();
+      //zadaniHesla(9, 1);                                                            // zavol· proceduru, ve kterÈ uûivatel musÌ zadat spr·vnÈ heslo, jinak jej nevpustÌ do systÈmu
+    }
+
+    lcd.setCursor(0, 1);
+    if (hodiny < 10) {
+      lcd.print("0");
+    }
+    lcd.print(hodiny, DEC);          //vypsani casu
+
+    lcd.print(":");
+    if (minuty < 10) {
+      lcd.print("0");
+    }
+    lcd.print(minuty, DEC);
+
+    lcd.setCursor(6, 1);
+    switch (denVTydnu) {
+      case 1:
+        lcd.print(" Pondeli");
+        break;
+      case 2:
+        lcd.print(" Utery");
+        break;
+      case 3:
+        lcd.print(" Streda");
+        break;
+      case 4:
+        lcd.print(" Ctvrtek");
+        break;
+      case 5:
+        lcd.print(" Patek");
+        break;
+      case 6:
+        lcd.print(" Sobota");
+        break;
+      case 7:
+        lcd.print(" Nedele");
+        break;
+    }
+
+    lcd.setCursor(6, 3);
+    switch (nastavORC[7]) {
+      case 1:
+        lcd.print("Pondeli  ");
+        break;
+      case 2:
+        lcd.print("Utery   ");
+        break;
+      case 3:
+        lcd.print("Streda  ");
+        break;
+      case 4:
+        lcd.print("Ctvrtek  ");
+        break;
+      case 5:
+        lcd.print("Patek   ");
+        break;
+      case 6:
+        lcd.print("Sobota  ");
+        break;
+      case 7:
+        lcd.print("Nedele  ");
+        break;
+    }
+
+    lcd.setCursor(2, 0);
+    lcd.write(":");
+
+    switch (promenna) {
+      case 1:
+        lcd.setCursor(1, 0);
+        lcd.print(nastavORC[3]);
+        lcd.setCursor(3, 0);
+        lcd.print(nastavORC[2]);
+        lcd.setCursor(4, 0);
+        lcd.print(nastavORC[4]);
+
+        lcd.setCursor(6, 0);
+        lcd.write("Nast. Hodiny");
+        lcd.setCursor(5, 3);
+        lcd.write(" ");
+        break;
+      case 2:
+        lcd.setCursor(0, 0);
+        lcd.print(nastavORC[8]);
+        lcd.setCursor(3, 0);
+        lcd.print(nastavORC[2]);
+        lcd.setCursor(4, 0);
+        lcd.print(nastavORC[4]);
+
+        lcd.setCursor(6, 0);
+        lcd.write("Nast. Hodiny");
+        lcd.setCursor(5, 3);
+        lcd.write(" ");
+        break;
+      case 3:
+        lcd.setCursor(0, 0);
+        lcd.print(nastavORC[8]);
+        lcd.setCursor(1, 0);
+        lcd.print(nastavORC[3]);
+        lcd.setCursor(4, 0);
+        lcd.print(nastavORC[4]);
+
+        lcd.setCursor(6, 0);
+        lcd.write("Nast. Minuty");
+        break;
+
+      case 4:
+        lcd.setCursor(0, 0);
+        lcd.print(nastavORC[8]);
+        lcd.setCursor(1, 0);
+        lcd.print(nastavORC[3]);
+        lcd.setCursor(3, 0);
+        lcd.print(nastavORC[2]);
+
+        lcd.setCursor(6, 0);
+        lcd.write("Nast. Minuty");
+        break;
+
+      case 5:
+        lcd.setCursor(0, 0);
+        lcd.print(nastavORC[8]);
+        lcd.setCursor(4, 0);
+        lcd.print(nastavORC[4]);
+        lcd.setCursor(6, 0);
+        lcd.write("Nast. Den   ");
+        lcd.setCursor(5, 3);
+        lcd.write(byte(3));
+        break;
+    }
+
+    nastavORC[5] = (nastavORC[8] * 10) + nastavORC[3];
+
+    nastavORC[6] = (nastavORC[2] * 10) + nastavORC[4];
+
+    if ((millis() > cekej + 500) && (millis() < cekej + 1000)) {
+      switch (promenna) {
+        case 1:
+          lcd.setCursor(0, 0);
+          lcd.write(byte(4));
+          break;
+        case 2:
+          lcd.setCursor(1, 0);
+          lcd.write(byte(4));
+          break;
+        case 3:
+          lcd.setCursor(3, 0);
+          lcd.write(byte(4));
+          break;
+        case 4:
+          lcd.setCursor(4, 0);
+          lcd.write(byte(4));
+          break;
+      }
+    }
+
+
+    if ((millis() > cekej + 1) && (millis() < cekej + 500)) {
+      switch (promenna) {
+        case 1:
+          lcd.setCursor(0, 0);
+          lcd.print(nastavORC[8]);
+          break;
+        case 2:
+          lcd.setCursor(1, 0);
+          lcd.print(nastavORC[3]);
+          break;
+        case 3:
+          lcd.setCursor(3, 0);
+          lcd.print(nastavORC[2]);
+          break;
+        case 4:
+          lcd.setCursor(4, 0);
+          lcd.print(nastavORC[4]);
+          break;
+      }
+    }
+
+    if (millis() > cekej + 1000) cekej = millis();
+
+    char tlacitko = stisknutiTlacitka.getKey();
+
+    if ((tlacitko) || (irrecv.decode(&results))) {
+
+      if (tlacitko) results.value = 0xFFFFFFF;
+
+      cas2 = millis() / 1000;
+      lcd.backlight();
+
+      if ((tlacitko == 'A') || (results.value == krizek))
+      {
+        blokaceSystemu();      // zablokuje systÈm dokud se nezm·Ëkne F1
+      }
+
+      if ((tlacitko == '^') || (results.value == nahoru))
+      {
+        if (promenna == 5) {
+          if (nastavORC[7] <= 6) {
+            nastavORC[7]++;
+          }
+          zpozdeni(20);
+        }
+      }
+
+      if ((tlacitko == 'v') || (results.value == dolu))
+      {
+        if (promenna == 5) {
+          if (nastavORC[7] >= 2) {
+            nastavORC[7]--;
+          }
+          zpozdeni(20);
+        }
+      }
+
+      int zmackleCislo = 11;
+      switch (results.value)
+      {
+        case nula:
+          zmackleCislo = NULL;
+          break;
+        case jedna:
+          zmackleCislo = 1;
+          break;
+        case dva:
+          zmackleCislo = 2;
+          break;
+        case tri:
+          zmackleCislo = 3;
+          break;
+        case ctyri:
+          zmackleCislo = 4;
+          break;
+        case pet:
+          zmackleCislo = 5;
+          break;
+        case sest:
+          zmackleCislo = 6;
+          break;
+        case sedm:
+          zmackleCislo = 7;
+          break;
+        case osm:
+          zmackleCislo = 8;
+          break;
+        case devet:
+          zmackleCislo = 9;
+          break;
+      }
+
+      for (int ch = 0; ch <= 9; ch++) {
+        if (((int(tlacitko) - 48) == ch) || (zmackleCislo == ch)) {
+          switch (promenna) {
+            case 1:
+              if ((nastavORC[3] < 4) && (ch < 3)) nastavORC[8] = ch;
+              else if (ch < 2) nastavORC[8] = ch;
+              break;
+            case 2:
+              if (nastavORC[8] < 2) nastavORC[3] = ch;
+              else if ((nastavORC[8] == 2) && (ch < 4)) nastavORC[3] = ch;
+              break;
+            case 3:
+              if (ch < 6) nastavORC[2] = ch;
+              break;
+            case 4:
+              nastavORC[4] = ch;
+              break;
+          }
+          if (promenna < 5) promenna++;
+        }
+      }
+
+      if ((tlacitko == '>') || (results.value == doprava))
+      {
+        if (promenna < 6) {
+          promenna++;
+          if (promenna == 5) {
+            lcd.setCursor(4, 0);
+            lcd.print(nastavORC[4]);
+          }
+          zpozdeni(20);
+          if (promenna == 6) {
+            promenna = 1;
+          }
+        }
+      }
+
+      if ((tlacitko == '<') || (results.value == doleva))
+      {
+        if (promenna >= 1) {
+          promenna--;
+          zpozdeni(20);
+          if (promenna == 4) {
+            lcd.setCursor(5, 3);
+            lcd.print(" ");
+          }
+          if (promenna == NULL) {
+            promenna = 5;
+          }
+        }
+      }
+
+      if ((tlacitko == 'C') || (results.value == hvezda))
+        break;
+
+      if ((tlacitko == 'E') || (results.value == ok))
+      {
+        zapisORC(00, nastavORC[6], nastavORC[5], nastavORC[7], 12);
+        lcd.clear();
+        nastaveniNaEthernetu(2000, 1);
+        lcd.clear();
+        promenna = 1;
+        continue;
+      }
+      irrecv.resume();
+    }
+  }
+  lcd.write("                                                                                ");
+  return 0;
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+int Zapouzdreni_dat::nastavvystupy(int limitdisplaye)
+{
+
+  irrecv.resume();
+  int promenna = 1;
+  x = NULL;
+  y = 2;
+
+  for (;;) {
+
+    Binarnivstup1 = nactiPort(A11);
+    if ((!Binarnivstup1) && (!pozastavPoruchu)) break;
+
+    ethernet();
+    pocitaniLitru(11, 12, 13, 14, 15);
+
+    promenna = y;
+    lcd.setCursor(x, y);
+    lcd.write(byte(3));
+
+    if ((millis() / 1000) > (cas2 + (60 * limitdisplaye))) {
+      lcd.noBacklight();
+      //zadaniHesla(9, 1);                                                            // zavol· proceduru, ve kterÈ uûivatel musÌ zadat spr·vnÈ heslo, jinak jej nevpustÌ do systÈmu
+    }
+
+    lcd.setCursor(0, 0);
+    lcd.print("*NASTAVENI  VYSTUPU*");
+
+    String neaktivni("NEAKTIVNI");
+    String aktivni("AKTIVNI");
+
+    lcd.setCursor(1, 1);
+    lcd.print("OUT1=");
+    if (((nastavvystupy1 == true) || ((soucasnyBehVystupy == 2) && ((kteryVystup == NULL) || (kteryVystup == 1))) || (soucasnyBehVystupy == 1) || (nastavvystupy2 == true)) || ((nastav_vystup[0] == 1) || (nastav_vystup[1] == 1) || (nastav_vystup[2] == 1) || (nastav_vystup[3] == 1) || (nastav_vystup[4] == 1) || (nastav_vystup[5] == 1) || (nastav_vystup[6] == 1)) || ((nastav_vystup[0] == 2) || (nastav_vystup[1] == 2) || (nastav_vystup[2] == 2) || (nastav_vystup[3] == 2) || (nastav_vystup[4] == 2) || (nastav_vystup[5] == 2) || (nastav_vystup[6] == 2))) {
+      lcd.write(byte(1));
+      lcd.setCursor(8, 1);
+      lcd.print(aktivni);
+      lcd.print("  ");
+    }
+    else {
+      lcd.write(byte(2));
+      lcd.setCursor(8, 1);
+      lcd.print(neaktivni);
+    }
+
+    lcd.setCursor(1, 2);
+    lcd.print("OUT2=");
+    if ((nastav_vystup[0] == 1) || ((soucasnyBehVystupy == 2) && kteryVystup == NULL) || (soucasnyBehVystupy == 1) || (nastav_vystup[1] == 1) || (nastav_vystup[2] == 1) || (nastav_vystup[3] == 1) || (nastav_vystup[4] == 1) || (nastav_vystup[5] == 1) || (nastav_vystup[6] == 1) || (nastavvystupy1 == true)) {
+      lcd.write(byte(1));
+      lcd.setCursor(8, 2);
+      lcd.print(aktivni);
+      lcd.print("  ");
+    }
+    else {
+      lcd.write(byte(2));
+      lcd.setCursor(8, 2);
+      lcd.print(neaktivni);
+    }
+
+    char tlacitko = stisknutiTlacitka.getKey();
+
+    lcd.setCursor(1, 3);
+    lcd.print("OUT3=");
+    if ((nastav_vystup[0] == 2) || ((soucasnyBehVystupy == 2) && kteryVystup == 1) || (soucasnyBehVystupy == 1) || (nastav_vystup[1] == 2) || (nastav_vystup[2] == 2) || (nastav_vystup[3] == 2) || (nastav_vystup[4] == 2) || (nastav_vystup[5] == 2) || (nastav_vystup[6] == 2) || (nastavvystupy2 == true)) {
+      lcd.write(byte(1));
+      lcd.setCursor(8, 3);
+      lcd.print(aktivni);
+      lcd.print("  ");
+    }
+    else {
+      lcd.write(byte(2));
+      lcd.setCursor(8, 3);
+      lcd.print(neaktivni);
+    }
+
+    if (nastavvystupy1) {
+      digitalWrite(47, HIGH);
+      digitalWrite(49, HIGH);
+    }
+    else if (!nastavvystupy1) {
+      if (!nastavvystupy2) digitalWrite(47, LOW);
+      digitalWrite(49, LOW);
+    }
+
+    if (nastavvystupy2) {
+      digitalWrite(47, HIGH);
+      digitalWrite(48, HIGH);
+    }
+    else if (!nastavvystupy2) {
+      if (!nastavvystupy1) digitalWrite(47, LOW);
+      digitalWrite(48, LOW);
+    }
+
+    if ((tlacitko) || (irrecv.decode(&results))) {
+
+      if (tlacitko) results.value = 0xFFFFFFF;
+
+      cas2 = millis() / 1000;
+      lcd.backlight();
+
+      if ((tlacitko == '^') || (results.value == nahoru))
+      {
+        lcd.setCursor(x, y);
+        lcd.print(" ");
+        y--;
+        if (y == 1) {
+          y = 3;
+        }
+        zpozdeni(20);
+      }
+
+      if ((tlacitko == 'v') || (results.value == dolu))
+      {
+        lcd.setCursor(x, y);
+        lcd.print(" ");
+        y++;
+        if (y == 4) {
+          y = 2;
+        }
+        zpozdeni(20);
+      }
+
+      if ((tlacitko == 'C') || (results.value == hvezda)) {
+        break;
+      }
+
+      if ((tlacitko == 'E') || (results.value == ok))
+      {
+        if ((promenna == 2) && (Binarnivstup1)) {
+          if (nastavvystupy1 == false) {
+            nastavvystupy1 = true;
+            zpozdeni(20);
+            continue;
+          }
+          if (nastavvystupy1 == true) {
+            nastavvystupy1 = false;
+            zpozdeni(20);
+            continue;
+          }
+        }
+        if ((promenna == 3) && (Binarnivstup1)) {
+          if (nastavvystupy2 == false) {
+            nastavvystupy2 = true;
+            zpozdeni(20);
+            continue;
+          }
+          if (nastavvystupy2 == true) {
+            nastavvystupy2 = false;
+            zpozdeni(20);
+            continue;
+          }
+        }
+      }
+
+      if ((tlacitko == 'A') || (results.value == krizek)) {
+        blokaceSystemu();      // zablokuje systÈm dokud se nezm·Ëkne F1
+      }
+
+      irrecv.resume();
+    }
+  }
+
+  x = NULL;
+  y = 3;
+  lcd.write("                                                                                ");
+  return 0;
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void privitani(int doba_trvani)
+{
+  String uvitani [] = {
+    "*ZAVLAZOVACI SYSTEM*",
+    "* KOCICA FILIP ME4 *",
+  };
+  int p = NULL, s = 19, w = 0;
+
+  for (p = NULL; p < 9; p++) {
+    lcd.setCursor(p, 0);
+    lcd.print(uvitani[0][p]);
+    lcd.setCursor(p, 2);
+    lcd.print(uvitani[1][p]);
+
+    lcd.setCursor(s, 0);
+    lcd.print(uvitani[0][s]);
+    lcd.setCursor(s, 2);
+    lcd.print(uvitani[1][s]);
+
+    delay(200);
+    s--;
+    char tlacitko = stisknutiTlacitka.getKey();
+    if ((tlacitko) || (irrecv.decode(&results))) {
+      if ((tlacitko == 'C') || (results.value == hvezda)) {
+        w = 1;
+        break;
+      }
+      irrecv.resume();
+    }
+  }
+
+  if (!w) {
+    lcd.setCursor(0, 0);
+    lcd.print(uvitani[0]);
+    lcd.print(uvitani[1]);
+
+    for (int i = NULL; i < 1000; i++) {
+      delay(5);
+      char tlacitko = stisknutiTlacitka.getKey();
+      if ((tlacitko) || (irrecv.decode(&results))) {
+        if ((tlacitko == 'C') || (results.value == hvezda)) {
+          w = 1;
+          break;
+        }
+        irrecv.resume();
+      }
+    }
+  }
+
+  if (!w) {
+    s = 10;
+    for (p = 9; p > 0; p--) {
+      lcd.setCursor(p, 0);
+      lcd.print(" ");
+      lcd.setCursor(p, 2);
+      lcd.print(" ");
+      lcd.setCursor(s, 0);
+      lcd.print(" ");
+      lcd.setCursor(s, 2);
+      lcd.print(" ");
+      delay(200);
+      s++;
+      char tlacitko = stisknutiTlacitka.getKey();
+      if ((tlacitko) || (irrecv.decode(&results))) {
+        if ((tlacitko == 'C') || (results.value == hvezda)) {
+          w = 1;
+          break;
+        }
+        irrecv.resume();
+      }
+    }
+  }
+  lcd.clear();
+  irrecv.resume();
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+int Zapouzdreni_dat::hlaseniPoruchy(bool nastavvystupy1, bool nastavvystupy2, int Binarnivstup1, int i)
+{
+  irrecv.resume();
+  int poc, poc2;                                                                  // poËitadla
+  int plus = 53;                                                                  // Piezo bzuË·k
+  int signal = 2;                                                                 //     -||-
+  pinMode(plus, OUTPUT);
+  pinMode(signal, OUTPUT);                                                        //PiezoBzuË·k
+
+  cekej01 = millis();
+  lcd.clear();
+
+  for (;;) {
+
+    ethernet();
+
+    for (i = NULL; i <= 6; i++) {
+      nastav_vystup[i] = NULL;
+    }
+
+    nastavvystupy1 = false;
+    nastavvystupy2 = false;
+    soucasnyBehVystupy = NULL;
+
+    digitalWrite(rele[0], LOW);
+    digitalWrite(rele[1], LOW);
+    digitalWrite(rele[2], LOW);
+    digitalWrite(rele[3], HIGH);
+
+    if ((millis() > cekej01 + 1) && (millis() < cekej01 + 500)) {
+      lcd.backlight();
+      lcd.setCursor(6, 1);
+      lcd.write("!PORUCHA!");
+    }
+
+    if ((millis() > cekej01 + 500) && (millis() < cekej01 + 1000)) {
+      lcd.noBacklight();
+    }
+
+    if (millis() > cekej01 + 1000) cekej01 = millis();
+
+    for (poc = NULL; poc < 20; poc++) {
+      digitalWrite(signal, HIGH);
+      delayMicroseconds(5000);
+      digitalWrite(signal, LOW);
+      delayMicroseconds(5000);
+    }
+    for (poc = NULL; poc < 8; poc++) {
+      digitalWrite(signal, LOW);
+      delayMicroseconds(25000);
+    }
+
+    char tlacitko = stisknutiTlacitka.getKey();
+    KeyState stav = stisknutiTlacitka.getState();
+
+    if (tlacitko) {
+      pozastavPoruchu = true;
+      break;
+    }
+
+    Binarnivstup1 = nactiPort(A11);
+
+    if (Binarnivstup1) break;
+
+  }
+  lcd.clear();
+  lcd.backlight();
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void Zapouzdreni_dat::stlaceniTlacitkaLoop()
+{
+  cas2 = millis() / 1000;
+  char tlacitko = stisknutiTlacitka.getKey();
+
+  if ((tlacitko) || (irrecv.decode(&results))) {
+
+    if (tlacitko) results.value = 0xFFFFFFF;
+
+    nactiVstupy(A14, A12, A15, A13);
+
+    zhasnuti = NULL;
+    lcd.backlight();
+
+    for (int w = 0; w < 1 ; w++) {
+
+      if ((tlacitko == 'A') || (results.value == krizek)) {
+        blokaceSystemu();      // zablokuje systÈm dokud se nezm·Ëkne F1
+        break;
+      }
+
+      if (tlacitko == 'B') {
+        zadaniHesla(9, 0);
+      }
+
+      if (tlacitko == '#') {
+        if ((zadaniHesla(9, 1)) != (-1)) {
+          lcd.clear();
+          litryZaMinutu(11, 12);
+        }
+      }
+
+      if ((tlacitko == '^') || (results.value == nahoru))
+      {
+        if (y == NULL) {
+          lcd.setCursor(x, y);
+          lcd.write(" ");
+          y = 3;
+          x = NULL;
+          zpozdeni(20);
+          break;
+        }
+
+        if (y == 1) {
+          y = NULL;
+          x = NULL;
+          zpozdeni(20);
+          lcd.setCursor(0, 1);
+          lcd.write(" ");
+          lcd.setCursor(16, 1);
+          lcd.write(" ");
+          break;
+        }
+        if (y == 2) {
+          y = 1;
+          x = NULL;
+          zpozdeni(20);
+          lcd.setCursor(0, 2);
+          lcd.write(" ");
+          break;
+        }
+        if ((y == 3) && (x == 11)) {
+          lcd.setCursor(11, 3);
+          lcd.write(" ");
+          y = 2;
+          x = NULL;
+          zpozdeni(20);
+          break;
+        }
+        if ((y == 3) && (x == NULL)) {
+          lcd.setCursor(0, 3);
+          lcd.write(" ");
+          y = 2;
+          x = NULL;
+          zpozdeni(20);
+          break;
+        }
+      }
+
+      if ((tlacitko == 'v') || (results.value == dolu))
+      {
+        if ((y == 1) && (x == NULL)) {
+          lcd.setCursor(0, 1);
+          lcd.write(" ");
+          x = NULL;
+          y = 2;
+          zpozdeni(20);
+          break;
+        }
+        if ((y == 2) && (x == NULL)) {
+          lcd.setCursor(0, 2);
+          lcd.write(" ");
+          x = NULL;
+          y = 3;
+          zpozdeni(20);
+          break;
+        }
+        if ((y == 1) && (x == 16)) {
+          lcd.setCursor(16, 1);
+          lcd.write(" ");
+          x = NULL;
+          y = 2;
+          zpozdeni(20);
+          break;
+        }
+        if (y == 3) {
+          lcd.setCursor(x, y);
+          lcd.write(" ");
+          x = NULL;
+          y = NULL;
+          zpozdeni(20);
+          break;
+        }
+        if (y == NULL) {
+          y = 1;
+          x = NULL;
+          zpozdeni(20);
+          int o = NULL;
+          while (o <= 18) {
+            lcd.setCursor(o, 0);
+            lcd.write(" ");
+            o = o + 3;
+          }
+          break;
+        }
+      }
+
+      if ((tlacitko == '>') || (results.value == doprava))
+      {
+        if ((x == 11) && (y == 3)) {
+          lcd.setCursor(11, 3);
+          lcd.print(" ");
+          x = NULL;
+          zpozdeni(20);
+          break;
+        }
+        if ((x == 16) && (y == 1)) {
+          lcd.setCursor(16, 1);
+          lcd.print(" ");
+          x = NULL;
+          zpozdeni(20);
+          break;
+        }
+        if ((x == 0) && (y == 1)) {
+          lcd.setCursor(0, 1);
+          lcd.print(" ");
+          x = 16;
+          zpozdeni(20);
+          break;
+        }
+        if ((x == 18) && (y == NULL)) {
+          lcd.setCursor(18, 0);
+          lcd.print(" ");
+          x = NULL;
+          zpozdeni(20);
+          break;
+        }
+        if ((x == 15) && (y == NULL)) {
+          lcd.setCursor(15, 0);
+          lcd.print(" ");
+          x = 18;
+          zpozdeni(20);
+          break;
+        }
+        if ((x == 12) && (y == NULL)) {
+          lcd.setCursor(12, 0);
+          lcd.print(" ");
+          x = 15;
+          zpozdeni(20);
+          break;
+        }
+        if ((x == 9) && (y == NULL)) {
+          lcd.setCursor(9, 0);
+          lcd.print(" ");
+          x = 12;
+          zpozdeni(20);
+          break;
+        }
+        if ((x == 6) && (y == NULL)) {
+          lcd.setCursor(6, 0);
+          lcd.print(" ");
+          x = 9;
+          zpozdeni(20);
+          break;
+        }
+        if ((x == 3) && (y == NULL)) {
+          lcd.setCursor(3, 0);
+          lcd.print(" ");
+          x = 6;
+          zpozdeni(20);
+          break;
+        }
+        if ((x == NULL) && (y == NULL)) {
+          lcd.setCursor(0, 0);
+          lcd.print(" ");
+          x = 3;
+          zpozdeni(20);
+          break;
+        }
+        if ((x == NULL) && (y == 3)) {
+          lcd.setCursor(0, 3);
+          lcd.print(" ");
+          x = 11;
+          zpozdeni(20);
+          break;
+        }
+      }
+
+      if ((tlacitko == '<') || (results.value == doleva))
+      {
+        if ((x == NULL) && (y == 3)) {
+          lcd.setCursor(0, 3);
+          lcd.print(" ");
+          x = 11;
+          zpozdeni(20);
+          break;
+        }
+        if ((x == NULL) && (y == 1)) {
+          lcd.setCursor(0, 1);
+          lcd.print(" ");
+          x = 16;
+          zpozdeni(20);
+          break;
+        }
+        if ((x == NULL) && (y == NULL)) {
+          lcd.setCursor(0, 0);
+          lcd.print(" ");
+          x = 18;
+          zpozdeni(20);
+          break;
+        }
+        if ((x == 3) && (y == NULL)) {
+          lcd.setCursor(3, 0);
+          lcd.print(" ");
+          x = NULL;
+          zpozdeni(20);
+          break;
+        }
+        if ((x == 6) && (y == NULL)) {
+          lcd.setCursor(6, 0);
+          lcd.print(" ");
+          x = 3;
+          zpozdeni(20);
+          break;
+        }
+        if ((x == 16) && (y == 1)) {
+          lcd.setCursor(16, 1);
+          lcd.print(" ");
+          x = 0;
+          zpozdeni(20);
+          break;
+        }
+        if ((x == 9) && (y == NULL)) {
+          lcd.setCursor(9, 0);
+          lcd.print(" ");
+          x = 6;
+          zpozdeni(20);
+          break;
+        }
+        if ((x == 12) && (y == NULL)) {
+          lcd.setCursor(12, 0);
+          lcd.print(" ");
+          x = 9;
+          zpozdeni(20);
+          break;
+        }
+        if ((x == 15) && (y == NULL)) {
+          lcd.setCursor(15, 0);
+          lcd.print(" ");
+          x = 12;
+          zpozdeni(20);
+          break;
+        }
+        if ((x == 18) && (y == NULL)) {
+          lcd.setCursor(18, 0);
+          lcd.print(" ");
+          x = 15;
+          zpozdeni(20);
+          break;
+        }
+        if ((x == 11) && (y == 3)) {
+          lcd.setCursor(11, 3);
+          lcd.print(" ");
+          x = NULL;
+          zpozdeni(20);
+          break;
+        }
+        break;
+      }
+
+      if ((tlacitko == 'E') || (results.value == ok))
+      {
+        if ((y == 2) && (x == NULL)) {
+          if ((zadaniHesla(9, 1)) != (-1)) {
+            lcd.clear();
+            kalibrace();
+          }
+          break;
+        }
+        if ((y == 3) && (x == 11)) {
+          if ((zadaniHesla(9, 1)) != (-1)) {
+            lcd.clear();
+            nastavcas(limitdisplaye);
+          }
+          break;
+        }
+        if ((y == NULL) && (x == NULL)) {
+          i = NULL;
+          if ((zadaniHesla(9, 1)) != (-1)) {
+            lcd.clear();
+            cas(limitdisplaye);
+          }
+          break;
+        }
+        if ((y == 1) && (x == 16)) {
+          if ((zadaniHesla(9, 1)) != (-1)) {
+            lcd.clear();
+            rezim = vyberRezim();
+          }
+          break;
+        }
+        if ((y == NULL) && (x == 3)) {                            // vyber v menu a skoky do fci
+          i = 1;
+          if ((zadaniHesla(9, 1)) != (-1)) {
+            lcd.clear();
+            cas(limitdisplaye);
+          }
+          break;
+        }
+        if ((y == NULL) && (x == 6)) {
+          i = 2;
+          if ((zadaniHesla(9, 1)) != (-1)) {
+            lcd.clear();
+            cas(limitdisplaye);
+          }
+          break;
+        }
+        if ((y == NULL) && (x == 9)) {
+          i = 3;
+          if ((zadaniHesla(9, 1)) != (-1)) {
+            lcd.clear();
+            cas(limitdisplaye);
+          }
+          break;
+        }
+        if ((y == NULL) && (x == 12)) {
+          i = 4;
+          if ((zadaniHesla(9, 1)) != (-1)) {
+            lcd.clear();
+            cas(limitdisplaye);
+          }
+          break;
+        }
+        if ((y == NULL) && (x == 15)) {
+          i = 5;
+          if ((zadaniHesla(9, 1)) != (-1)) {
+            lcd.clear();
+            cas(limitdisplaye);
+          }
+          break;
+        }
+        if ((y == NULL) && (x == 18)) {
+          i = 6;
+          if ((zadaniHesla(9, 1)) != (-1)) {
+            lcd.clear();
+            cas(limitdisplaye);
+          }
+          break;
+        }
+        if ((y == 1) && (x == NULL)) {
+          if ((zadaniHesla(9, 1)) != (-1)) {
+            lcd.clear();
+            nastaveniParametru(limitdisplaye, nasthladiny , nastvlhkosti, nasthystereze);
+          }
+          break;
+        }
+        if ((y == 3) && (x == NULL)) {
+
+          bool jsouVystupyAktivni = false;
+
+          for (i = NULL; i <= 6; i++) {
+            if ((nastav_vystup[i] == 1) || (nastav_vystup[i] == 2) || (soucasnyBehVystupy == 1) || ((soucasnyBehVystupy == 2) && ((kteryVystup == NULL) || (kteryVystup == 1)))) {
+              jsouVystupyAktivni = true;
+            }
+          }
+
+          if (!jsouVystupyAktivni) {
+            if ((zadaniHesla(9, 1)) != (-1)) {
+              lcd.clear();
+              nastavvystupy(limitdisplaye);
+            }
+          }
+          break;
+        }
+      }
+    }
+    irrecv.resume();
+  }
+}
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// Funkce s p¯evodem z desÌtkovÈ soustavy na BCD kod.
+byte DECnaBCD(byte hodnota)
+{
+  return ( (hodnota / 10 * 16) + (hodnota % 10) );
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// Funkce s p¯evodem z BCD kodu do desitkove soustavy.
+byte BCDnaDEC(byte hodnota)
+{
+  return ( (hodnota / 16 * 10) + (hodnota % 16) );
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void Zapouzdreni_dat::zapisEEPROM()
+{
+  if ((nasthladiny >= NULL) && (nasthladiny <= 100)) EEPROM.write(0 + rezimEEPROM, nasthladiny);
+  if ((nastvlhkosti >= NULL) && (nastvlhkosti <= 100)) EEPROM.write(1 + rezimEEPROM, nastvlhkosti);
+  if ((limitdisplaye >= NULL) && (limitdisplaye <= 60)) EEPROM.write(2 + rezimEEPROM, limitdisplaye);                        // z·pis promÏnn˝ch do eeprom!
+  if ((nedele2 >= NULL) && (nedele2 <= 9)) EEPROM.write(3 + rezimEEPROM, nedele2);
+  if ((soucasnyBeh >= NULL) && (soucasnyBeh <= 1)) EEPROM.write(4 + rezimEEPROM, soucasnyBeh);
+  if ((nasthystereze >= NULL) && (nasthystereze <= 10)) EEPROM.write(5 + rezimEEPROM, nasthystereze);
+  if ((kalibraceVlhkost >= NULL) && (kalibraceVlhkost <= 1023)) EEPROM.write(6 + rezimEEPROM, kalibraceVlhkost);
+  if ((kalibraceHladina >= NULL) && (kalibraceHladina <= 1023)) EEPROM.write(7 + rezimEEPROM, kalibraceHladina);
+  if ((periodaSpousteni >= NULL) && (periodaSpousteni <= 99)) EEPROM.write(8 + rezimEEPROM, periodaSpousteni);
+
+  int c = 16 + rezimEEPROM;
+  for (int a = NULL; a < 7; a++) {
+    if ((dny[a].hodiny1 >= NULL) && (dny[a].hodiny1 <= 2)) EEPROM.write(c, dny[a].hodiny1);
+    c++;
+    if ((dny[a].hodiny2 >= NULL) && (dny[a].hodiny2 <= 9)) EEPROM.write(c, dny[a].hodiny2);                      // z·pis struktury do eeprom!
+    c++;
+    if ((dny[a].hodinycelk >= NULL) && (dny[a].hodinycelk <= 23)) EEPROM.write(c, dny[a].hodinycelk);
+    c++;
+    if ((dny[a].minuty1 >= NULL) && (dny[a].minuty1 <= 5)) EEPROM.write(c, dny[a].minuty1);
+    c++;
+    if ((dny[a].minuty2 >= NULL) && (dny[a].minuty2 <= 9)) EEPROM.write(c, dny[a].minuty2);
+    c++;
+    if ((dny[a].minutycelk >= NULL) && (dny[a].minutycelk <= 59)) EEPROM.write(c, dny[a].minutycelk);
+    c++;
+    if ((dny[a].min1 >= NULL) && (dny[a].min1 <= 9)) EEPROM.write(c, dny[a].min1);
+    c++;
+    if ((dny[a].min10 >= NULL) && (dny[a].min10 <= 9)) EEPROM.write(c, dny[a].min10);
+    c++;
+    if ((dny[a].min1celk >= NULL) && (dny[a].min1celk <= 99)) EEPROM.write(c, dny[a].min1celk);
+    c++;
+    if ((dny[a].min2 >= NULL) && (dny[a].min2 <= 9)) EEPROM.write(c, dny[a].min2);
+    c++;
+    if (a != 6) {
+      if ((dny[a].min20 >= NULL) && (dny[a].min20 <= 9)) EEPROM.write(c, dny[a].min20);
+    }
+    c++;
+    if ((dny[a].min2celk >= NULL) && (dny[a].min2celk <= 99)) EEPROM.write(c, dny[a].min2celk);
+    c++;
+  }
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void Zapouzdreni_dat::prectiEEPROM()
+{
+  nasthladiny = EEPROM.read(0 + rezimEEPROM);      // ËtenÌ z EEPROM
+  if (nasthladiny > 100) nasthladiny = 100;
+
+  nastvlhkosti = EEPROM.read(1 + rezimEEPROM);
+  if (nastvlhkosti > 100) nastvlhkosti = 100;
+
+  limitdisplaye = EEPROM.read(2 + rezimEEPROM);
+  if (limitdisplaye > 60) limitdisplaye = 60;
+
+  nedele2 = EEPROM.read(3 + rezimEEPROM);
+  if (nedele2 > 9) nedele2 = NULL;
+
+  soucasnyBeh = EEPROM.read(4 + rezimEEPROM);
+  if (soucasnyBeh > 1) soucasnyBeh = NULL;
+
+  nasthystereze = EEPROM.read(5 + rezimEEPROM);
+  if (nasthystereze > 10) nasthystereze = NULL;
+
+  kalibraceVlhkost = EEPROM.read(6 + rezimEEPROM);
+  if (kalibraceVlhkost > 1023) kalibraceVlhkost = 1023;
+
+  kalibraceHladina = EEPROM.read(7 + rezimEEPROM);
+  if (kalibraceHladina > 1023) kalibraceHladina = 1023;
+
+  periodaSpousteni = EEPROM.read(8 + rezimEEPROM);
+  if (periodaSpousteni > 99) periodaSpousteni = 99;
+
+  int c = 16 + rezimEEPROM;
+  for (int a = NULL; a < 7; a++) {
+    dny[a].hodiny1 = EEPROM.read(c);
+    if ((dny[a].hodiny1 < 0 ) || (dny[a].hodiny1 > 2)) dny[a].hodiny1 = NULL;
+
+    c++;
+    dny[a].hodiny2 = EEPROM.read(c);
+    if ((dny[a].hodiny2 < 0 ) || (dny[a].hodiny2 > 9)) dny[a].hodiny2 = NULL;
+
+    c++;
+    dny[a].hodinycelk = EEPROM.read(c);
+    if ((dny[a].hodinycelk < 0 ) || (dny[a].hodinycelk > 23)) {
+      dny[a].hodiny1 = NULL;
+      dny[a].hodiny2 = NULL;
+      dny[a].hodinycelk = NULL;
+    }
+
+    c++;
+    dny[a].minuty1 = EEPROM.read(c);
+    if ((dny[a].minuty1 < 0 ) || (dny[a].minuty1 > 5)) dny[a].minuty1 = NULL;
+
+    c++;
+    dny[a].minuty2 = EEPROM.read(c);
+    if ((dny[a].minuty2 < 0 ) || (dny[a].minuty2 > 9)) dny[a].minuty2 = NULL;
+
+    c++;
+    dny[a].minutycelk = EEPROM.read(c);
+    if ((dny[a].minutycelk < 0 ) || (dny[a].minutycelk > 59)) dny[a].minutycelk = NULL;
+
+    c++;
+    dny[a].min1 = EEPROM.read(c);
+    if ((dny[a].min1 < 0 ) || (dny[a].min1 > 9)) dny[a].min1 = NULL;
+
+    c++;
+    dny[a].min10 = EEPROM.read(c);
+    if ((dny[a].min10 < 0 ) || (dny[a].min10 > 9)) dny[a].min10 = NULL;
+
+    c++;
+    dny[a].min1celk = EEPROM.read(c);
+    if ((dny[a].min1celk < 0 ) || (dny[a].min1celk > 99)) dny[a].min1celk = NULL;
+
+    c++;
+    dny[a].min2 = EEPROM.read(c);
+    if ((dny[a].min2 < 0 ) || (dny[a].min2 > 9)) dny[a].min2 = NULL;
+
+    c++;
+    if (a != 6) {
+      dny[a].min20 = EEPROM.read(c);
+      if ((dny[a].min20 < 0 ) || (dny[a].min20 > 9)) dny[a].min20 = NULL;
+    }
+
+    c++;
+    dny[a].min2celk = EEPROM.read(c);
+    if ((dny[a].min2celk < 0 ) || (dny[a].min2celk > 99)) dny[a].min2celk = NULL;
+    c++;
+  }
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void Zapouzdreni_dat::zobrazNaDisplayi()
+{
+  if (AN1 > 100) AN1 = 100;
+  if (AN2 > 100) AN2 = 100;
+
+  lcd.setCursor(1, 2);
+  lcd.print("MV=");
+  lcd.print(AN2);
+  lcd.print("%");
+  if ((AN2 - nasthystereze) < nastvlhkosti) {
+    lcd.write(byte(1));
+  }
+  else {
+    lcd.write(byte(2));
+  }
+  if ((AN2 < 100) && (AN2 > 9)) {
+    lcd.setCursor(8, 2);
+    lcd.print(" ");
+  }
+  else if (AN2 < 10) {
+    lcd.setCursor(7, 2);
+    lcd.print("  ");
+  }
+
+  lcd.setCursor(9, 2);
+  lcd.print("MH=");
+  lcd.print(AN1);
+  lcd.print("%");
+  if (AN1 > (nasthladiny - nasthystereze)) {
+    lcd.write(byte(1));
+  }
+  else {
+    lcd.write(byte(2));
+  }
+  if ((AN1 < 100) && (AN1 > 9)) {
+    lcd.setCursor(16, 2);
+    lcd.print(" ");
+  }
+  else if (AN1 < 10) {
+    lcd.setCursor(15, 2);
+    lcd.print("  ");
+  }
+
+  lcd.setCursor(1, 1);
+  lcd.print("NV=");
+  lcd.print(nastvlhkosti);
+  lcd.print("%");
+  if ((nastvlhkosti < 100) && (nastvlhkosti > 9)) {
+    lcd.setCursor(7, 1);
+    lcd.print(" ");
+  }
+  else if (nastvlhkosti < 10) {
+    lcd.setCursor(6, 1);
+    lcd.print("  ");
+  }
+
+  if (( x == 0 ) && ( y == 0 ))
+    cteniORC(&sekundy, &minuty, &hodiny, &denVTydnu, &denVMesici);
+  else {
+    lcd.setCursor(0, 0);
+    lcd.print(" ");
+  }
+
+  lcd.setCursor(9, 1);
+  lcd.print("NH=");
+  lcd.print(nasthladiny);
+  lcd.print("%");
+  if ((nasthladiny < 100) && (nasthladiny > 9)) {
+    lcd.setCursor(15, 1);
+    lcd.print(" ");
+  }
+  else if (nasthladiny < 10) {
+    lcd.setCursor(14, 1);
+    lcd.print("  ");
+  }
+
+  lcd.setCursor(1, 0);
+  lcd.write("Po");
+  lcd.setCursor(4, 0);
+  lcd.write("Ut");
+  lcd.setCursor(7, 0);
+  lcd.write("St");
+  lcd.setCursor(10, 0);
+  lcd.write("Ct");
+  lcd.setCursor(13, 0);
+  lcd.write("Pa");
+  lcd.setCursor(16, 0);
+  lcd.write("So");
+  lcd.setCursor(19, 0);
+  lcd.write("N");
+
+  lcd.setCursor(12, 3);
+  switch (denVTydnu) {
+    case 1:
+      lcd.print("Po,");
+      break;
+    case 2:
+      lcd.print("Ut,");
+      break;
+    case 3:
+      lcd.print("St,");
+      break;
+    case 4:
+      lcd.print("Ct,");
+      break;
+    case 5:
+      lcd.print("Pa,");
+      break;
+    case 6:
+      lcd.print("So,");
+      break;
+    case 7:
+      lcd.print("Ne,");
+      break;
+  }
+
+  lcd.setCursor(17, 1);           //rezim
+  lcd.print("R=");
+  lcd.print(rezim + 1);
+
+  lcd.setCursor(15, 3);
+  if (hodiny < 10) {
+    lcd.print("0");
+  }
+  lcd.print(hodiny, DEC);          //vypsani casu
+  lcd.setCursor(18, 3);
+  if (minuty < 10) {
+    lcd.print("0");
+  }
+  lcd.print(minuty, DEC);
+
+  Binarnivstup1 = nactiPort(A11);
+
+  if (Binarnivstup1) {
+    digitalWrite(rele[3], LOW);   //porucha
+    lcd.setCursor(17, 2);
+    lcd.write("P=");
+    lcd.setCursor(19, 2);
+    lcd.write(byte(2));
+  }
+  else {
+    for (int w = 0; w < 7; w++) nastav_vystup[w] = NULL;
+    nastavvystupy1 = false;
+    nastavvystupy2 = false;
+    soucasnyBehVystupy = NULL;
+
+    digitalWrite(rele[0], LOW);
+    digitalWrite(rele[1], LOW);
+    digitalWrite(rele[2], LOW);
+    digitalWrite(rele[3], HIGH);   //porucha
+
+    lcd.setCursor(17, 2);
+    lcd.write("P=");
+    lcd.setCursor(19, 2);
+    lcd.write(byte(1));
+  }
+
+  lcd.setCursor(1, 3);
+  lcd.print("OUT:");
+  lcd.print("1");
+  if (((nastavvystupy1 == true) || ((soucasnyBehVystupy == 2) && ((kteryVystup == NULL) || (kteryVystup == 1))) || (soucasnyBehVystupy == 1) || (nastavvystupy2 == true)) || ((nastav_vystup[0] == 1) || (nastav_vystup[1] == 1) || (nastav_vystup[2] == 1) || (nastav_vystup[3] == 1) || (nastav_vystup[4] == 1) || (nastav_vystup[5] == 1) || (nastav_vystup[6] == 1)) || ((nastav_vystup[0] == 2) || (nastav_vystup[1] == 2) || (nastav_vystup[2] == 2) || (nastav_vystup[3] == 2) || (nastav_vystup[4] == 2) || (nastav_vystup[5] == 2) || (nastav_vystup[6] == 2))) {
+    lcd.write(byte(1));
+    digitalWrite(rele[0], HIGH);
+
+    nactiVstupy(A14, A12, A15, A13);
+  }
+  else {
+    lcd.write(byte(2));
+    digitalWrite(rele[0], LOW);
+  }
+  lcd.print("2");
+  if ((nastav_vystup[0] == 1) || ((soucasnyBehVystupy == 2) && kteryVystup == NULL) || (soucasnyBehVystupy == 1) || (nastav_vystup[1] == 1) || (nastav_vystup[2] == 1) || (nastav_vystup[3] == 1) || (nastav_vystup[4] == 1) || (nastav_vystup[5] == 1) || (nastav_vystup[6] == 1) || (nastavvystupy1 == true)) {
+    lcd.write(byte(1));
+    digitalWrite(rele[1], HIGH);
+  }
+  else {
+    lcd.write(byte(2));
+    digitalWrite(rele[1], LOW);
+  }
+  lcd.print("3");
+  if ((nastav_vystup[0] == 2) || ((soucasnyBehVystupy == 2) && kteryVystup == 1) || (soucasnyBehVystupy == 1) || (nastav_vystup[1] == 2) || (nastav_vystup[2] == 2) || (nastav_vystup[3] == 2) || (nastav_vystup[4] == 2) || (nastav_vystup[5] == 2) || (nastav_vystup[6] == 2) || (nastavvystupy2 == true)) {
+    lcd.write(byte(1));
+    digitalWrite(rele[2], HIGH);
+  }
+  else {
+    lcd.write(byte(2));
+    digitalWrite(rele[2], LOW);
+  }
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void problikavani()
+{
+  if ((millis() > cekej01 + 1) && (millis() < cekej01 + 1500)) {
+    lcd.setCursor(x, y);
+    lcd.write(byte(3));               //blik·nÌ kurzoru
+  }
+
+  if ((millis() > cekej01 + 1500) && (millis() < cekej01 + 1600)) {
+    lcd.setCursor(x, y);
+    lcd.write(" ");                   //blik·nÌ kurzoru
+  }
+
+  if (millis() > cekej01 + 1600) cekej01 = millis();
+
+  if ((millis() > cekej + 1) && (millis() < cekej + 1000)) {
+    lcd.setCursor(17, 3);
+    lcd.print(":");                   //blikani dvojtecky v casu ve vterinovem intervalu
+  }
+
+
+  if ((millis() > cekej + 1000) && (millis() < cekej + 2000)) {
+    lcd.setCursor(17, 3);
+    lcd.print(" ");                   //blikani dvojtecky v casu ve vterinovem intervalu
+
+  }
+  if (millis() > cekej + 2000) {
+    cekej = millis();
+    zhasnuti += 2;
+  }
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// funkce pro z·pis do obvodu re·lnÈho Ëasu p¯es Wire.h
+void zapisORC(byte sekundy, byte minuty, byte hodiny, byte denVTydnu, byte denVMesici)
+{
+  Wire.beginTransmission(ORC_I2C_ADRESA);
+  Wire.write(0);
+  if ((sekundy >= NULL) && (sekundy < 60)) Wire.write(DECnaBCD(sekundy));
+  if ((minuty >= NULL) && (minuty < 60)) Wire.write(DECnaBCD(minuty));
+  if ((hodiny >= NULL) && (hodiny < 24)) Wire.write(DECnaBCD(hodiny));
+  if ((denVTydnu > 0) && (denVTydnu < 8)) Wire.write(DECnaBCD(denVTydnu));
+  if ((denVMesici >= NULL) && (denVMesici < 32)) Wire.write(DECnaBCD(denVMesici));
+  Wire.endTransmission();
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// funkce pro ËtenÌ z obvodu re·lnÈho Ëasu p¯es Wire.h
+void cteniORC(byte * sekundy, byte * minuty, byte * hodiny, byte * denVTydnu, byte * denVMesici)
+{
+  Wire.beginTransmission(ORC_I2C_ADRESA);
+  Wire.write(0);
+  Wire.endTransmission();
+  Wire.requestFrom(ORC_I2C_ADRESA, 7);
+  *sekundy = BCDnaDEC(Wire.read() & 0x7f);
+  *minuty = BCDnaDEC(Wire.read());
+  *hodiny = BCDnaDEC(Wire.read() & 0x3f);
+  *denVTydnu = BCDnaDEC(Wire.read());
+  *denVMesici = BCDnaDEC(Wire.read());
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void Zapouzdreni_dat::ethernet()
+{
+
+  // dostupnost klienta
+  EthernetClient client = server.available();
+  String buffer = "";
+
+  // dokud je klient p¯ipojen
+  while (client.connected()) {
+
+    // Ëti data dokud nenarazÌö na znak novÈho ¯·dku
+    if (client.available()) {
+      char c = client.read();
+      buffer = buffer + c;
+
+      if (c == '\n') {
+
+        client.println("<!DOCTYPE HTML>");
+
+        client.println("<html>");
+        client.println("<head>");
+
+        client.println("<meta charset='UTF-8'>");   // diakritika Ëeskeho jazyka
+
+        client.print("<a href='http://192.168.10.145?menu=14'><button style='background:black;width:100%;height:80px'><font color='gold'><h1>ZavlaûovacÌ systÈm KoËica Filip ME4</h1></font></button></a>");
+        // client.println("<h1>");
+        //client.println("ZavlaûovacÌ SystÈm, KoËica Filip ME4");
+        // client.println("</h1>");
+        client.print("<a href='http://192.168.10.145?menu=6'><button style='background:blue;width:14.285714%;height:80px'><font color='gold'><h1>PONDÃLÕ</h1></font></button></a>");       //po
+        client.print("<a href='http://192.168.10.145?menu=7'><button style='background:blue;width:14.285714%;height:80px'><font color='gold'><h1>⁄TER›</h1></font></button></a>");         //ut
+        client.print("<a href='http://192.168.10.145?menu=8'><button style='background:blue;width:14.285714%;height:80px'><font color='gold'><h1>STÿEDA</h1></font></button></a>");        //st
+        client.print("<a href='http://192.168.10.145?menu=9'><button style='background:blue;width:14.285714%;height:80px'><font color='gold'><h1>»TVRTEK</h1></font></button></a>");       //ct
+        client.print("<a href='http://192.168.10.145?menu=16'><button style='background:blue;width:14.285714%;height:80px'><font color='gold'><h1>P¡TEK</h1></font></button></a>");        //pa
+        client.print("<a href='http://192.168.10.145?menu=11'><button style='background:blue;width:14.285714%;height:80px'><font color='gold'><h1>SOBOTA</h1></font></button></a>");       //so
+        client.print("<a href='http://192.168.10.145?menu=12'><button style='background:blue;width:14.285714%;height:80px'><font color='gold'><h1>NEDÃLE</h1></font></button></a>");       //ne
+        client.print("<a href='http://192.168.10.145?menu=2'><button style='background:purple;width:80%;height:80px'><font color='silver'><h1>NastavenÌ parametr˘</h1></font></button></a>");      //nastav parametru
+        client.print("<a href='http://192.168.10.145?menu=13'><button style='background:orange;width:20%;height:80px'><font color='black'><h1>Reûim + Kalibrace</h1></font></button></a>");        //reûim a kalibrace
+        client.print("<a href='http://192.168.10.145?menu=3'><button style='background:purple;width:80%;height:80px'><font color='silver'><h1>Vstupy</h1></font></button></a>");                   //vstupy
+        if (Binarnivstup1)
+          client.print("<a href='http://192.168.10.145?menu=15'><button style='background:green;width:20%;height:80px'><h1>Porucha rozepnuta</h1></button></a>");                                  //porucha
+        else
+          client.print("<a href='http://192.168.10.145?menu=15'><button style='background:red;width:20%;height:80px'><h1>Porucha sepnuta</h1></button></a>");                                      //porucha
+        client.print("<a href='http://192.168.10.145?menu=4'><button style='background:purple;width:60%;height:80px'><font color='silver'><h1>V˝stupy</h1></font></button></a>");                  //vystupy
+        client.print("<a href='http://192.168.10.145?menu=5'><button style='background:purple;width:40%;height:80px'><font color='silver'><h1>AktualnÌ Ëas</h1></font></button></a>");  //aktual cas na ardu
+
+        client.println("<title>* EthernetovÈ rozhranÌ pro zavlaûovacÌ systÈm, KoËica Filip ME4 *</title>");
+        client.println("<meta http-equiv='refresh' content='60' >");   // refresh kaûdou minutu
+
+        client.println("</head>");
+        client.println("<body>");
+
+        client.println("<br />");
+        client.println("<h1>");
+        client.println("<center>");
+
+        // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+        int pomocna_promenna = NULL;
+        for (int v = NULL; v <= pocetZnaku(buffer); v++) {
+
+          for (char ch = '0'; ch <= '9' ; ch++) {
+
+            if ((buffer[v] == 'm') && (buffer[v + 1] == 'e') && (buffer[v + 2] == 'n') && (buffer[v + 3] == 'u') && (buffer[v + 4] == '=') && (buffer[v + 5] == ch)) Menu = pomocna_promenna;
+
+            if ((buffer[v] == 'm') && (buffer[v + 1] == 'e') && (buffer[v + 2] == 'n') && (buffer[v + 3] == 'u') && (buffer[v + 4] == '=') && (buffer[v + 5] == '1') && (buffer[v + 6] == ch)) Menu = 10 + pomocna_promenna;
+
+            pomocna_promenna++;
+          }
+          pomocna_promenna = NULL;
+
+          if ((buffer[v] == 'o') && (buffer[v + 1] == 'u') && (buffer[v + 2] == 't') && (buffer[v + 3] == '2') && (buffer[v + 4] == '=') && (buffer[v + 5] == '0')) nastavvystupy1 = false;
+
+          if ((buffer[v] == 'o') && (buffer[v + 1] == 'u') && (buffer[v + 2] == 't') && (buffer[v + 3] == '2') && (buffer[v + 4] == '=') && (buffer[v + 5] == '1')) nastavvystupy1 = true;
+
+          if ((buffer[v] == 'o') && (buffer[v + 1] == 'u') && (buffer[v + 2] == 't') && (buffer[v + 3] == '3') && (buffer[v + 4] == '=') && (buffer[v + 5] == '0')) nastavvystupy2 = false;
+
+          if ((buffer[v] == 'o') && (buffer[v + 1] == 'u') && (buffer[v + 2] == 't') && (buffer[v + 3] == '3') && (buffer[v + 4] == '=') && (buffer[v + 5] == '1')) nastavvystupy2 = true;
+
+          if ((buffer[v] == 'B') && (buffer[v + 1] == 'e') && (buffer[v + 2] == 'h') && (buffer[v + 3] == '=') && (buffer[v + 4] == '0')) {
+            soucasnyBeh = false;
+            zapisEEPROM();
+          }
+        }
+
+        // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+        switch (rezim) {
+          case 0:
+            rezimEEPROM = NULL;
+            break;
+          case 1:
+            rezimEEPROM = 100;
+            break;
+          case 2:
+            rezimEEPROM = 200;
+            break;
+        }
+
+        if ((Menu == 6) || (Menu == 7) || (Menu == 8) || (Menu == 9) || (Menu == 16) || (Menu == 11) || (Menu == 12)) {
+
+
+          //---------------------VYPSANI PO-NE NASTAVENYCH CASU !!!!----------------------------------------------------------------
+
+          int vypisDniNaSit = NULL;
+          if (Menu < 13) vypisDniNaSit = Menu - 6;
+          else vypisDniNaSit = Menu - 12;
+
+          client.println("<input type=button onclick='history.back()' value='ZpÏt'>");
+          client.println("<br />");
+          client.println("<br />");
+
+          switch (vypisDniNaSit) {
+            case 0:
+              client.println("PondÏlÌ ");
+              break;
+            case 1:
+              client.println("⁄ter˝ ");
+              break;
+            case 2:
+              client.println("St¯eda ");
+              break;
+            case 3:
+              client.println("»tvrtek ");
+              break;
+            case 4:
+              client.println("P·tek ");
+              break;
+            case 5:
+              client.println("Sobota ");
+              break;
+            case 6:
+              client.println("NedÏle ");
+              break;
+          }
+
+          client.print("<FORM action='http://192.168.10.145' method='GET'>");
+          client.println("</h1>");
+          client.println("<center>");
+          client.println(dny[vypisDniNaSit].hodiny1);
+          client.println(dny[vypisDniNaSit].hodiny2);
+          client.println(":");
+          client.println(dny[vypisDniNaSit].minuty1);
+          client.println(dny[vypisDniNaSit].minuty2);
+          client.println("  -  ");
+          client.println("<input type='number' style='background:yellow;width:30px' name='q1' min='0' max='23'>");
+          client.println(":");
+          client.println("<input type='number' style='background:yellow;width:30px' name='q2' min='0' max='59'>");
+          client.println("<br />");
+          client.println("<h1>");
+          client.println("1.Okruh");
+          client.println("</h1>");
+          client.println(dny[vypisDniNaSit].min1);
+          client.println(dny[vypisDniNaSit].min10);
+          client.println("  -  ");
+          client.println("<input type='number' style='background:yellow;width:30px' name='q3' min='0' max='99'>");
+          client.println("<br />");
+          client.println("<h1>");
+          client.println("2.Okruh");
+          client.println("</h1>");
+          client.println(dny[vypisDniNaSit].min2);
+          if (vypisDniNaSit == 6) client.println(nedele2);
+          else client.println(dny[vypisDniNaSit].min20);
+          client.println("  -  ");
+          client.println("<input type='number' style='background:yellow;width:30px' name='q4' min='0' max='99'>");
+          client.println("<br />");
+          client.println("<h1>");
+          client.println("S. BÏh je ");
+          if (soucasnyBeh) {
+            client.print("<font color='green'>ZAPNUT›</font>");
+          } else {
+            client.print("<font color='red'>VYPNUT›</font>");
+          }
+          client.print("<FORM action='http://192.168.10.145' method='GET'>");
+          client.print("<P> <INPUT type='radio' name='Beh' value='1'>ON");
+          client.print("<P> <INPUT type='radio' name='Beh' value='0'>OFF");
+          if (soucasnyBeh)
+            client.print("<P> <INPUT type='submit' style='background:red;width:100px;height:50px'> </FORM>");
+          else
+            client.print("<P> <INPUT type='submit' style='background:lightgreen;width:100px;height:50px'> </FORM>");
+
+          for (int v = NULL; v <= pocetZnaku(buffer); v++) {
+
+            //----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+            if ((buffer[v] == 'q') && (buffer[v + 1] == '1') && (buffer[v + 2] == '=') && (buffer[v + 3] != '&') && (buffer[v + 4] == '&')) {   // hodiny 2
+              dny[vypisDniNaSit].hodiny1 = NULL;
+              dny[vypisDniNaSit].hodiny2 = ((int)buffer[v + 3] - 48);
+              dny[vypisDniNaSit].hodinycelk = ((int)buffer[v + 3] - 48);
+              zapisEEPROM();
+              if (vypisMozny) nastaveniNaEthernetu(2000, 0);
+            }
+
+            if ((buffer[v] == 'q') && (buffer[v + 1] == '1') && (buffer[v + 2] == '=') && (buffer[v + 3] != '&') && (buffer[v + 4] != '&') && (buffer[v + 5] == '&')) {   // hodiny 1 + 2
+              dny[vypisDniNaSit].hodiny1 = ((int)buffer[v + 3] - 48);
+              dny[vypisDniNaSit].hodiny2 = ((int)buffer[v + 4] - 48);
+              dny[vypisDniNaSit].hodinycelk = ((10 * ((int)buffer[v + 3] - 48)) + ((int)buffer[v + 4] - 48));
+              zapisEEPROM();
+              if (vypisMozny) nastaveniNaEthernetu(2000, 0);
+            }
+
+            //----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+            if ((buffer[v] == 'q') && (buffer[v + 1] == '2') && (buffer[v + 2] == '=') && (buffer[v + 3] != '&') && (buffer[v + 4] == '&')) {   // minuty 2
+              dny[vypisDniNaSit].minuty1 = NULL;
+              dny[vypisDniNaSit].minuty2 = ((int)buffer[v + 3] - 48);
+              dny[vypisDniNaSit].minutycelk = ((int)buffer[v + 3] - 48);
+              zapisEEPROM();
+              if (vypisMozny) nastaveniNaEthernetu(2000, 0);
+            }
+
+            if ((buffer[v] == 'q') && (buffer[v + 1] == '2') && (buffer[v + 2] == '=') && (buffer[v + 3] != '&') && (buffer[v + 4] != '&') && (buffer[v + 5] == '&')) {   // minuty 1 + 2
+              dny[vypisDniNaSit].minuty1 = ((int)buffer[v + 3] - 48);
+              dny[vypisDniNaSit].minuty2 = ((int)buffer[v + 4] - 48);
+              dny[vypisDniNaSit].minutycelk = ((10 * ((int)buffer[v + 3] - 48)) + ((int)buffer[v + 4] - 48));
+              zapisEEPROM();
+              if (vypisMozny) nastaveniNaEthernetu(2000, 0);
+            }
+
+            //----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+            if ((buffer[v] == 'q') && (buffer[v + 1] == '3') && (buffer[v + 2] == '=') && (buffer[v + 3] != '&') && (buffer[v + 4] == '&')) {   // okruh 10
+              dny[vypisDniNaSit].min1 = NULL;
+              dny[vypisDniNaSit].min10 = ((int)buffer[v + 3] - 48);
+              dny[vypisDniNaSit].min1celk = ((int)buffer[v + 3] - 48);
+              zapisEEPROM();
+              if (vypisMozny) nastaveniNaEthernetu(2000, 0);
+            }
+
+            if ((buffer[v] == 'q') && (buffer[v + 1] == '3') && (buffer[v + 2] == '=') && (buffer[v + 3] != '&') && (buffer[v + 4] != '&')) {   // okruh 1 + 10
+              dny[vypisDniNaSit].min1 = ((int)buffer[v + 3] - 48);
+              dny[vypisDniNaSit].min10 = ((int)buffer[v + 4] - 48);
+              dny[vypisDniNaSit].min1celk = ((10 * ((int)buffer[v + 3] - 48)) + ((int)buffer[v + 4] - 48));
+              zapisEEPROM();
+              if (vypisMozny) nastaveniNaEthernetu(2000, 0);
+            }
+
+            //----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+            if ((buffer[v] == 'q') && (buffer[v + 1] == '4') && (buffer[v + 2] == '=') && ((buffer[v + 3] != '&') && (buffer[v + 3] != ' '))) {                           // okruh 20
+              dny[vypisDniNaSit].min2 = NULL;
+              if (vypisDniNaSit == 6) nedele2 = ((int)buffer[v + 3] - 48);
+              else dny[vypisDniNaSit].min20 = ((int)buffer[v + 3] - 48);
+              zapisEEPROM();
+              if (vypisMozny) nastaveniNaEthernetu(2000, 0);
+            }
+
+            if ((buffer[v] == 'q') && (buffer[v + 1] == '4') && (buffer[v + 2] == '=') && ((buffer[v + 3] != '&') && (buffer[v + 3] != ' ')) && ((buffer[v + 4] != '&') && (buffer[v + 4] != ' '))) { // okruh 2 + 20
+              dny[vypisDniNaSit].min2 = ((int)buffer[v + 3] - 48);
+              if (vypisDniNaSit == 6) nedele2 = ((int)buffer[v + 4] - 48);
+              else dny[vypisDniNaSit].min20 = ((int)buffer[v + 4] - 48);
+              zapisEEPROM();
+              if (vypisMozny) nastaveniNaEthernetu(2000, 0);
+            }
+            //----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+            if ((buffer[v] == 'B') && (buffer[v + 1] == 'e') && (buffer[v + 2] == 'h') && (buffer[v + 3] == '=') && (buffer[v + 4] == '1')) {
+              soucasnyBeh = true;
+              zapisEEPROM();
+              if (vypisMozny) nastaveniNaEthernetu(2000, 0);
+            }
+          }
+          if (!vypisMozny) {
+            lcd.clear();
+            vypisMozny = 1;
+          }
+
+          //---------------------VYPSANI PO-NE NASTAVENYCH CASU !!!!----------------------------------------------------------------
+        }
+
+        switch (Menu) {
+          case 2:
+            client.println("<input type=button onclick='history.back()' value='ZpÏt'>");
+            client.println("<br />");
+            client.println("<br />");
+            client.print("<FORM action='http://192.168.10.145' method='GET'>");
+            client.print("Vlhkost (max 100)");
+            client.println("</h1>");
+            client.println("<center>");
+            client.print(nastvlhkosti);
+            client.println("  -  ");
+            client.println("<input type='number' style='background:yellow;width:30px' name='q5' min='0' max='100'>");
+            client.println("<br />");
+            client.println("<br />");
+            client.println("<h1>");
+            client.print("Hladina (max 100)");
+            client.println("</h1>");
+            client.print(nasthladiny);
+            client.println("  -  ");
+            client.println("<input type='number' style='background:yellow;width:30px' name='q6' min='0' max='100'>");
+            client.println("<br />");
+            client.println("<br />");
+            client.println("<h1>");
+            client.print("Hystereze (max 10)");
+            client.println("</h1>");
+            client.print(nasthystereze);
+            client.println("  -  ");
+            client.println("<input type='number' style='background:yellow;width:30px' name='q7' min='0' max='10'>");
+            client.println("<br />");
+            client.println("<br />");
+            client.println("<h1>");
+            client.print("Limit Displaye");
+            client.println("</h1>");
+            client.print(limitdisplaye);
+            client.println("  -  ");
+            client.println("<input type='number' style='background:yellow;width:38px' name='q8' min='1' max='60'>");
+            client.println("<br />");
+            client.print("<P> <INPUT type='submit' style='background:silver;width:100px;height:50px'> </FORM>");
+            client.println("<br />");
+
+            for (int v = NULL; v <= pocetZnaku(buffer); v++) {
+
+              //----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+              if ((buffer[v] == 'q') && (buffer[v + 1] == '5') && (buffer[v + 2] == '=') && (buffer[v + 3] != '&') && (buffer[v + 4] == '&')) {   // nast vlhkosti 1
+                nastvlhkosti = ((int)buffer[v + 3] - 48);
+                zapisEEPROM();
+                if (vypisMozny) nastaveniNaEthernetu(2000, 0);
+              }
+
+              if ((buffer[v] == 'q') && (buffer[v + 1] == '5') && (buffer[v + 2] == '=') && (buffer[v + 3] != '&') && (buffer[v + 4] != '&')) {   // nast vlhkosti 1 + 2
+                nastvlhkosti = ((10 * ((int)buffer[v + 3] - 48)) + ((int)buffer[v + 4] - 48));
+                zapisEEPROM();
+                if (vypisMozny) nastaveniNaEthernetu(2000, 0);
+              }
+
+              if ((buffer[v] == 'q') && (buffer[v + 1] == '5') && (buffer[v + 2] == '=') && (buffer[v + 3] != ' ') && (buffer[v + 4] != ' ') && (buffer[v + 5] != ' ') && (buffer[v + 6] == '&')) {   // nast vlhkosti 1 + 2 + 3
+                nastvlhkosti = ((100 * ((int)buffer[v + 3] - 48)) + (10 * ((int)buffer[v + 4] - 48)) + ((int)buffer[v + 5] - 48));
+                zapisEEPROM();
+                if (vypisMozny) nastaveniNaEthernetu(2000, 0);
+              }
+
+              //----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+              if ((buffer[v] == 'q') && (buffer[v + 1] == '6') && (buffer[v + 2] == '=') && (buffer[v + 3] != '&') && (buffer[v + 4] == '&')) {   // nast hladiny 1
+                nasthladiny = ((int)buffer[v + 3] - 48);
+                zapisEEPROM();
+                if (vypisMozny) nastaveniNaEthernetu(2000, 0);
+              }
+
+              if ((buffer[v] == 'q') && (buffer[v + 1] == '6') && (buffer[v + 2] == '=') && (buffer[v + 3] != '&') && (buffer[v + 4] != '&')) {   // nast hladiny 1 + 2
+                nasthladiny = ((10 * ((int)buffer[v + 3] - 48)) + ((int)buffer[v + 4] - 48));
+                zapisEEPROM();
+                if (vypisMozny) nastaveniNaEthernetu(2000, 0);
+              }
+
+              if ((buffer[v] == 'q') && (buffer[v + 1] == '6') && (buffer[v + 2] == '=') && (buffer[v + 3] != ' ') && (buffer[v + 4] != ' ') && (buffer[v + 5] != ' ') && (buffer[v + 6] == '&')) {   // nast hladiny 1 + 2 + 3
+                nasthladiny = ((100 * ((int)buffer[v + 3] - 48)) + (10 * ((int)buffer[v + 4] - 48)) + ((int)buffer[v + 5] - 48));
+                zapisEEPROM();
+                if (vypisMozny) nastaveniNaEthernetu(2000, 0);
+              }
+
+              //----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+              if ((buffer[v] == 'q') && (buffer[v + 1] == '7') && (buffer[v + 2] == '=') && (buffer[v + 3] != '&') && (buffer[v + 4] == '&')) {   // nast hystereze 1
+                nasthystereze = ((int)buffer[v + 3] - 48);
+                zapisEEPROM();
+                if (vypisMozny) nastaveniNaEthernetu(2000, 0);
+              }
+
+              if ((buffer[v] == 'q') && (buffer[v + 1] == '7') && (buffer[v + 2] == '=') && (buffer[v + 3] != '&') && (buffer[v + 4] != '&')) {   // nast hystereze 1 + 2
+                nasthystereze = ((10 * ((int)buffer[v + 3] - 48)) + ((int)buffer[v + 4] - 48));
+                zapisEEPROM();
+                if (vypisMozny) nastaveniNaEthernetu(2000, 0);
+              }
+
+              //----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+              if ((buffer[v] == 'q') && (buffer[v + 1] == '8') && (buffer[v + 2] == '=') && (buffer[v + 3] != ' ') && (buffer[v + 4] == ' ')) {   // nast limitu displaye 1
+                limitdisplaye = ((int)buffer[v + 3] - 48);
+                if ((limitdisplaye == 1) || (limitdisplaye == 2) || (limitdisplaye == 3) || (limitdisplaye == 5) || (limitdisplaye == 10) || (limitdisplaye == 15) || (limitdisplaye == 30) || (limitdisplaye == 45) || (limitdisplaye == 60)) {
+                  zapisEEPROM();
+                  if (vypisMozny) nastaveniNaEthernetu(2000, 0);
+                }
+                else
+                  prectiEEPROM();
+              }
+
+              if ((buffer[v] == 'q') && (buffer[v + 1] == '8') && (buffer[v + 2] == '=') && (buffer[v + 3] != ' ') && (buffer[v + 4] != '&') && (buffer[v + 5] == ' ')) {   // nast limitu displaye 1 + 2
+                limitdisplaye = ((10 * ((int)buffer[v + 3] - 48)) + ((int)buffer[v + 4] - 48));
+                if ((limitdisplaye == 1) || (limitdisplaye == 2) || (limitdisplaye == 3) || (limitdisplaye == 5) || (limitdisplaye == 10) || (limitdisplaye == 15) || (limitdisplaye == 30) || (limitdisplaye == 45) || (limitdisplaye == 60)) {
+                  zapisEEPROM();
+                  if (vypisMozny) nastaveniNaEthernetu(2000, 0);
+                }
+                else
+                  prectiEEPROM();
+              }
+
+              //----------------------------------------------------------------------------------------------------------------------------------------------------------------
+            }
+            if (!vypisMozny) {
+              lcd.clear();
+              vypisMozny = 1;
+            }
+            break;
+
+          case 3:
+            client.println("<input type=button onclick='history.back()' value='ZpÏt'>");
+            client.println("<br />");
+            client.println("<br />");
+
+            //------------------------ zobrazeni vlhkosti a hladiny a jestli je podminka splnena nebo ne -----------------------------
+            client.print("Nast. Vlhkost: ");
+            client.print(nastvlhkosti);
+            client.print("%");
+            client.println("<br />");
+
+            client.print("MÏ¯en· Vlhkost: ");
+            client.print(AN2);
+            client.print("%");
+            client.println("<br />");
+
+            if ((AN2 - nasthystereze) < nastvlhkosti) {
+              client.print("<font color='green'>PODMÕNKA SPLNÃNA</font>");
+            } else {
+              client.print("<font color='red'>PODMÕNKA NESPLNÃNA</font>");
+            }
+
+            client.println("<br />");
+            client.println("<br />");
+
+            client.print("Nast. Hladina: ");
+            client.print(nasthladiny);
+            client.print("%");
+            client.println("<br />");
+
+            client.print("MÏ¯en· Hladina: ");
+            client.print(AN1);
+            client.print("%");
+            client.println("<br />");
+
+            if (AN1 > (nasthladiny - nasthystereze)) {
+              client.print("<font color='green'>PODMÕNKA SPLNÃNA</font>");
+            } else {
+              client.print("<font color='red'>PODMÕNKA NESPLNÃNA</font>");
+            }
+
+            client.println("<br />");
+            client.println("<br />");
+
+            client.print("Hystereze: ");
+            client.print(nasthystereze);
+            client.print("%");
+            client.println("<br />");
+
+            client.print("Limit Displaye: ");
+            client.print(limitdisplaye);
+            client.print("m");
+            client.println("<br />");
+            //------------------------- zobrazeni vlhkosti a hladiny a jestli je podminka splnena nebo ne -----------------------------
+
+            break;
+
+          case 4:
+            client.println("<input type=button onclick='history.back()' value='ZpÏt'>");
+            client.println("<br />");
+            client.println("<br />");
+
+            // ------------ VYSTUPY ---------------------------------------------------------------------------------------
+            client.print("OUT 1 ");
+            if (((nastavvystupy1 == true) || ((soucasnyBehVystupy == 2) && ((kteryVystup == NULL) || (kteryVystup == 1))) || (soucasnyBehVystupy == 1) || (nastavvystupy2 == true)) || ((nastav_vystup[0] == 1) || (nastav_vystup[1] == 1) || (nastav_vystup[2] == 1) || (nastav_vystup[3] == 1) || (nastav_vystup[4] == 1) || (nastav_vystup[5] == 1) || (nastav_vystup[6] == 1)) || ((nastav_vystup[0] == 2) || (nastav_vystup[1] == 2) || (nastav_vystup[2] == 2) || (nastav_vystup[3] == 2) || (nastav_vystup[4] == 2) || (nastav_vystup[5] == 2) || (nastav_vystup[6] == 2)))
+              client.print("je <font color='green'>ZAPNUT›</font>");
+            else
+              client.print("je <font color='red'>VYPNUT›</font>");
+            client.println("<br />");
+            client.println("<br />");
+
+            client.print("OUT 2 ");
+            if ((nastav_vystup[0] == 1) || ((soucasnyBehVystupy == 2) && kteryVystup == NULL) || (soucasnyBehVystupy == 1) || (nastav_vystup[1] == 1) || (nastav_vystup[2] == 1) || (nastav_vystup[3] == 1) || (nastav_vystup[4] == 1) || (nastav_vystup[5] == 1) || (nastav_vystup[6] == 1) || (nastavvystupy1 == true))
+              client.print("je <font color='green'>ZAPNUT›</font>");
+            else
+              client.print("je <font color='red'>VYPNUT›</font>");
+
+            client.println("<br />");
+            client.print("<FORM action='http://192.168.10.145' method='GET'>");
+            client.print("<P> <INPUT type='radio' name='out2' value='1'>ON");
+            client.print("<P> <INPUT type='radio' name='out2' value='0'>OFF");
+            if (nastavvystupy1)
+              client.print("<P> <INPUT type='submit' style='background:red;width:100px;height:50px'> </FORM>");
+            else
+              client.print("<P> <INPUT type='submit' style='background:lightgreen;width:100px;height:50px'> </FORM>");
+
+            client.print("OUT 3 ");
+            if ((nastav_vystup[0] == 2) || ((soucasnyBehVystupy == 2) && kteryVystup == 1) || (soucasnyBehVystupy == 1) || (nastav_vystup[1] == 2) || (nastav_vystup[2] == 2) || (nastav_vystup[3] == 2) || (nastav_vystup[4] == 2) || (nastav_vystup[5] == 2) || (nastav_vystup[6] == 2) || (nastavvystupy2 == true))
+              client.print("je <font color='green'>ZAPNUT›</font>");
+            else
+              client.print("je <font color='red'>VYPNUT›</font>");
+            client.println("<br />");
+            client.print("<FORM action='http://192.168.10.145' method='GET'>");
+            client.print("<P> <INPUT type='radio' name='out3' value='1'>ON");
+            client.print("<P> <INPUT type='radio' name='out3' value='0'>OFF");
+            if (nastavvystupy2)
+              client.print("<P> <INPUT type='submit' style='background:red;width:100px;height:50px'> </FORM>");
+            else
+              client.print("<P> <INPUT type='submit' style='background:lightgreen;width:100px;height:50px'> </FORM>");
+            //--------------------------------------------------------------------------------------------------------------
+
+            break;
+
+          case 5:
+
+            //---------AKTUALNI CAS ----------------------------------------------------------------------------------------
+
+            client.println("<input type=button onclick='history.back()' value='ZpÏt'>");
+            client.println("<br />");
+            client.println("<br />");
+
+            cteniORC(&sekundy, &minuty, &hodiny, &denVTydnu, &denVMesici);
+
+            switch (denVTydnu) {
+              case 1:
+                client.println("PondÏlÌ, ");
+                break;
+              case 2:
+                client.println("⁄ter˝, ");
+                break;
+              case 3:
+                client.println("St¯eda, ");
+                break;
+              case 4:
+                client.println("»tvrtek, ");
+                break;
+              case 5:
+                client.println("P·tek, ");
+                break;
+              case 6:
+                client.println("Sobota, ");
+                break;
+              case 7:
+                client.println("NedÏle, ");
+                break;
+            }
+
+            client.println(hodiny);
+            client.println(":");
+            client.println(minuty);
+            client.println(":");
+            client.println(sekundy);
+            client.println(".");
+            client.println("<br />");
+
+            client.println("<h3>");
+
+            client.print("<FORM action='http://192.168.10.145' method='GET'>");
+
+            client.println("<input type='number' style='background:yellow;width:30px' name='q9' min='0' max='23'>");
+            client.println("  :  ");
+            client.println("<input type='number' style='background:yellow;width:30px' name='q0' min='0' max='59'>");
+
+            // --------------------------------------------------------------------------------
+
+            client.print("<P> <INPUT type='radio' name='denVTydnu' value='1'>Po");
+            client.print("<P> <INPUT type='radio' name='denVTydnu' value='2'>⁄t");
+            client.print("<P> <INPUT type='radio' name='denVTydnu' value='3'>St");
+            client.print("<P> <INPUT type='radio' name='denVTydnu' value='4'>»t");
+            client.print("<P> <INPUT type='radio' name='denVTydnu' value='5'>P·");
+            client.print("<P> <INPUT type='radio' name='denVTydnu' value='6'>So");
+            client.print("<P> <INPUT type='radio' name='denVTydnu' value='7'>Ne");
+
+            // --------------------------------------------------------------------------------
+
+            client.print("<P> <INPUT type='submit' style='background:silver;width:100px;height:50px'> </FORM>");
+
+            for (int v = NULL; v <= pocetZnaku(buffer); v++) {
+
+              //----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+              if ((buffer[v] == 'q') && (buffer[v + 1] == '9') && (buffer[v + 2] == '=') && (buffer[v + 3] != '&') && (buffer[v + 4] == '&')) {   // nast hodiny 1
+                nastavORC[5] = ((int)buffer[v + 3] - 48);
+                zapisORC(00, nastavORC[6], nastavORC[5], nastavORC[7], 12);
+                if (vypisMozny) nastaveniNaEthernetu(2000, 1);
+              }
+
+              if ((buffer[v] == 'q') && (buffer[v + 1] == '9') && (buffer[v + 2] == '=') && (buffer[v + 3] != '&') && (buffer[v + 4] != '&')) {   // nast hodiny 1 + 2
+                nastavORC[5] = ((10 * ((int)buffer[v + 3] - 48)) + ((int)buffer[v + 4] - 48));
+                zapisORC(00, nastavORC[6], nastavORC[5], nastavORC[7], 12);
+                if (vypisMozny) nastaveniNaEthernetu(2000, 1);
+              }
+
+              //----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+              if ((buffer[v] == 'q') && (buffer[v + 1] == '0') && (buffer[v + 2] == '=') && (buffer[v + 3] != '&') && ((buffer[v + 4] == '&') || (buffer[v + 4] == ' '))) {   // nast minuty 1
+                nastavORC[6] = ((int)buffer[v + 3] - 48);
+                zapisORC(00, nastavORC[6], nastavORC[5], nastavORC[7], 12);
+                if (vypisMozny) nastaveniNaEthernetu(2000, 1);
+              }
+
+              if ((buffer[v] == 'q') && (buffer[v + 1] == '0') && (buffer[v + 2] == '=') && (buffer[v + 3] != '&') && (buffer[v + 4] != '&')) {   // nast minuty 1 + 2
+                nastavORC[6] = ((10 * ((int)buffer[v + 3] - 48)) + ((int)buffer[v + 4] - 48));
+                zapisORC(00, nastavORC[6], nastavORC[5], nastavORC[7], 12);
+                if (vypisMozny) nastaveniNaEthernetu(2000, 1);
+              }
+
+              //----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+              if ((buffer[v] == 'd') && (buffer[v + 1] == 'n') && (buffer[v + 2] == 'u') && (buffer[v + 3] == '=') && (buffer[v + 4] != ' ')) {   // nast dne
+                cteniORC(&sekundy, &minuty, &hodiny, &denVTydnu, &denVMesici);
+                nastavORC[6] = minuty;
+                nastavORC[5] = hodiny;
+                nastavORC[7] = ((int)buffer[v + 4] - 48);
+                zapisORC(00, nastavORC[6], nastavORC[5], nastavORC[7], 12);
+                if (vypisMozny) nastaveniNaEthernetu(2000, 1);
+              }
+              //----------------------------------------------------------------------------------------------------------------------------------------------------------------
+            }
+            vypisMozny = 1;
+            client.println("</h3>");
+
+            //--------------------------------------------------------------------------------------------------------------
+
+            break;
+
+          case 13:
+            client.println("<input type=button onclick='history.back()' value='ZpÏt'>");
+            client.println("<br />");
+
+            client.print("<font color='green'>NastavenÌ Reûimu + Kalibrace</font>");
+
+            client.print("<FORM action='http://192.168.10.145' method='GET'>");
+
+            // --------------------------------------------------------------------------------
+
+            client.print("<P> <INPUT type='radio' name='rezim' value='0'>NORMAL");
+            client.print("<P> <INPUT type='radio' name='rezim' value='1'>SUCHO");
+            client.print("<P> <INPUT type='radio' name='rezim' value='2'>VLHKO");
+
+            client.println("<br />");
+            client.println("<br />");
+
+            client.print("<P> <INPUT type='radio' name='kalibrace' value='0'>Kalibrace VLHKOST");
+            client.print("<P> <INPUT type='radio' name='kalibrace' value='1'>Kalibrace HLADINA");
+
+            // --------------------------------------------------------------------------------
+
+            client.print("<P> <INPUT type='submit' style='background:silver;width:100px;height:50px'> </FORM>");
+
+
+            for (int v = NULL; v <= pocetZnaku(buffer); v++) {
+              if ((buffer[v] == 'z') && (buffer[v + 1] == 'i') && (buffer[v + 2] == 'm') && (buffer[v + 3] == '=') && (buffer[v + 4] != ' ')) {   // nast rezimu
+                rezim = ((int)buffer[v + 4] - 48);
+                prectiEEPROM();
+                nastaveniNaEthernetu(2000, 2);
+              }
+
+              if ((buffer[v] == 'a') && (buffer[v + 1] == 'c') && (buffer[v + 2] == 'e') && (buffer[v + 3] == '=') && (buffer[v + 4] != ' ')) {   // kalibrace
+
+                int kalibrace = ((int)buffer[v + 4] - 48);
+
+                if (!kalibrace)
+                {
+                  nastaveniNaEthernetu(2000, 3);
+                  digitalWrite(A13, HIGH);
+                  kalibraceVlhkost = analogRead(A12);
+                }
+                else
+                {
+                  nastaveniNaEthernetu(2000, 4);
+                  double dobaTrvaniPulzu = 0;
+                  pinMode(A14, OUTPUT);
+                  digitalWrite(A14, LOW);
+                  delayMicroseconds(2);
+                  digitalWrite(A14, HIGH);
+                  delayMicroseconds(5);
+                  digitalWrite(A14, LOW);
+                  pinMode(A14, INPUT);
+
+                  dobaTrvaniPulzu = pulseIn(A14, HIGH, 100000);                  // p¯eddefinovan· fce pulseIn vr·tÌ do promÏnnÈ dobaTrvaniPulzu v˝sledek mÏ¯enÌ ten pak d·le p¯evedeme.
+                  kalibraceHladina = (dobaTrvaniPulzu / 74 / 2) * 25;            // p¯evedeme na MILIMETRY
+                }
+
+                zapisEEPROM();
+              }
+            }
+            break;
+        }
+
+        client.println("</body>");
+        client.println("</html>");
+        client.stop();
+      }
+    }
+  }
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void zpozdeni(int doba)
+{
+
+  bez_znamenka long aktual;
+  aktual = millis();
+  aktual += doba;
+
+  while (millis() < aktual) {
+    char tlacitko = stisknutiTlacitka.getKey();
+    if (((!Binarnivstup1) && (!pozastavPoruchu)) || (tlacitko == 'C')) break;
+    if (irrecv.decode(&results))
+    {
+      if (results.value == hvezda)
+        break;
+      irrecv.resume();
+    }
+  }
+  irrecv.resume();
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void nastaveniNaEthernetu(int doba, int ktereZobrazeni)
+{
+  for (int w = 1; w < 3; w++)   refresh[w] = true;
+
+  if (!ktereZobrazeni) {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("********************");
+    lcd.setCursor(7, 1);
+    lcd.print("ULOZENO");
+    lcd.setCursor(9, 2);
+    lcd.print("Do");
+    lcd.setCursor(3, 3);
+    lcd.print("Pameti EEPROM!");
+    zpozdeni(doba);
+  }
+
+  else if (ktereZobrazeni == 1) {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("********************");
+    lcd.setCursor(7, 1);
+    lcd.print("ULOZENO");
+    lcd.setCursor(9, 2);
+    lcd.print("Do");
+    lcd.setCursor(0, 3);
+    lcd.print("Obvodu Realneho Casu");
+    zpozdeni(doba);
+    lcd.clear();
+  }
+
+  else if (ktereZobrazeni == 2) {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("* PROBIHA APLIKACE *");
+    lcd.setCursor(3, 1);
+    lcd.print("* ULOZENEHO *");
+    lcd.setCursor(4, 2);
+    lcd.print("* REZIMU *");
+    zpozdeni(doba);
+    lcd.clear();
+  }
+
+  else if (ktereZobrazeni == 3) {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("*KALIBRACE VLHKOSTI*");
+    zpozdeni(doba);
+    lcd.clear();
+  }
+
+  else if (ktereZobrazeni == 4) {
+    lcd.clear();
+    lcd.setCursor(0, 1);
+    lcd.print("*KALIBRACE  HLADINY*");
+    zpozdeni(doba);
+    lcd.clear();
+  }
+  vypisMozny = 0;
+  irrecv.resume();
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+int Zapouzdreni_dat::vyberRezim()
+{
+
+  irrecv.resume();
+  x = NULL;
+  y = 1;
+  lcd.clear();
+  EEPROM.write(2 + rezimEEPROM, 1);
+  for (;;) {
+
+    ethernet();
+    if (vypnoutVystupy()) break;
+    pocitaniLitru(11, 12, 13, 14, 15);
+
+    Binarnivstup1 = nactiPort(A11);
+    if ((!Binarnivstup1) && (!pozastavPoruchu)) break;
+
+    if ((millis() / 1000) > (cas2 + (60 * limitdisplaye))) {
+      lcd.noBacklight();
+      //zadaniHesla(9, 1);                                                            // zavol· proceduru, ve kterÈ uûivatel musÌ zadat spr·vnÈ heslo, jinak jej nevpustÌ do systÈmu
+    }
+
+    lcd.setCursor(0, 0);
+    lcd.print("* NASTAVENI REZIMU *");
+    lcd.setCursor(1, 1);
+    lcd.print("NORMAL");
+    lcd.setCursor(1, 2);
+    lcd.print("SUCHO");
+    lcd.setCursor(1, 3);
+    lcd.print("VLHKO");
+
+    lcd.setCursor(17, rezim + 1);
+    lcd.print("(A)");
+
+    lcd.setCursor(x, y);
+    lcd.write(byte(3));
+
+    char tlacitko = stisknutiTlacitka.getKey();
+
+    if ((tlacitko) || (irrecv.decode(&results))) {
+
+      if (tlacitko) results.value = 0xFFFFFFF;
+
+      cas2 = millis() / 1000;
+      lcd.backlight();
+
+      if ((tlacitko == 'A') || (results.value == krizek)) {
+        blokaceSystemu();      // zablokuje systÈm dokud se nezm·Ëkne F1
+      }
+
+      if ((tlacitko == '^') || (results.value == nahoru)) {
+        lcd.setCursor(x, y);
+        lcd.print(" ");
+        if (y > 0) y--;
+        if (y == NULL) y = 3;
+        zpozdeni(50);
+      }
+
+      if ((tlacitko == 'v') || (results.value == dolu)) {
+        lcd.setCursor(x, y);
+        lcd.print(" ");
+        if (y < 4) y++;
+        if (y == 4) y = 1;
+        zpozdeni(50);
+      }
+
+      if ((tlacitko == 'C') || (results.value == hvezda)) {
+        lcd.clear();
+        x = 16;
+        y = 1;
+        break;
+      }
+
+      if ((tlacitko == 'E') || (results.value == ok)) {
+
+        nastaveniNaEthernetu(2000, 2);
+
+        rezim = y - 1;
+
+        switch (rezim) {
+          case 0:
+            rezimEEPROM = NULL;
+            break;
+          case 1:
+            rezimEEPROM = 100;
+            break;
+          case 2:
+            rezimEEPROM = 200;
+            break;
+        }
+
+        x = 16;
+        y = 1;
+
+        lcd.clear();
+        break;
+      }
+      irrecv.resume();
+    }
+  }
+  return rezim;
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void Zapouzdreni_dat::limit()
+{
+  if  (zhasnuti >= (60 * limitdisplaye)) {
+    lcd.noBacklight();
+    //zadaniHesla(9, 1);                                                            // zavol· proceduru, ve kterÈ uûivatel musÌ zadat spr·vnÈ heslo, jinak jej nevpustÌ do systÈmu
+    zhasnuti = 0;
+  }
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void Zapouzdreni_dat::kalibrace()
+{
+
+  irrecv.resume();
+  int poziceY = 1;
+  lcd.clear();
+
+  for (;;)
+  {
+    lcd.setCursor(0, 0);
+    lcd.print("*KALIBRACE VLHKOSTI*");
+
+    lcd.setCursor(2, 1);
+    lcd.print("KALIBRUJ!");
+
+    lcd.setCursor(0, 2);
+    lcd.print("*KALIBRACE HLADINY *");
+
+    lcd.setCursor(2, 3);
+    lcd.print("KALIBRUJ!");
+
+    ethernet();
+    if (vypnoutVystupy()) break;
+    pocitaniLitru(11, 12, 13, 14, 15);
+
+    Binarnivstup1 = nactiPort(A11);
+    if ((!Binarnivstup1) && (!pozastavPoruchu)) break;
+
+    if ((millis() / 1000) > (cas2 + (60 * limitdisplaye))) {
+      lcd.noBacklight();
+      //zadaniHesla(9, 1);                                                            // zavol· proceduru, ve kterÈ uûivatel musÌ zadat spr·vnÈ heslo, jinak jej nevpustÌ do systÈmu
+    }
+
+    lcd.setCursor(0, poziceY);
+    lcd.write(byte(3));
+
+    char tlacitko = stisknutiTlacitka.getKey();
+
+    if ((tlacitko) || (irrecv.decode(&results))) {
+
+      if (tlacitko) results.value = 0xFFFFFFF;
+
+      cas2 = millis() / 1000;
+      lcd.backlight();
+
+      if ((tlacitko == 'A') || (results.value == krizek)) {
+        blokaceSystemu();      // zablokuje systÈm dokud se nezm·Ëkne F1
+      }
+
+      if ((tlacitko == '^') || (results.value == nahoru)) {
+        if (poziceY == 3) {
+          lcd.setCursor(0, 3);
+          lcd.print(" ");
+          poziceY = 1;
+        }
+        else if (poziceY == 1) {
+          lcd.setCursor(0, 1);
+          lcd.print(" ");
+          poziceY = 3;
+        }
+        zpozdeni(50);
+      }
+
+      if ((tlacitko == 'v') || (results.value == dolu)) {
+        if (poziceY == 1) {
+          lcd.setCursor(0, 1);
+          lcd.print(" ");
+          poziceY = 3;
+        }
+        else if (poziceY == 3) {
+          lcd.setCursor(0, 3);
+          lcd.print(" ");
+          poziceY = 1;
+        }
+        zpozdeni(50);
+      }
+
+      if ((tlacitko == 'C') || (results.value == hvezda)) {
+        lcd.clear();
+        break;
+      }
+
+      if ((tlacitko == 'E') || (results.value == ok)) {
+        lcd.clear();
+        lcd.setCursor(0, 1);
+        lcd.print("*KALIBRACE");
+
+        if (poziceY == 1) {
+          digitalWrite(A13, HIGH);
+          kalibraceVlhkost = analogRead(A12);
+          lcd.print(" VLHKOSTI*");
+        }
+
+        if (poziceY == 3) {
+          lcd.print("  HLADINY*");
+
+          double dobaTrvaniPulzu = 0;
+          pinMode(A14, OUTPUT);
+          digitalWrite(A14, LOW);
+          delayMicroseconds(2);
+          digitalWrite(A14, HIGH);
+          delayMicroseconds(5);
+          digitalWrite(A14, LOW);
+          pinMode(A14, INPUT);
+
+          dobaTrvaniPulzu = pulseIn(A14, HIGH, 100000);                  // p¯eddefinovan· fce pulseIn vr·tÌ do promÏnnÈ dobaTrvaniPulzu v˝sledek mÏ¯enÌ ten pak d·le p¯evedeme.
+          kalibraceHladina = (dobaTrvaniPulzu / 74 / 2) * 25;            // p¯evedeme na MILIMETRY
+        }
+
+        zapisEEPROM();
+
+        zpozdeni(2000);
+        break;
+      }
+      irrecv.resume();
+    }
+  }
+  lcd.clear();
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void blokaceSystemu() {
+  irrecv.resume();
+  lcd.setCursor(0, 0);
+  lcd.print("********************");
+  lcd.setCursor(0, 1);
+  lcd.print("     SYSTEM JE      ");
+  lcd.setCursor(0, 2);
+  lcd.print("    ! BLOKOVAN !    ");
+  lcd.setCursor(0, 3);
+  lcd.print("********************");
+
+  for (int w = 0; w < 4; w++)
+    digitalWrite(rele[w], LOW);
+
+  while (1) {                                       // nekoneËn˝ cyklus
+    char tlacitko = stisknutiTlacitka.getKey();
+    if (tlacitko == 'A') break;
+    if (irrecv.decode(&results))
+    {
+      if (results.value == krizek)
+        break;
+      irrecv.resume();
+    }
+  }
+
+  lcd.clear();
+  for (int w = 0; w < 2; w++)
+    refresh[w] = true;
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void Zapouzdreni_dat::nactiVstupy(int analogvstup1, int analogvstup2, int cteniVstupu1, int cteniVstupu2)
+{
+  double dobaTrvaniPulzu = 0;
+
+  pinMode(analogvstup2, INPUT);                     // Analogove vstupy
+  pinMode(cteniVstupu2, OUTPUT);                    // Tyto v˝stupy se p¯epnou do log. "1" pouze p¯i ËtenÌ vstup˘,pak se nastavÌ zpÏt na log. "0".
+  digitalWrite(cteniVstupu2, HIGH);                 // na snÌmaËe p¯ivede +5V
+
+  pinMode(analogvstup1, OUTPUT);
+  digitalWrite(analogvstup1, LOW);
+  delayMicroseconds(2);
+  digitalWrite(analogvstup1, HIGH);
+  delayMicroseconds(5);
+  digitalWrite(analogvstup1, LOW);
+  pinMode(analogvstup1, INPUT);
+
+  dobaTrvaniPulzu = pulseIn(analogvstup1, HIGH, 100000);    // p¯eddefinovan· fce pulseIn vr·tÌ do promÏnnÈ dobaTrvaniPulzu v˝sledek mÏ¯enÌ ten pak d·le p¯evedeme.
+  AN1 = (dobaTrvaniPulzu / 74 / 2) * 25;                    // p¯evedeme na MILIMETRY
+  AN1 = map(AN1, 127.5, kalibraceHladina, 0, 100);         // p¯eddefinovan· fce map rozdÏlÌ 1. parametr v rozmezÌ od 2. parametru do 3. parametru na 0-100%.
+
+  AN2 = analogRead(analogvstup2);
+  AN2 = map(AN2 / 20, 0, kalibraceVlhkost, 0, 100);
+
+  digitalWrite(cteniVstupu2, LOW);                  // a zase p¯ivede 0V
+
+  if (AN1 > 100) AN1 = 100;                         // pokud je vetsi nez 100% nastavi se na 100%.
+  else if (AN1 < 0) AN1 = 0;                        // pokud je mensi nez 0%   nastavi se na 0%.
+  if (AN2 > 100) AN2 = 100;
+  else if (AN2 <= 5) AN2 = 0;
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+int Zapouzdreni_dat::zadaniHesla(int adresaPamet, int zadejNeboZmen) {
+
+  irrecv.resume();
+  int poziceKurzoru = NULL;
+  lcd.clear();
+  int zadaneHeslo[] = {10, 10, 10, 10};
+
+  lcd.setCursor(7, 3);
+  lcd.print("xxxx");
+
+  for (;;) {
+    if (zadejNeboZmen == 2) {
+      lcd.setCursor(5, 2);
+      lcd.print("NOVE HESLO");
+    }
+    else if (!zadejNeboZmen) {
+      lcd.setCursor(4, 2);
+      lcd.print("STARE HESLO");
+    }
+
+    ethernet();
+    if (vypnoutVystupy()) break;
+
+    Binarnivstup1 = nactiPort(A11);
+    if ((!Binarnivstup1) && (!pozastavPoruchu)) {
+      hlaseniPoruchy(nastavvystupy1, nastavvystupy2, Binarnivstup1, i);
+      lcd.clear();
+      digitalWrite(53, LOW);
+    }
+
+    if ((millis() / 1000) > (cas2 + (60 * limitdisplaye))) {
+      lcd.noBacklight();
+    }
+
+    char tlacitko = stisknutiTlacitka.getKey();
+
+    lcd.setCursor(1, 0);
+    lcd.print("ZADEJTE HESLO + ENT");
+
+    switch (poziceKurzoru) {
+      case 0:
+        lcd.setCursor(10, 3);
+        if (zadaneHeslo[3] != 10) lcd.print(zadaneHeslo[3]);
+        else lcd.print("x");
+        lcd.setCursor(9, 3);
+        if (zadaneHeslo[2] != 10) lcd.print(zadaneHeslo[2]);
+        else lcd.print("x");
+        lcd.setCursor(8, 3);
+        if (zadaneHeslo[1] != 10) lcd.print(zadaneHeslo[1]);
+        else lcd.print("x");
+        break;
+      case 1:
+        lcd.setCursor(7, 3);
+        if (zadaneHeslo[0] != 10) lcd.print(zadaneHeslo[0]);
+        else lcd.print("x");
+        lcd.setCursor(9, 3);
+        if (zadaneHeslo[2] != 10) lcd.print(zadaneHeslo[2]);
+        else lcd.print("x");
+        lcd.setCursor(10, 3);
+        if (zadaneHeslo[3] != 10) lcd.print(zadaneHeslo[3]);
+        else lcd.print("x");
+        break;
+      case 2:
+        lcd.setCursor(7, 3);
+        if (zadaneHeslo[0] != 10) lcd.print(zadaneHeslo[0]);
+        else lcd.print("x");
+        lcd.setCursor(8, 3);
+        if (zadaneHeslo[1] != 10) lcd.print(zadaneHeslo[1]);
+        else lcd.print("x");
+        lcd.setCursor(10, 3);
+        if (zadaneHeslo[3] != 10) lcd.print(zadaneHeslo[3]);
+        else lcd.print("x");
+        break;
+      case 3:
+        lcd.setCursor(7, 3);
+        if (zadaneHeslo[0] != 10) lcd.print(zadaneHeslo[0]);
+        else lcd.print("x");
+        lcd.setCursor(8, 3);
+        if (zadaneHeslo[1] != 10) lcd.print(zadaneHeslo[1]);
+        else lcd.print("x");
+        lcd.setCursor(9, 3);
+        if (zadaneHeslo[2] != 10) lcd.print(zadaneHeslo[2]);
+        else lcd.print("x");
+        break;
+    }
+
+    if ((millis() > cekej + 500) && (millis() < cekej + 1000)) {
+      switch (poziceKurzoru) {
+        case 0:
+          lcd.setCursor(7, 3);
+          lcd.write(byte(4));
+          break;
+        case 1:
+          lcd.setCursor(8, 3);
+          lcd.write(byte(4));
+          break;
+        case 2:
+          lcd.setCursor(9, 3);
+          lcd.write(byte(4));
+          break;
+        case 3:
+          lcd.setCursor(10, 3);
+          lcd.write(byte(4));
+          break;
+      }
+    }
+
+    if ((millis() > cekej + 1) && (millis() < cekej + 500)) {
+      switch (poziceKurzoru) {
+        case 0:
+          lcd.setCursor(7, 3);
+          if (zadaneHeslo[0] != 10) lcd.print(zadaneHeslo[0]);
+          else lcd.print("x");
+          break;
+        case 1:
+          lcd.setCursor(8, 3);
+          if (zadaneHeslo[1] != 10) lcd.print(zadaneHeslo[1]);
+          else lcd.print("x");
+          break;
+        case 2:
+          lcd.setCursor(9, 3);
+          if (zadaneHeslo[2] != 10) lcd.print(zadaneHeslo[2]);
+          else lcd.print("x");
+          break;
+        case 3:
+          lcd.setCursor(10, 3);
+          if (zadaneHeslo[3] != 10) lcd.print(zadaneHeslo[3]);
+          else lcd.print("x");
+          break;
+      }
+    }
+
+    if (millis() > cekej + 1000) cekej = millis();
+
+    if ((tlacitko) || (irrecv.decode(&results))) {
+
+      if (tlacitko) results.value = 0xFFFFFFF;
+
+      cas2 = millis() / 1000;
+      lcd.backlight();
+
+      if ((tlacitko == 'A') || (results.value == krizek)) {
+        blokaceSystemu();      // zablokuje systÈm dokud se nezm·Ëkne F1
+      }
+
+      int zmackleCislo = 11;
+      switch (results.value)
+      {
+        case nula:
+          zmackleCislo = NULL;
+          break;
+        case jedna:
+          zmackleCislo = 1;
+          break;
+        case dva:
+          zmackleCislo = 2;
+          break;
+        case tri:
+          zmackleCislo = 3;
+          break;
+        case ctyri:
+          zmackleCislo = 4;
+          break;
+        case pet:
+          zmackleCislo = 5;
+          break;
+        case sest:
+          zmackleCislo = 6;
+          break;
+        case sedm:
+          zmackleCislo = 7;
+          break;
+        case osm:
+          zmackleCislo = 8;
+          break;
+        case devet:
+          zmackleCislo = 9;
+          break;
+      }
+
+      for (int ch = 0; ch <= 9; ch++) {
+        if (((int(tlacitko) - 48) == ch) || (zmackleCislo == ch)) {
+          switch (poziceKurzoru) {
+            case 0:
+              zadaneHeslo[0] = ch;
+              break;
+            case 1:
+              zadaneHeslo[1] = ch;
+              break;
+            case 2:
+              zadaneHeslo[2] = ch;
+              break;
+            case 3:
+              zadaneHeslo[3] = ch;
+              break;
+          }
+          if (poziceKurzoru != 3) poziceKurzoru++;
+        }
+      }
+
+      if ((tlacitko == '>') || (results.value == doprava))
+      {
+        if (poziceKurzoru < 4) {
+          poziceKurzoru++;
+          zpozdeni(20);
+          if (poziceKurzoru == 4) {
+            poziceKurzoru = 0;
+          }
+        }
+      }
+
+      if ((tlacitko == '<') || (results.value == doleva))
+      {
+        if (poziceKurzoru >= 0) {
+          poziceKurzoru--;
+          zpozdeni(20);
+          if (poziceKurzoru == -1) {
+            poziceKurzoru = 3;
+          }
+        }
+      }
+
+      if ((tlacitko == 'C') || (results.value == hvezda)) {
+        if ((!zadejNeboZmen) || (zadejNeboZmen == 1)) {
+          lcd.clear();
+          return -1;
+        }
+      }
+
+      if ((tlacitko == 'E') || (results.value == ok)) {
+
+        lcd.clear();
+
+        int heslo = (100 * (EEPROM.read(adresaPamet))) + (EEPROM.read(adresaPamet + 1));
+
+        for (int w = NULL; w < 4; w++) {
+          if (zadaneHeslo[w] == 10) {
+            continue;
+          }
+        }
+
+        int *celkHeslo = new int;
+        *celkHeslo = ((1000 * zadaneHeslo[0]) + (100 * zadaneHeslo[1]) + (10 * zadaneHeslo[2]) + zadaneHeslo[3]);
+
+        if (heslo == *celkHeslo) {
+          if (!zadejNeboZmen) {
+            int noveHeslo = NULL;
+            noveHeslo = zadaniHesla(9, 2);
+            heslo = (100 * (EEPROM.read(adresaPamet))) + (EEPROM.read(adresaPamet + 1));
+            if (noveHeslo) {
+              EEPROM.write(adresaPamet, (noveHeslo / 100));
+              EEPROM.write(adresaPamet + 1, (noveHeslo % 100));
+              lcd.clear();
+              lcd.setCursor(3, 0);
+              lcd.print("HESLO USPESNE");
+              lcd.setCursor(5, 2);
+              lcd.print("ZMENENO!");
+              zpozdeni(2500);
+              lcd.clear();
+              return 0;
+            }
+            lcd.setCursor(0, 1);
+            lcd.print("!  SPATNE HESLO   !");
+            zpozdeni(1000);
+            lcd.clear();
+            return 0;
+          }
+          else {
+            zpozdeni(50);
+            return 0;
+          }
+        }
+        else {
+          if (zadejNeboZmen == 2) {
+            bool uloz = true;
+            for (int w = NULL; w < 4; w++) {
+              if (zadaneHeslo[w] == 10) {
+                uloz = false;
+              }
+            }
+            if (uloz) return *celkHeslo;
+          }
+
+          lcd.setCursor(0, 1);
+          lcd.print("!  SPATNE HESLO   !");
+          zpozdeni(1000);
+          lcd.clear();
+        }
+        delete[] celkHeslo;
+        lcd.setCursor(7, 3);
+        lcd.print("xxxx");
+      }
+      irrecv.resume();
+    }
+  }
+  lcd.clear();
+  for (int w = 1; w < 3; w++)
+    refresh[w] = true;
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void Zapouzdreni_dat::litryZaMinutu(int pozice1, int pozice2) {
+  irrecv.resume();
+  lcd.clear();
+  int LzaM1 = NULL, LzaM2 = NULL, Xova = 10;
+
+  LzaM1 = EEPROM.read(pozice1);
+  LzaM2 = EEPROM.read(pozice2);
+
+  byte exponent_tri[8] = {     //pln˝ Ëtverec
+
+    B01110,
+    B00001,
+    B00110,
+    B00001,
+    B01110,
+    B00000,
+    B00000,
+    B00000,
+  };
+
+  lcd.createChar(5, exponent_tri);
+
+  for (;;) {
+
+    ethernet();
+    if (vypnoutVystupy()) break;
+    pocitaniLitru(11, 12, 13, 14, 15);
+
+    char znak_nula = '0';
+
+    lcd.setCursor(0, 1);
+    lcd.print((litryAktualni / 100000)); //p¯evod cl -> m^3 (kubÌk)
+    lcd.print(".");
+    if ((litryAktualni % 100000) < 10000 && (litryAktualni % 100000) >= 1000) lcd.print (znak_nula);
+    else if ((litryAktualni % 100000) < 1000 && (litryAktualni % 100000) >= 100) for (int a = 0; a < 2; a++) lcd.print (znak_nula);
+    else if ((litryAktualni % 100000) < 100 && (litryAktualni % 100000) >= 10) for (int a = 0; a < 3; a++) lcd.print (znak_nula);
+    else if ((litryAktualni % 100000) < 10 && (litryAktualni % 100000) >= 0) for (int a = 0; a < 4; a++) lcd.print (znak_nula);
+    lcd.print ((litryAktualni % 100000));
+    lcd.print(" m");
+    lcd.write(byte(5));
+    //lcd.print("   ");
+
+    lcd.setCursor(0, 2);
+    lcd.print((litry / 100000)); //p¯evod cl -> m^3 (kubÌk)
+    lcd.print(".");
+    if ((litry % 100000) < 10000 && (litry % 100000) >= 1000) lcd.print (znak_nula);
+    else if ((litry % 100000) < 1000 && (litry % 100000) >= 100) for (int a = 0; a < 2; a++) lcd.print (znak_nula);
+    else if ((litry % 100000) < 100 && (litry % 100000) >= 10) for (int a = 0; a < 3; a++) lcd.print (znak_nula);
+    else if ((litry % 100000) < 10 && (litry % 100000) >= 0) for (int a = 0; a < 4; a++) lcd.print (znak_nula);
+    lcd.print ((litry % 100000));
+    lcd.print(" m");
+    lcd.write(byte(5));
+    //lcd.print("   ");
+
+    lcd.setCursor(0, 3);
+    unsigned long litryPamet = NULL;
+    litryPamet = ((((EEPROM.read(15)) * (EEPROM.read(13))) + (EEPROM.read(14))) * ((((10 * (EEPROM.read(pozice1))) + EEPROM.read(pozice2)) * 100) / 60));
+    lcd.print(znak_nula);    
+    lcd.print(".");
+    if ((litryPamet % 100000) < 10000 && (litryPamet % 100000) >= 1000) lcd.print (znak_nula);
+    else if ((litryPamet % 100000) < 1000 && (litryPamet % 100000) >= 100) for (int a = 0; a < 2; a++) lcd.print (znak_nula);
+    else if ((litryPamet % 100000) < 100 && (litryPamet % 100000) >= 10) for (int a = 0; a < 3; a++) lcd.print (znak_nula);
+    else if ((litryPamet % 100000) < 10 && (litryPamet % 100000) >= 0) for (int a = 0; a < 4; a++) lcd.print (znak_nula);
+    lcd.print ((litryPamet % 100000));
+    lcd.print(" m");
+    lcd.write(byte(5));
+    //lcd.print("   ");
+
+    /*
+      lcd.setCursor(15, 0);
+      lcd.print(EEPROM.read(13));
+      lcd.setCursor(15, 1);
+      lcd.print(EEPROM.read(14));
+      lcd.setCursor(15, 2);
+      lcd.print(EEPROM.read(15));
+      lcd.setCursor(15, 3);
+      lcd.print(((((10 * (EEPROM.read(pozice1))) + EEPROM.read(pozice2)) * 100) / 60));
+    */
+
+    Binarnivstup1 = nactiPort(A11);
+    if ((!Binarnivstup1) && (!pozastavPoruchu)) {
+      hlaseniPoruchy(nastavvystupy1, nastavvystupy2, Binarnivstup1, i);
+      lcd.clear();
+      digitalWrite(53, LOW);
+    }
+
+    if ((millis() / 1000) > (cas2 + (60 * limitdisplaye))) {
+      lcd.noBacklight();
+    }
+
+    switch (Xova) {
+      case 10:
+        lcd.setCursor(11, 0);
+        lcd.print(LzaM2);
+        break;
+      case 11:
+        lcd.setCursor(10, 0);
+        lcd.print(LzaM1);
+        break;
+    }
+
+
+    if ((millis() > cekej + 500) && (millis() < cekej + 1000)) {
+      switch (Xova) {
+        case 10:
+          lcd.setCursor(10, 0);
+          lcd.write(byte(4));
+          break;
+        case 11:
+          lcd.setCursor(11, 0);
+          lcd.write(byte(4));
+          break;
+      }
+    }
+
+    if ((millis() > cekej + 1) && (millis() < cekej + 500)) {
+      switch (Xova) {
+        case 10:
+          lcd.setCursor(10, 0);
+          lcd.print(LzaM1);
+          break;
+        case 11:
+          lcd.setCursor(11, 0);
+          lcd.print(LzaM2);
+          break;
+      }
+    }
+
+    if (millis() > cekej + 1000) cekej = millis();
+
+
+    char tlacitko = stisknutiTlacitka.getKey();
+
+    if ((tlacitko) || (irrecv.decode(&results))) {
+      if (tlacitko) results.value = 0xFFFFFFF;
+
+      cas2 = millis() / 1000;
+      lcd.backlight();
+
+      if ((tlacitko == 'A') || (results.value == krizek)) {
+        blokaceSystemu();      // zablokuje systÈm dokud se nezm·Ëkne F1
+      }
+
+      int zmackleCislo = 11;
+
+      switch (results.value)
+      {
+        case nula:
+          zmackleCislo = NULL;
+          break;
+        case jedna:
+          zmackleCislo = 1;
+          break;
+        case dva:
+          zmackleCislo = 2;
+          break;
+        case tri:
+          zmackleCislo = 3;
+          break;
+        case ctyri:
+          zmackleCislo = 4;
+          break;
+        case pet:
+          zmackleCislo = 5;
+          break;
+        case sest:
+          zmackleCislo = 6;
+          break;
+        case sedm:
+          zmackleCislo = 7;
+          break;
+        case osm:
+          zmackleCislo = 8;
+          break;
+        case devet:
+          zmackleCislo = 9;
+          break;
+      }
+
+      for (int ch = 0; ch <= 9; ch++) {
+        if (((int(tlacitko) - 48) == ch) || (zmackleCislo == ch)) {
+          switch (Xova) {
+            case 10:
+              if (!(!LzaM2 && !ch)) LzaM1 = ch;
+              break;
+            case 11:
+              if (!(!LzaM1 && !ch)) LzaM2 = ch;
+              break;
+          }
+          if (Xova == 10) Xova = 11;
+        }
+      }
+
+
+      if (((tlacitko == '>') || (results.value == doprava)) || ((tlacitko == '<') || (results.value == doleva)))
+      {
+        if (Xova == 10) Xova = 11;
+        else if (Xova == 11) Xova = 10;
+      }
+
+      if ((tlacitko == 'C') || (results.value == hvezda))
+      {
+        break;
+      }
+
+      if ((tlacitko == 'E') || (results.value == ok)) {
+        EEPROM.write(pozice1, LzaM1);
+        EEPROM.write(pozice2, LzaM2);
+        nastaveniNaEthernetu(2000, 0);
+        lcd.clear();
+      }
+      irrecv.resume();
+    }
+
+    lcd.setCursor(6, 0);
+    lcd.print("l/m:");
+  }
+
+  lcd.clear();
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void Zapouzdreni_dat::prace_s_vystupy()
+{
+
+  cteniORC(&sekundy, &minuty, &hodiny, &denVTydnu, &denVMesici);
+
+  for (i = NULL; i < 7; i++) {
+    if ((nastav_vystup[i] == 1) || (nastav_vystup[i] == 2)) {
+      nastavvystupy1 = false;
+      nastavvystupy2 = false;
+    }
+  }
+
+  for (i = NULL; i <= 6; i++) {
+    if (!((nastav_vystup[i] == 1) || (nastav_vystup[i] == 2) || (soucasnyBehVystupy == 1) || ((soucasnyBehVystupy == 2) && ((kteryVystup == NULL) || (kteryVystup == 1))) || (nastavvystupy1 == 1) || (nastavvystupy2 == 1))) {
+      litryAktualni = NULL;
+    }
+  }
+
+  if ((AN2 > (nastvlhkosti + nasthystereze)) || ((AN1 + nasthystereze) < nasthladiny)) {
+    for (i = NULL; i <= 6; i++) {
+      if ((nastav_vystup[i] == 1) || (nastav_vystup[i] == 2) || (soucasnyBehVystupy == 1) || ((soucasnyBehVystupy == 2) && ((kteryVystup == NULL) || (kteryVystup == 1)))) {
+        if (spustVystupy) minuty_osetreniVystupu = minuty + 1;
+        spustVystupy = false;
+        soucasnyBehVystupy = NULL;
+        nastav_vystup[i] = NULL;
+      }
+    }
+  }
+
+  if (!spustVystupy) {
+    if (minuty_osetreniVystupu > minuty)
+      nactiVstupy(A14, A12, A15, A13);
+    else if (minuty_osetreniVystupu == minuty)
+      spustVystupy = true;
+  }
+
+  for (i = NULL; i <= 6; i++) {
+    if ((hodiny == dny[i].hodinycelk) && (minuty == (dny[i].minutycelk - 1)) && (denVTydnu == (i + 1))) {     //nacteni vstupu minutu pred spuötÏnÌm v˝stup˘
+      nactiVstupy(A14, A12, A15, A13);
+    }
+  }
+
+  if (!soucasnyBeh) {
+    for (i = NULL; i <= 6; i++) {
+      int prictiHodiny = NULL, prictiMinuty = NULL, pocetCyklu = NULL;
+      if (!periodaSpousteni) pocetCyklu = 1;
+      else pocetCyklu = (10 * periodaSpousteni);
+      for (int w = NULL; w < pocetCyklu; w += periodaSpousteni) {
+        if (w) prictiMinuty += periodaSpousteni;
+
+        if (((dny[i].minutycelk + w) >= 60) && (!prictiHodiny)) {
+          prictiHodiny++;
+          prictiMinuty = (dny[i].minutycelk * (-1));
+        }
+
+        if ((hodiny == (dny[i].hodinycelk + prictiHodiny)) && (minuty == (dny[i].minutycelk + prictiMinuty)) && (nastav_vystup[i] == NULL) && ((AN2 - nasthystereze) < nastvlhkosti) && (AN1 > (nasthladiny - nasthystereze)) && (denVTydnu == (i + 1)) && ((dny[0].min1celk > 0) || (dny[0].min2celk > 0)) && (spustVystupy)) {
+          nastav_vystup[i] = 1;
+          if ((dny[i].min2celk > 0) && (dny[i].min1celk == NULL)) nastav_vystup[i] = 2;
+          cas_vystupu = millis() / 1000;
+        }
+        if (!periodaSpousteni) break;
+      }
+
+      if (nastav_vystup[i] == 1) {
+        if ((millis() / 1000) > (cas_vystupu + (dny[i].min1celk * 60))) {
+          cas_vystupu = millis() / 1000;
+          nastav_vystup[i] = 2;
+        }
+      }
+
+      if (nastav_vystup[i] == 2) {
+        if (dny[i].min2celk > 0) {
+          if ((millis() / 1000) > (cas_vystupu + (dny[i].min2celk * 60))) {
+            nastav_vystup[i] = NULL;
+            cas_vystupu = NULL;
+          }
+        }
+        else nastav_vystup[i] = NULL;
+      }
+    }
+  }
+  else
+  {
+    for (i = NULL; i <= 6; i++) {
+      int prictiHodiny = NULL, prictiMinuty = NULL, pocetCyklu = NULL;
+      if (!periodaSpousteni) pocetCyklu = 1;
+      else pocetCyklu = (10 * periodaSpousteni);
+      for (int w = NULL; w < pocetCyklu; w += periodaSpousteni) {
+        if (w) prictiMinuty += periodaSpousteni;
+
+        if (((dny[i].minutycelk + w) >= 60) && (!prictiHodiny)) {
+          prictiHodiny++;
+          prictiMinuty = (dny[i].minutycelk * (-1));
+        }
+
+        if ((hodiny == (dny[i].hodinycelk + prictiHodiny)) && (minuty == (dny[i].minutycelk + prictiMinuty)) && (!soucasnyBehVystupy) && ((AN2 - nasthystereze) < nastvlhkosti) && (AN1 > (nasthladiny - nasthystereze)) && (denVTydnu == (i + 1)) && ((dny[0].min1celk > 0) || (dny[0].min2celk > 0)) && (spustVystupy)) {
+          if (!soucasnyBehVystupy) {
+            cas_vystupu = millis() / 1000;
+            soucasnyBehVystupy = 1;
+          }
+          identifik = i;
+        }
+        if (!periodaSpousteni) break;
+      }
+
+      if ((soucasnyBehVystupy == 1) && (i == identifik)) {
+        if ((millis() / 1000) > (cas_vystupu + oba_vystupy)) {
+          soucasnyBehVystupy = 2;
+          cas_vystupu = millis() / 1000;
+        }
+      }
+      if ((soucasnyBehVystupy == 2) && (i == identifik)) {
+        if ((millis() / 1000) > (cas_vystupu + druhy_vystup)) {
+          soucasnyBehVystupy = NULL;
+          cas_vystupu = millis() / 1000;
+        }
+      }
+
+      if ((dny[i].min1celk * 60) > (dny[i].min2celk * 60) && (i == identifik)) {
+        druhy_vystup = (dny[i].min1celk * 60) - (dny[i].min2celk * 60);
+        oba_vystupy = (dny[i].min2celk * 60);
+        kteryVystup = NULL;
+      }
+      else if ((dny[i].min2celk * 60) > (dny[i].min1celk * 60) && (i == identifik)) {
+        druhy_vystup = (dny[i].min2celk * 60) - (dny[i].min1celk * 60);
+        oba_vystupy = (dny[i].min1celk * 60);
+        kteryVystup = 1;
+      }
+      else if ((dny[i].min2celk * 60) == (dny[i].min1celk * 60) && (i == identifik)) {
+        druhy_vystup = NULL;
+        oba_vystupy = (dny[i].min1celk * 60);
+        kteryVystup = 2;
+      }
+    }
+  }
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void pocitaniLitru(int pozice1, int pozice2, int pozice3, int pozice4, int pozice5) {
+
+  bool jsouVystupyAktivni = false;
+  int celkovyPocetLitru = NULL;
+
+  for (i = NULL; i <= 6; i++) {
+    if ((nastav_vystup[i] == 1) || (nastav_vystup[i] == 2) || (soucasnyBehVystupy == 1) || ((soucasnyBehVystupy == 2) && ((kteryVystup == NULL) || (kteryVystup == 1))) || (nastavvystupy1 == 1) || (nastavvystupy2 == 1)) {
+      jsouVystupyAktivni = true;
+    }
+  }
+
+  if (jsouVystupyAktivni && (millis() > cekej02 + 1000)) {
+
+    int LzaM = ((10 * (EEPROM.read(pozice1))) + EEPROM.read(pozice2));
+    cekej02 = millis();
+
+    litry += ((LzaM * 100) / 60); // (LzaM*100) => v cl
+    litryAktualni += ((LzaM * 100) / 60); // (LzaM*100) => v cl
+
+    celkovyPocetLitru = (((EEPROM.read(15)) * (EEPROM.read(13))) + (EEPROM.read(14)));
+    celkovyPocetLitru++;
+
+    if (celkovyPocetLitru > 255) {
+      EEPROM.write(pozice3, 255);
+      EEPROM.write(pozice4, (celkovyPocetLitru % 255));
+      EEPROM.write(pozice5, (celkovyPocetLitru / 255));
+    }
+    else {
+      EEPROM.write(pozice3, celkovyPocetLitru);
+      EEPROM.write(pozice4, 0);
+      EEPROM.write(pozice5, 1);
+    }
+  }
+  else if (!jsouVystupyAktivni) litryAktualni = NULL;
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+bool Zapouzdreni_dat::vypnoutVystupy() {
+
+  nactiVstupy(A14, A12, A15, A13);
+  if (nastavvystupy2 == false && nastavvystupy1 == false) {       // pokud je vypnuta simulace v˝stup˘ tak provÏd podmÌnku !
+    if ((AN2 > (nastvlhkosti + nasthystereze)) || ((AN1 + nasthystereze) < nasthladiny)) {
+      for (i = NULL; i <= 6; i++) {
+        if ((nastav_vystup[i] == 1) || (nastav_vystup[i] == 2) || (soucasnyBehVystupy == 1) || ((soucasnyBehVystupy == 2) && ((kteryVystup == NULL) || (kteryVystup == 1)))) {
+          if (spustVystupy) minuty_osetreniVystupu = minuty + 1;
+          spustVystupy = false;
+          soucasnyBehVystupy = NULL;
+          nastav_vystup[i] = NULL;
+          //for (int w = 0; w < 3; w++) digitalWrite(rele[w], LOW);
+        }
+      }
+      prectiEEPROM();
+      return 1;
+    }
+  }
+  return 0;
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void zkontrolujEEPROM()
+{
+  int kontrolaEEPROM;
+  for (int vycistiEEPROM = NULL; vycistiEEPROM < 1000; vycistiEEPROM++) {
+    kontrolaEEPROM = EEPROM.read(vycistiEEPROM);                                 // ËtenÌ z EEPROM
+    if (kontrolaEEPROM == 255) {                                                 // Tam,kde je v EEPROM zapsano 255,to p¯epÌöe nulou
+      EEPROM.write(vycistiEEPROM, 0);
+    }
+  }
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+bool nactiPort(byte port) {
+  int vstup = NULL;
+  pinMode(port, INPUT);
+  vstup = analogRead(port);
+  vstup = map(vstup, 0, 1023, 0, 100);
+  if (vstup > 25) return 0;
+  pozastavPoruchu = false;
+  return 1;
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+int pocetZnaku(String & retezec) {
+  int pocet = NULL;
+
+  for (; retezec.c_str()[pocet] != '\0'; )
+    pocet++;
+
+  return pocet;
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Zapouzdreni_dat::Zapouzdreni_dat()
+{ // KONSTRUKTOR TÿÕDY
+  zkontrolujEEPROM();
+  prectiEEPROM();
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Zapouzdreni_dat::~Zapouzdreni_dat()
+{ // DESTRUKTOR TÿÕDY
+
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
